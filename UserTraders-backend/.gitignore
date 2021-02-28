@@ -16,9 +16,6 @@ build/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
-# ignore properties file
-application.properties
-application.yml
 
 
 ### IntelliJ IDEA ###
