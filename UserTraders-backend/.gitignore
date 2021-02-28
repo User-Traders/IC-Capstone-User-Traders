@@ -26,6 +26,9 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+# ignore properties file
+application.properties
+application.yml
 
 ### NetBeans ###
 /nbproject/private/
