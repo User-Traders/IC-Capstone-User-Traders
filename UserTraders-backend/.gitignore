@@ -17,6 +17,7 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 # ignore properties file
+
 application.properties
 application.yml
 
@@ -29,6 +30,8 @@ application.yml
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+#!**/src/main/resources/application.properties
+#!**/src/main/resources/application.yml
 
 ### NetBeans ###
 /nbproject/private/
@@ -39,3 +42,5 @@ out/
 
 ### VS Code ###
 .vscode/
+/src/main/resources/application.properties
+/src/main/resources/application.yml
