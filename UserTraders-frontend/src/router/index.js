@@ -4,23 +4,6 @@ import Empty from "../views/jun/empty.vue";
 import store from "@/store/modules/jusers.js"
 
 Vue.use(VueRouter)
-// const Home = () => import(/* webpackChunkName: "common" */ "../views/home.vue");
-// const rejecAuthMember = (to, from, next) => {
-//   if (store.state.isLogin == true) {
-//     alert('Login complete')
-//     next("/jun/home")
-//   } else {
-//     next()
-//   }
-// }
-// const onlyAuthMember = (to, from, next) => {
-//   if (store.state.isLogin == false) {
-//     alert('Login Please!!')
-//     next("/jun/home")
-//   } else {
-//     next()
-//   }
-// }
 
 
 const Home1 = () => import(/* webpackChunkName: "jun" */ "../views/home.vue");

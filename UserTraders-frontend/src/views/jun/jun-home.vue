@@ -3,20 +3,21 @@
 
     <loding v-if="isLoading" />
     <div v-else>
-      <v-btn color="warning" x-large fab dark :to="{ name: 'JunLogin'}">
+      <!-- <v-btn color="warning" x-large fab dark :to="{ name: 'JunLogin'}">
         Login
       </v-btn>
 
       <v-btn color="primary" x-large fab dark :to="{ name: 'JunMypage'}">
         Mypage
-      </v-btn>
+      </v-btn> -->
 
       <v-container v-if="listData.page && listData.data" three-line>
         <v-row>
-          <v-col v-for="(item, i) in listData.data" :key="`item-${i}`">
+          <v-col v-for="(item, i) in listData.data" :key="`item-${i}`" cols="12"
+              sm="4">
             <div>
               <v-card class="mx-auto" max-width="344">
-                <v-img :src="item.avatar" width="344"></v-img>
+                <v-img :src="item.avatar" width="344" height="344"></v-img>
                 <v-icon color="pink">mdi-delete</v-icon>
                 <input type="checkbox" :value="item.id" v-model="checkedNames">
                 <v-card-title>

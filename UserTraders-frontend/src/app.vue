@@ -1,107 +1,147 @@
 <template>
   <v-app>
-    <sw-drawer v-model="openMenu" />
-    <v-app-bar app flat   color="blue-grey darken-4"
-      dense
-      dark
-       elevate-on-scroll
-      scroll-target="#scrolling-techniques-7"
-      height="100">
-      <v-app-bar-nav-icon @click.stop="openMenu = !openMenu" />
-      <!-- <div v-if="$router.currentRoute.path==='/'"> -->
-        <v-toolbar-title>
-          UserTraders
-        </v-toolbar-title>
-      <!-- </div> -->
-      <!-- {{$router.currentRoute.path}} -->
-      <!-- <div v-else> -->
+    <div>
+      <v-card class="mx-auto" max-width="auto">
+        <v-toolbar flat color="orange accent-4" height="90">
+          <v-app-bar-nav-icon @click.stop="openMenu = !openMenu" color="white"></v-app-bar-nav-icon>
+          <v-toolbar-title style="color:white">User Traders</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn icon>
+            <v-icon size="xx-large" color="white">mdi-cart</v-icon>
+          </v-btn>
+          <v-btn icon>
+            <v-icon size="xx-large" color="white">mdi-account</v-icon>
+          </v-btn>
+          <v-btn icon @click="$refs.search.focus()">
+            <v-icon size="xx-large" color="white">mdi-magnify</v-icon>
+          </v-btn>
+        </v-toolbar>
+        <br>
+        
+        <v-container class="py-0">
+          <v-row align="center" justify="start">
+            <v-col v-for="(selection, i) in selections" :key="selection.text" class="shrink">
+              <v-chip :disabled="loading" close @click:close="selected.splice(i, 1)">
+                <v-icon left v-text="selection.icon"></v-icon>
+                {{ selection.text }}
+              </v-chip>
+            </v-col>
 
-        <!-- <v-btn color="primary" fab small dark @click="$router.go(-1)">
-          <v-icon>mdi-arrow-left</v-icon>
-        </v-btn> <span></span>
-        <v-btn color="primary" fab small @click="$router.push({name:'JunCreate'})">
-          <v-icon> mdi-plus</v-icon>
-        </v-btn> -->
-      <!-- </div> -->
-    </v-app-bar>
+            <v-col v-if="!allSelected" cols="12">
+              <v-text-field ref="search" v-model="search" full-width hide-details label="Search" single-line></v-text-field>
+            </v-col>
+          </v-row>
+        </v-container>
 
+        <v-divider v-if="!allSelected"></v-divider>
+
+        <v-list>
+          <template v-for="item in categories">
+            <v-list-item v-if="!selected.includes(item)" :key="item.text" :disabled="loading" @click="selected.push(item)">
+              <v-list-item-avatar>
+                <v-icon :disabled="loading" v-text="item.icon"></v-icon>
+              </v-list-item-avatar>
+              <v-list-item-title v-text="item.text"></v-list-item-title>
+            </v-list-item>
+          </template>
+        </v-list>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn :disabled="!selected.length" :loading="loading" color="purple" text @click="next">
+            Next
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+
+      <navigationdrawer v-model="openMenu" />
+      <div v-if="this.$router.currentRoute.path=='/'">
+        <Carousel />
+      </div>
+    </div>
+    <v-spacer></v-spacer>
     <v-main>
-      <v-container fluid>
-        <router-view></router-view>
-      </v-container>
-      <v-snackbar v-model="snackbar.open" :color="snackbar.color" class="toast-cover" content-class="toast-content" :multi-line="true" :timeout="5000">
-        {{ snackbar.text }}
-      </v-snackbar>
-      <template v-for="(item, i) in popups">
-        <v-dialog :persistent="item.opt.persistent" v-model="item._open" content-class="basics-dialog" :key="`popup-${i}`" style="overflow-x: hidden;">
-          <sw-dialog v-if="item._open" :inputData="item" @close="_closePopup('close', item)" @cancel="_closePopup('cancel', item)" @ok="_closePopup('ok', item)" />
-
-        </v-dialog>
-      </template>
+      <router-view></router-view>
+      <!--      <HelloWorld/>-->
     </v-main>
   </v-app>
 </template>
 
 <script>
-import SwDrawer from "@/components/drawer";
-import SwDialog from "@/components/dialog";
-import { EventBus } from "@/event-bus";
-
+import navigationdrawer from "./views/usertraders/ut-drawer.vue";
+import Carousel from "./views/usertraders/carousel.vue";
 export default {
-  components: {
-    SwDrawer,
-    SwDialog,
-  },
-  data() {
-    return {
-      snackbar: {
-        open: false,
-        color: "",
-        text: "",
+
+  data: () => ({
+    openMenu: false,
+
+    items: [
+      {
+        text: '중고책',
+        icon: 'mdi-book',
       },
-      popups: [],
-      openMenu: false,
-    }
+      {
+        text: '물품',
+        icon: 'mdi-folder-star-multiple',
+      },
+      {
+        text: '수업',
+        icon: 'mdi-calendar-range',
+      },
+
+    ],
+    loading: false,
+    search: '',
+    selected: [],
+  }),
+  components: {
+    navigationdrawer,
+    Carousel,
   },
-  mounted() {
-    this.init();
+  computed: {
+    allSelected() {
+      return this.selected.length === this.items.length
+    },
+    categories() {
+      const search = this.search.toLowerCase()
+
+      if (!search) return this.items
+
+      return this.items.filter(item => {
+        const text = item.text.toLowerCase()
+
+        return text.indexOf(search) > -1
+      })
+    },
+    selections() {
+      const selections = []
+
+      for (const selection of this.selected) {
+        selections.push(selection)
+      }
+
+      return selections
+    },
   },
+
+  watch: {
+    selected() {
+      this.search = ''
+    },
+  },
+
   methods: {
-    init() {
-      console.log("app init...")
+    next() {
+      this.loading = true
 
-      EventBus.$on("alert:success", message => this.snackbar = { open: true, color: "primary", text: message });
-      EventBus.$on("alert:fail", message => this.snackbar = { open: true, color: "error", text: message });
-      EventBus.$on("dialog:open", data => {
-        this.popups.push(Object.assign(data, { _open: true, _id: this._generateId(8) }))
-      });
+      setTimeout(() => {
+        this.search = ''
+        this.selected = []
+        this.loading = false
+      }, 2000)
     },
-
-    _generateId(length) {
-      var result = '';
-      var characters =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      var charactersLength = characters.length;
-      for (var i = 0; i < length; i++) {
-        result += characters.charAt(
-          Math.floor(Math.random() * charactersLength)
-        );
-      }
-      return result;
-    },
-    _closePopup(type, item) {
-      if (!item.opt.persistent) {
-        item._open = false;
-      }
-      if (type == 'ok' && item.ok) {
-        item.ok();
-      }
-      if (type == 'cancel' && item.cancel) {
-        item.cancel();
-      }
-      const idx = this.popups.findIndex(v => v._id == item._id);
-      if (idx > -1 && !item.opt.persistent) this.popups.splice(idx, 1);
-    },
-  }
-}
+  },
+};
 </script>
