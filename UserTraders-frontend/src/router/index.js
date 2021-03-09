@@ -14,6 +14,8 @@ const JunUpdate = () => import(/* webpackChunkName: "jun" */ "../views/jun/jun-u
 const JunMypage = () => import(/* webpackChunkName: "jun" */ "../views/jun/jun-mypage.vue");
 const JunLogin = () => import("../views/jun/jun-login.vue");
 const restTest = () => import(/* webpackChunkName: "jun" */ "../views/jun/rest-test.vue");
+const Create = () => import("../views/usertraders/boardcreate.vue");
+
 const routes = [
   {
     path: "/",
@@ -22,7 +24,15 @@ const routes = [
     meta: { isAuth: true },
     /*     beforeEnter: requireAuth() */
   },
-  
+
+
+
+    {
+    path: "/create",
+    name: "Create",
+    component: Create,
+    
+  },
   {
     path: "/jun",
     component: Empty,
