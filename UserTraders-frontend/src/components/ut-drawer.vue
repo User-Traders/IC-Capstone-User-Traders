@@ -1,6 +1,8 @@
 <template>
 
-  <v-navigation-drawer :value="value" absolute>
+  <v-navigation-drawer :value="value" absolute fixed>
+   
+  
     <v-list-item>
       <v-list-item-content>
         <v-list-item-title class="title">
@@ -15,27 +17,39 @@
     <v-divider></v-divider>
 
     <v-list dense nav>
-    
-        <v-list-item  :to="{ name: 'Home1'}" active-class="deep-purple--text text--accent-4">
-          <v-list-item-icon>
-            <v-icon >mdi-home</v-icon>
-          </v-list-item-icon>
 
-          <v-list-item-content>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+      <v-list-item :to="{ name: 'Home1'}" active-class="deep-purple--text text--accent-4">
+        <v-list-item-icon>
+          <v-icon>mdi-home</v-icon>
+        </v-list-item-icon>
 
-        <v-list-item  :to="{ name: 'Create'}" active-class="deep-purple--text text--accent-4">
-          <v-list-item-icon>
-            <v-icon >mdi-plus</v-icon>
-          </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Home</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
 
-          <v-list-item-content>
-            <v-list-item-title>Create</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+      <v-list-item :to="{ name: 'Create'}" active-class="deep-purple--text text--accent-4">
+        <v-list-item-icon>
+          <v-icon>mdi-plus</v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content>
+          <v-list-item-title>Create</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
       
+      <v-list-item :to="{ name: 'JunHome'}" active-class="deep-purple--text text--accent-4">
+        <v-list-item-icon>
+          <v-icon>mdi-gift-outline</v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content>
+          <v-list-item-title>Product</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+
     </v-list>
     <template v-slot:append>
       <div class="pa-2">
@@ -58,7 +72,7 @@ export default {
   },
   data() {
     return {
-    
+
       right: null,
     };
   },

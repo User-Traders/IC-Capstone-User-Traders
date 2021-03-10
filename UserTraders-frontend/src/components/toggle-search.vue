@@ -1,13 +1,20 @@
 <template>
   <div>
-    <v-dialog v-model="dialog" width="500">
+    <v-dialog v-model="dialog" width="500" fixed>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn color="purple" dark v-bind="attrs" v-on="on" block>
+        <!-- <v-btn color="blue-grey lighten-2" dark v-bind="attrs" v-on="on" block>
           Serrch Click
-        </v-btn>
+        </v-btn> -->
+      
+      
+        
+           <v-btn icon v-bind="attrs" v-on="on" >
+              <v-icon size="xx-large" color="white"> mdi-magnify</v-icon>
+            </v-btn>
+   
       </template>
 
-      <v-card>
+      <v-card class="">
         <v-container class="py-0">
           <v-row align="center" justify="start">
             <v-col v-for="(selection, i) in selections" :key="selection.text" class="shrink">
