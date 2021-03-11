@@ -5,13 +5,11 @@
         <!-- <v-btn color="blue-grey lighten-2" dark v-bind="attrs" v-on="on" block>
           Serrch Click
         </v-btn> -->
-      
-      
-        
-           <v-btn icon v-bind="attrs" v-on="on" >
-              <v-icon size="xx-large" color="white"> mdi-magnify</v-icon>
-            </v-btn>
-   
+
+        <v-btn icon v-bind="attrs" v-on="on">
+          <v-icon size="xx-large" color="white"> mdi-magnify</v-icon>
+        </v-btn>
+
       </template>
 
       <v-card class="">
