@@ -23,7 +23,7 @@ public class CreateImageController {
         log.info(params.toString());
         try {
             for (int i = 0; i < files.size(); i++) {
-                files.get(i).transferTo(new File("C:\\SKHU-project\\IC-Capstone-User-Traders\\UserTraders-backend\\src\\main\\resources\\static\\images\\" + files.get(i).getOriginalFilename()));
+                files.get(i).transferTo(new File("C:\\Users\\jaebin2\\Documents\\IC-Capstone-User-Traders\\UserTraders-backend\\src\\main\\resources\\static\\images\\" + files.get(i).getOriginalFilename()));
                 log.info("완료?");
             }
         } catch (IllegalStateException | IOException e) {
@@ -31,6 +31,7 @@ public class CreateImageController {
         }
         return "file upload";
     }
+    //  배포시 상대경로 :
 
 }
 

@@ -20,12 +20,12 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional
     @Override
-    public List<BoardDto> findAll() {
-        List<BoardEntity> boardEntityList = boardRepository.findAll(); // 전체 목록 조회한 것
+    public List<BoardDto> findAll() { // 전체 목록 조회한 것
+        List<BoardEntity> boardEntityList = boardRepository.findAll();
 
-        List<BoardDto> results = boardEntityList.stream().map(boardEntity->{
-           BoardDto boardDto = convertEntityToDto(boardEntity);
-           return boardDto;
+        List<BoardDto> results = boardEntityList.stream().map(boardEntity -> {
+            BoardDto boardDto = convertEntityToDto(boardEntity);
+            return boardDto;
         }).collect(Collectors.toList());
         System.out.println(results);
 
@@ -52,7 +52,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional
     @Override
-    public BoardDto findById(Integer id) {
+    public BoardDto findById(Integer id) { //PK가 id인 목록 1개 조회
         Optional<BoardEntity> boardEntityWrapper = boardRepository.findById(id);
         BoardEntity boardEntity = boardEntityWrapper.get();
 
@@ -61,20 +61,47 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional
     @Override
-    public BoardEntity save(BoardDto boardDto) {
-        return null;
+    public List<BoardDto> findAllSearch(String title) {
+        List<BoardEntity> boardEntityList = boardRepository.findByTitleContaining(title);
+
+        List<BoardDto> results = boardEntityList.stream().map(boardEntity -> {
+            BoardDto boardDto = convertEntityToDto(boardEntity);
+            return boardDto;
+        }).collect(Collectors.toList());
+
+        if (boardEntityList.isEmpty()) return results;
+
+        return results;
     }
 
     @Transactional
     @Override
-    public void updateById(Integer id) {
+    public Integer save(BoardDto boardDto) { // 한 객체를 보드테이블에 저장
+        BoardEntity boardEntity = boardDto.convertDtoToEntity();
+        return boardRepository.save(boardEntity).getId();
+    }
+
+    @Transactional
+    @Override
+    public Integer updateById(BoardDto boardDto) {
+
+        // 요청 받은 수정할 객체 정보를 건내받고 , 그 객체의 아이디를 뽑아서  수정전 정보를 wrapper에 담고
+        // 수정 할 객체 정보를 수정전 객체 정보에 저장 ,  수정 끝
+        //Optinal 클래스의 ifPresent 함수의 사용: 수정값에 null이 있는지 확인하는 if문을 줄이기 위함
+        Optional<BoardEntity> boardEntityWrapper = boardRepository.findById(boardDto.getId());
+        boardEntityWrapper.ifPresent(boardEntity -> {
+            boardEntity = boardDto.convertDtoToEntity();
+            boardRepository.save(boardEntity);
+        });
+
+        return boardEntityWrapper.get().getId();
 
     }
 
     @Transactional
     @Override
     public void deleteById(Integer id) {
-
+        boardRepository.deleteById(id);
     }
 
 

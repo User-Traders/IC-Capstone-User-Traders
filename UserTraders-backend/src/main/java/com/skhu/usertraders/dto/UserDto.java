@@ -33,29 +33,24 @@ public class UserDto {
     // 수정날짜
     private LocalDateTime modifiedDate;
 
-    // 권한
-    private Boolean enabled;
 
     // 이름
     private String name;
 
-//    public UserEntity toEntity(){ //회원 정보 추가를 위한
-//        return UserEntity.builder()
-//                .id(id)
-//                .userid(userid)
-//                .password(password)
-//                .tel(tel)
-//                .departmentId(departmentId)
-//                .createdDate(createdDate)
-//                .modifiedDate(modifiedDate)
-//                .enabled(enabled)
-//                .name(name)
-//                .build();
-//    }
+    public UserEntity convertEntityToEntity() { //회원 정보 추가를 위한 엔티티 - 디티오 변환
+        return UserEntity.builder()
+                .id(id)
+                .userid(userid)
+                .password(password)
+                .tel(tel)
+                .departmentId(departmentId)
+                .name(name)
+                .build();
+    }
 
     @Builder
-    public UserDto(Integer id , String userid , String password , String tel , Integer departmentId , LocalDateTime createdDate ,
-                   LocalDateTime modifiedDate , Boolean enabled , String name){
+    public UserDto(Integer id, String userid, String password, String tel, Integer departmentId, LocalDateTime createdDate,
+                   LocalDateTime modifiedDate, String name) {
 
         this.id = id;
         this.userid = userid;
@@ -64,7 +59,6 @@ public class UserDto {
         this.departmentId = departmentId;
         this.createdDate = createdDate;
         this.modifiedDate = modifiedDate;
-        this.enabled = enabled;
         this.name = name;
     }
 }
