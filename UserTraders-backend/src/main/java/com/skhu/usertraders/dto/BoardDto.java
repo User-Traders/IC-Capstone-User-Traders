@@ -49,24 +49,6 @@ public class BoardDto {
     private Boolean status;
 
 
-//    public BoardEntity toEntity() { //글쓰기 저장을 위한 엔티티
-//        BoardEntity boardEntity = BoardEntity.builder()
-//                .id(id)
-//                .title(title)
-//                .content(content)
-//                .price(price)
-//                .categoryId(categoryId)
-//                .userId(userId)
-//                .createdDate(createdDate)
-//                .modifiedDate(modifiedDate)
-//                .likecount(likecount)
-//                .viewcount(viewcount)
-//                .buycount(buycount)
-//                .status(status)
-//                .build();
-//        return boardEntity;
-//    }
-
     @Builder
     public BoardDto(Integer id, String title, String content, String price,
                     Integer categoryId, Integer userId, LocalDateTime createdDate,
@@ -86,6 +68,22 @@ public class BoardDto {
         this.buycount = buycount;
         this.status = status;
 
+    }
+
+    public BoardEntity convertDtoToEntity() { //글쓰기 저장을 위한 엔티티
+        BoardEntity boardEntity = BoardEntity.builder()
+                .id(id)
+                .title(title)
+                .content(content)
+                .price(price)
+                .categoryId(categoryId)
+                .userId(userId)
+                .likecount(likecount)
+                .viewcount(viewcount)
+                .buycount(buycount)
+                .status(status)
+                .build();
+        return boardEntity;
     }
 
 }

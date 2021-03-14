@@ -4,11 +4,12 @@ package com.skhu.usertraders.domain.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+
 
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
 @Table(name = "board")
 public class BoardEntity extends TimeEntity{
 
