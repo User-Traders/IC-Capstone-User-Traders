@@ -21,7 +21,7 @@ public class BoardController {
     private BoardService boardService;
 
     @GetMapping(value = "/list"
-            ) // 모든 게시물 리스트 반환
+    ) // 모든 게시물 리스트 반환
     public ResponseEntity list() {
 
         return ResponseEntity.ok(boardService.findAll());
