@@ -16,6 +16,7 @@ const JunLogin = () => import("../views/jun/jun-login.vue");
 const restTest = () => import(/* webpackChunkName: "jun" */ "../views/jun/rest-test.vue");
 const Create = () => import("../views/usertraders/boardcreate.vue");
 const ImageTest = () => import("../views/usertraders/imageTest.vue");
+const ImageTest2 = () => import("../views/usertraders/imageTest2.vue");
 const routes = [
   {
     path: "/",
@@ -37,6 +38,11 @@ const routes = [
     path: "/imageTest",
     name: "ImageTest",
     component: ImageTest,
+  },
+  {
+    path: "/imageTest2",
+    name: "ImageTest2",
+    component: ImageTest2,
   },
   {
     path: "/jun",

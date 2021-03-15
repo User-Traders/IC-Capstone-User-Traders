@@ -91,15 +91,18 @@ export default {
 
 
     allSubmit() {
-
       var frm = new FormData();
       this.photoFile = document.getElementById("photo");
-      console.log(this.photoFile.item)
+      this.photoFile.splice(1,1)
       for (var i = 0; i < this.photoFile.files.length; i++) {
-        frm.append("files", this.photoFile.files[i]);
-      }
 
-      frm.delete(2)
+        frm.append("files", this.photoFile.files[i]);
+
+      }
+    
+      console.log(frm)
+
+
 
 
 
