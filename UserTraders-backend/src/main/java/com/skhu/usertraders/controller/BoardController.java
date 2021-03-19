@@ -9,7 +9,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
-
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/boards")
@@ -19,7 +18,7 @@ public class BoardController {
     private BoardService boardService;
 
     @GetMapping(value = "/list"
-            ) // 모든 게시물 리스트 반환
+    ) // 모든 게시물 리스트 반환
     public ResponseEntity list() {
 
         return ResponseEntity.ok(boardService.findAll());
@@ -32,7 +31,7 @@ public class BoardController {
     }
 
     @GetMapping(value = "/list/search") //검색기능
-    public ResponseEntity search(@RequestParam(value = "keyword") String keyword ){
+    public ResponseEntity search(@RequestParam(value = "keyword") String keyword) {
         return ResponseEntity.ok(boardService.findAllSearch(keyword));
     }
 
@@ -40,7 +39,7 @@ public class BoardController {
     @PostMapping(value = "/register") // 한 게시물 저장
     public ResponseEntity register(@RequestBody @Validated BoardDto boardDto) { //@RequestBody :HTTP 요청 몸체를 자바 객체로 변환
         boardService.save(boardDto);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(true);
     }
 
 
@@ -49,13 +48,13 @@ public class BoardController {
                                  @PathVariable("id") Integer id) {
         boardDto.setId(id);
         boardService.updateById(boardDto);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(true);
     }
 
     @DeleteMapping(value = "/list/{id}") // 한 게시물 삭제
     public ResponseEntity delete(@PathVariable("id") Integer id) {
         boardService.deleteById(id);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(true);
     }
 
 

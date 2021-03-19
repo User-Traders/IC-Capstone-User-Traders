@@ -1,7 +1,10 @@
 package com.skhu.usertraders.domain.entity;
 
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -11,7 +14,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "board")
-public class BoardEntity extends TimeEntity{
+public class BoardEntity extends TimeEntity {
 
     @Id
     @Column(name = "id")
@@ -47,8 +50,8 @@ public class BoardEntity extends TimeEntity{
 
     @Builder
     public BoardEntity(Integer id, String title, String content, String price,
-                    Integer categoryId, Integer userId, Integer likecount, Integer viewcount,
-                    Integer buycount, Boolean status) {
+                       Integer categoryId, Integer userId, Integer likecount, Integer viewcount,
+                       Integer buycount, Boolean status) {
 
         this.id = id;
         this.title = title;
