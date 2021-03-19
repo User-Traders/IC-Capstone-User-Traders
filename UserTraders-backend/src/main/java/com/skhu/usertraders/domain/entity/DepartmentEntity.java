@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "board")
+@Table(name = "department")
 public class DepartmentEntity {
 
     @Id
@@ -27,7 +27,7 @@ public class DepartmentEntity {
     private String name;
 
     @Builder
-    public DepartmentEntity(Integer id , String name){
+    public DepartmentEntity(Integer id, String name) {
         this.id = id;
         this.name = name;
     }

@@ -17,7 +17,7 @@ public class DepartmentDto {
 
 
     @Builder
-    public DepartmentDto(Integer id , String name){
+    public DepartmentDto(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
