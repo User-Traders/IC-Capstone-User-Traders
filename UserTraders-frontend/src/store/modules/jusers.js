@@ -27,8 +27,9 @@ const actions = {
 
 
 
-  getList({ commit }, payload) {
-    return http.process("user", "list", { page: payload }).then((data) => {
+  getList({ commit }) {
+    return http.process("user", "list").then((data) => {
+      console.log(data)
       commit("setListData", data);
     });
     /* return http.process("user", "item", { id: 1 }).then(data => {

@@ -24,6 +24,13 @@ public class BoardDto {
     // 제품 가격
     private String price;
 
+    //제품 사진1
+    private String imageurl1;
+    //제품 사진2
+    private String imageurl2;
+    //제품 사진3
+    private String imageurl3;
+
     // 제품 카테고리
     private Integer categoryId;
 
@@ -51,6 +58,7 @@ public class BoardDto {
 
     @Builder
     public BoardDto(Integer id, String title, String content, String price,
+                    String imageurl1,String imageurl2,String imageurl3,
                     Integer categoryId, Integer userId, LocalDateTime createdDate,
                     LocalDateTime modifiedDate, Integer likecount, Integer viewcount,
                     Integer buycount, Boolean status) {
@@ -60,6 +68,9 @@ public class BoardDto {
         this.content = content;
         this.price = price;
         this.categoryId = categoryId;
+        this.imageurl1 = imageurl1;
+        this.imageurl2 = imageurl2;
+        this.imageurl3 = imageurl3;
         this.userId = userId;
         this.createdDate = createdDate;
         this.modifiedDate = modifiedDate;
@@ -76,6 +87,9 @@ public class BoardDto {
                 .title(title)
                 .content(content)
                 .price(price)
+                .imageurl1(imageurl1)
+                .imageurl2(imageurl2)
+                .imageurl3(imageurl3)
                 .categoryId(categoryId)
                 .userId(userId)
                 .likecount(likecount)
