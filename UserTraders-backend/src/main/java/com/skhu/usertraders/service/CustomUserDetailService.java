@@ -3,6 +3,7 @@ package com.skhu.usertraders.service;
 import com.skhu.usertraders.config.JwtTokenProvider;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.UserRepository;
+import com.skhu.usertraders.dto.DepartmentDto;
 import com.skhu.usertraders.dto.UserDto;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -86,9 +87,9 @@ public class CustomUserDetailService implements UserDetailsService {
                 .userid(userDto.getUserid())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .tel(userDto.getTel())
-                .department(userDto.getDepartment())
                 .name(userDto.getName())
                 .roles(Collections.singletonList("ROLE_USER")) // 최초 가입시 USER 로 설정
+                .department(userDto.getDepartment())
                 .build()).getId();
 
     }

@@ -27,9 +27,6 @@ public class UserDto {
     // 전화번호
     private String tel;
 
-    // 학과번호
-    private DepartmentEntity department;
-
     // 등록날짜
     private LocalDateTime createdDate;
 
@@ -42,6 +39,10 @@ public class UserDto {
 
     //권한 테이블
     private List<String> roles = new ArrayList<>();
+
+
+    // 학과번호
+    private DepartmentEntity department;
 
 
     public UserEntity convertDtoToEntity() { //회원 정보 추가를 위한 엔티티 - 디티오 변환

@@ -17,7 +17,6 @@ public class DepartmentEntity {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     // 학과번호
     private Integer id;
 

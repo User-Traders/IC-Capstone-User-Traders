@@ -39,7 +39,7 @@ public class BoardServiceImpl implements BoardService {
                 .content(boardEntity.getContent())
                 .price(boardEntity.getPrice())
                 .categoryId(boardEntity.getCategoryId())
-                .userId(boardEntity.getUserId())
+                .user(boardEntity.getUser())
                 .createdDate(boardEntity.getCreatedDate())
                 .modifiedDate(boardEntity.getModifiedDate())
                 .likecount(boardEntity.getLikecount())

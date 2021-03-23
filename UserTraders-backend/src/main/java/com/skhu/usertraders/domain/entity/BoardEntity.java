@@ -33,8 +33,9 @@ public class BoardEntity extends TimeEntity {
     @Column(name = "category_id")
     private Integer categoryId;
 
-    @Column(name = "user_id")
-    private Integer userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     @Column(name = "likecount")
     private Integer likecount;
@@ -50,7 +51,7 @@ public class BoardEntity extends TimeEntity {
 
     @Builder
     public BoardEntity(Integer id, String title, String content, String price,
-                       Integer categoryId, Integer userId, Integer likecount, Integer viewcount,
+                       Integer categoryId, UserEntity user, Integer likecount, Integer viewcount,
                        Integer buycount, Boolean status) {
 
         this.id = id;
@@ -58,7 +59,7 @@ public class BoardEntity extends TimeEntity {
         this.content = content;
         this.price = price;
         this.categoryId = categoryId;
-        this.userId = userId;
+        this.user = user;
         this.likecount = likecount;
         this.viewcount = viewcount;
         this.buycount = buycount;
