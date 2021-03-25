@@ -3,19 +3,30 @@ package com.skhu.usertraders.controller;
 import com.skhu.usertraders.dto.BoardDto;
 import com.skhu.usertraders.service.BoardService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
+@Slf4j
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping(value = "/boards")
 public class BoardController {
 
+    @Autowired private WebApplicationContext webApplicationContext;
     @Autowired
     private BoardService boardService;
+    private WebApplicationContext request;
 
     @GetMapping(value = "/list"
     ) // 모든 게시물 리스트 반환
@@ -36,8 +47,33 @@ public class BoardController {
     }
 
 
-    @PostMapping(value = "/register") // 한 게시물 저장
-    public ResponseEntity register(@RequestBody @Validated BoardDto boardDto) { //@RequestBody :HTTP 요청 몸체를 자바 객체로 변환
+    @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) // 한 게시물 저장
+    public ResponseEntity register(BoardDto boardDto, List<MultipartFile> files) { //@RequestBody :HTTP 요청 몸체를 자바 객체로 변환
+
+        String baseDir = "C:\\SKHU-project\\IC-Capstone-User-Traders\\UserTraders-frontend\\src\\assets\\images\\";
+
+       log.info("path:{}",baseDir);
+
+
+
+        String[] fileName = new String[3];
+
+        if (files != null) {
+            try {
+                for (int i = 0; i < files.size(); i++) {
+                    fileName[i] =  "@/assets/images/"+files.get(i).getOriginalFilename();
+                    files.get(i).transferTo(new File(baseDir + files.get(i).getOriginalFilename()));
+
+
+                }
+            } catch (IllegalStateException | IOException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(fileName);
+        boardDto.setImageurl1(fileName[0]);
+        boardDto.setImageurl2(fileName[1]);
+        boardDto.setImageurl3(fileName[2]);
         boardService.save(boardDto);
         return ResponseEntity.ok(true);
     }

@@ -45,10 +45,12 @@ public class UserEntity extends TimeEntity implements UserDetails {
 
 
     @ElementCollection(fetch = FetchType.EAGER)
+
     @CollectionTable(
             name = "role",
             joinColumns = @JoinColumn(name = "id")
     )
+
     private List<String> roles = new ArrayList<>();
 
 

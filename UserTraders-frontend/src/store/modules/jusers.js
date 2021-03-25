@@ -2,6 +2,7 @@ import http from "@/utils/http";
 import router from "@/router/index.js";
 const state = {
   listData: null,
+  listImageurl1 : null,
   listDataDeatail: null,
   totalPage: null,
   page: 1,
@@ -27,8 +28,9 @@ const actions = {
 
 
 
-  getList({ commit }, payload) {
-    return http.process("user", "list", { page: payload }).then((data) => {
+  getList({ commit }) {
+    return http.process("user", "list").then((data) => {
+      console.log(data)
       commit("setListData", data);
     });
     /* return http.process("user", "item", { id: 1 }).then(data => {
@@ -138,6 +140,7 @@ const mutations = {
 
   setListData(state, data) {
     state.listData = data;
+    state.listImageurl1 =require(data.imageurl1)
     state.totalPage = data.total_pages;
 
   },

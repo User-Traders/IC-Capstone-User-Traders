@@ -49,9 +49,19 @@ public class BoardEntity extends TimeEntity {
     @Column(name = "status")
     private Boolean status;
 
+    @Column(name = "imageurl1")
+    private String imageurl1;
+
+    @Column(name = "imageurl2")
+    private String imageurl2;
+
+    @Column(name = "imageurl3")
+    private String imageurl3;
+
     @Builder
     public BoardEntity(Integer id, String title, String content, String price,
                        Integer categoryId, UserEntity user, Integer likecount, Integer viewcount,
+                       String imageurl1, String imageurl2, String imageurl3,
                        Integer buycount, Boolean status) {
 
         this.id = id;
@@ -60,6 +70,9 @@ public class BoardEntity extends TimeEntity {
         this.price = price;
         this.categoryId = categoryId;
         this.user = user;
+        this.imageurl1 = imageurl1;
+        this.imageurl2 = imageurl2;
+        this.imageurl3 = imageurl3;
         this.likecount = likecount;
         this.viewcount = viewcount;
         this.buycount = buycount;
