@@ -2,6 +2,7 @@ import http from "@/utils/http";
 import router from "@/router/index.js";
 const state = {
   listData: null,
+  listImageurl1 : null,
   listDataDeatail: null,
   totalPage: null,
   page: 1,
@@ -139,6 +140,7 @@ const mutations = {
 
   setListData(state, data) {
     state.listData = data;
+    state.listImageurl1 =require(data.imageurl1)
     state.totalPage = data.total_pages;
 
   },

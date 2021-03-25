@@ -1,19 +1,16 @@
 <template>
   <div>
+    <!-- <v-img :src="@/assets/images3f3d1070ddf9408da9e2773945d8a261.jpg" width="344" height="344"></v-img> -->
     <!-- <Carousel /> -->
-    {{listData}}
+    {{listData.imageurl1}}
 
     <v-container v-if="listData" three-line>
       <v-row>
-        <v-col v-for="(item, i) in listData" :key="`item-${i}`" cols="12" sm="4">
+        <v-col v-for="(item, i) in listData,listImageurl1" :key="`item-${i}`" cols="12" sm="4">
           <div>
             <v-card class="mx-auto" max-width="344">
-            
-
-
-              <v-img :src=" '/images/' +listData.imageurl1" width="344" height="344"></v-img>
-              <v-icon color="pink">mdi-delete</v-icon>
-            
+              <img :src="listImageurl1">
+<!-- <img src="@/assets/images/3f3d1070ddf9408da9e2773945d8a261.jpg"> -->
               <v-card-title>
                 {{ item.title }}
               </v-card-title>
@@ -68,6 +65,7 @@ export default {
   computed: {
     ...mapState({
       listData: (state) => state.jusers.listData,
+      listImageurl1 :(state)=> state.jusers.listImageurl1,
 
     }),
   },

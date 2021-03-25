@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -23,8 +24,10 @@ import java.util.List;
 @RequestMapping(value = "/boards")
 public class BoardController {
 
+    @Autowired private WebApplicationContext webApplicationContext;
     @Autowired
     private BoardService boardService;
+    private WebApplicationContext request;
 
     @GetMapping(value = "/list"
     ) // 모든 게시물 리스트 반환
@@ -48,14 +51,18 @@ public class BoardController {
     @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) // 한 게시물 저장
     public ResponseEntity register(BoardDto boardDto, List<MultipartFile> files) { //@RequestBody :HTTP 요청 몸체를 자바 객체로 변환
 
-        String baseDir = "C:\\SKHU-project\\IC-Capstone-User-Traders\\UserTraders-backend\\src\\main\\resources\\static\\images\\";
+        String baseDir = "C:\\SKHU-project\\IC-Capstone-User-Traders\\UserTraders-frontend\\src\\assets\\images\\";
+
+       log.info("path:{}",baseDir);
+
+
 
         String[] fileName = new String[3];
 
         if (files != null) {
             try {
                 for (int i = 0; i < files.size(); i++) {
-                    fileName[i] = baseDir + files.get(i).getOriginalFilename();
+                    fileName[i] =  "@/assets/images/"+files.get(i).getOriginalFilename();
                     files.get(i).transferTo(new File(baseDir + files.get(i).getOriginalFilename()));
 
 
