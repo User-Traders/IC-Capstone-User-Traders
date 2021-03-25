@@ -16,7 +16,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-
 @Slf4j
 @RestController
 @AllArgsConstructor
@@ -76,7 +75,7 @@ public class BoardController {
         boardDto.setImageurl2(fileName[1]);
         boardDto.setImageurl3(fileName[2]);
         boardService.save(boardDto);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(true);
     }
 
 
@@ -85,13 +84,13 @@ public class BoardController {
                                  @PathVariable("id") Integer id) {
         boardDto.setId(id);
         boardService.updateById(boardDto);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(true);
     }
 
     @DeleteMapping(value = "/list/{id}") // 한 게시물 삭제
     public ResponseEntity delete(@PathVariable("id") Integer id) {
         boardService.deleteById(id);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(true);
     }
 
 

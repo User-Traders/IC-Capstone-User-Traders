@@ -12,4 +12,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     Optional<UserEntity> findByUserid(String userid);
 
+    Optional<UserEntity> findById(Integer id);
+
+
 }

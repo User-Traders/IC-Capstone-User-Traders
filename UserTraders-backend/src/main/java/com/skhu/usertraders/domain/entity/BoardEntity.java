@@ -1,7 +1,10 @@
 package com.skhu.usertraders.domain.entity;
 
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -57,7 +60,7 @@ public class BoardEntity extends TimeEntity {
     @Builder
     public BoardEntity(Integer id, String title, String content, String price,
                        Integer categoryId, Integer userId, Integer likecount, Integer viewcount,
-                       String imageurl1,String imageurl2,String imageurl3,
+                       String imageurl1, String imageurl2, String imageurl3,
                        Integer buycount, Boolean status) {
 
         this.id = id;

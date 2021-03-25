@@ -5,7 +5,6 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,13 +18,12 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
-@Component
 @RequiredArgsConstructor
+@Component
 public class JwtTokenProvider {
 
-
-  @Value("${spring.jwt.secret}")
-    private String secretKey;
+    @Value("${spring.jwt.secret}")
+    String secretKey = "webfirewood";
 
     // 토큰 유효시간 30분
     private long tokenValidTime = 30 * 60 * 1000L;
@@ -77,6 +75,4 @@ public class JwtTokenProvider {
             return false;
         }
     }
-
-
 }
