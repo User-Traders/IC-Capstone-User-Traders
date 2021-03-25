@@ -6,7 +6,7 @@
 
     <v-container v-if="listData" three-line>
       <v-row>
-        <v-col v-for="(item, i) in listData,listImageurl1" :key="`item-${i}`" cols="12" sm="4">
+        <v-col v-for="(item, i) in listData" :key="`item-${i}`" cols="12" sm="4">
           <div>
             <v-card class="mx-auto" max-width="344">
               <img :src="listImageurl1">
