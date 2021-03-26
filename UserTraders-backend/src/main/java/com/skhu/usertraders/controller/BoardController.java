@@ -61,7 +61,7 @@ public class BoardController {
         if (files != null) {
             try {
                 for (int i = 0; i < files.size(); i++) {
-                    fileName[i] =  "@/assets/images/"+files.get(i).getOriginalFilename();
+                    fileName[i] =  files.get(i).getOriginalFilename();
                     files.get(i).transferTo(new File(baseDir + files.get(i).getOriginalFilename()));
 
 

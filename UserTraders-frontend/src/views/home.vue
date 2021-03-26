@@ -1,40 +1,39 @@
 <template>
   <div>
-    <!-- <v-img :src="@/assets/images3f3d1070ddf9408da9e2773945d8a261.jpg" width="344" height="344"></v-img> -->
     <!-- <Carousel /> -->
-    {{listData.imageurl1}}
 
     <v-container v-if="listData" three-line>
       <v-row>
         <v-col v-for="(item, i) in listData" :key="`item-${i}`" cols="12" sm="4">
           <div>
-            <v-card class="mx-auto" max-width="344">
-              <img :src="listImageurl1">
-<!-- <img src="@/assets/images/3f3d1070ddf9408da9e2773945d8a261.jpg"> -->
-              <v-card-title>
-                {{ item.title }}
-              </v-card-title>
+            <v-hover v-slot="{ hover }">
+              <v-card class="mx-auto" max-width="344">
+                <!-- <img :src="require(listDataImageUrl1[i])"> -->
+                <!-- <img v-bind:src="listDataImageUrl1[i] |loadImgOrPlaceholder"> -->
+                <!-- <img  v-bind:src="listDataImageUrl1[i] |loadImgOrPlaceholder" width="mx-auto" height="200"> -->
 
-              <v-card-subtitle>
-                <v-list-item-icon>
-                  <v-icon color="indigo">
-                    mdi-content
-                  </v-icon>
-                  {{ item.content }}
-                </v-list-item-icon>
+                <v-img v-bind:src="listDataImageUrl1[i] |loadImgOrPlaceholder" :aspect-ratio="16/16" height="mx-auto">
+                  <v-expand-transition>
+                    <div v-if="hover" class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text" style="height: 100%;">
+                      {{ item.content }}
+                    </div>
+                  </v-expand-transition>
+                </v-img>
 
-              </v-card-subtitle>
+                <v-card-text class="pt-6" style="position: relative;">
+                  <v-btn absolute color="orange" class="white--text" fab large right top>
+                    <v-icon>mdi-cart</v-icon>
+                  </v-btn>
 
-              <v-card-actions>
-                <!-- <v-btn color="orange lighten-2" text :to="{ name: 'JunDetail', params:{id:item.id}}">
-                    Detail
-                  </v-btn> -->
-
-                <v-spacer></v-spacer>
-
-              </v-card-actions>
-
-            </v-card>
+                  <h3 class="display-1 font-weight-light orange--text mb-2">
+                    {{item.title}}
+                  </h3>
+                  <div class="font-weight-light title mb-2">
+                    {{item.price}} won
+                  </div>
+                </v-card-text>
+              </v-card>
+            </v-hover>
           </div>
         </v-col>
       </v-row>
@@ -57,6 +56,14 @@ export default {
 
     };
   },
+  filters: {
+    loadImgOrPlaceholder: function (path) {
+
+
+      return require("@/assets/images/" + path)
+
+    }
+  },
   components: {
     // Carousel,
 
@@ -65,9 +72,10 @@ export default {
   computed: {
     ...mapState({
       listData: (state) => state.jusers.listData,
-      listImageurl1 :(state)=> state.jusers.listImageurl1,
+      listDataImageUrl1: (state) => state.jusers.listDataImageUrl1,
 
     }),
+
   },
   mounted() {
     this.init();
@@ -87,6 +95,10 @@ export default {
       });
 
     },
+    imageConversion(imageurl) {
+      console.log(String(imageurl))
+      return require(String(imageurl))
+    },
 
     ...mapActions({
       _getList: "jusers/getList",
@@ -98,3 +110,13 @@ export default {
   },
 };
 </script>
+<style>
+.v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: 0.5;
+  position: absolute;
+  width: 100%;
+}
+</style>

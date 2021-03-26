@@ -2,7 +2,7 @@ import http from "@/utils/http";
 import router from "@/router/index.js";
 const state = {
   listData: null,
-  listImageurl1 : null,
+  listDataImageUrl1: null,
   listDataDeatail: null,
   totalPage: null,
   page: 1,
@@ -30,7 +30,8 @@ const actions = {
 
   getList({ commit }) {
     return http.process("user", "list").then((data) => {
-      console.log(data)
+      // console.log(data.length)
+      // console.log(data[0].imageurl1)
       commit("setListData", data);
     });
     /* return http.process("user", "item", { id: 1 }).then(data => {
@@ -92,7 +93,7 @@ const actions = {
     }
     ).then((res) => {
       console.log(res)
-     
+
 
     }).catch(err => {
       console.log(err)
@@ -124,8 +125,8 @@ const mutations = {
     state.isLogin = true
     state.isLoginError = false
     state.userInfo = payload
-    router.push({name:'JunHome'})
-  
+    router.push({ name: 'JunHome' })
+
 
   },
 
@@ -134,18 +135,26 @@ const mutations = {
 
     state.isLogin = false
     state.isLoginError = true
-  
+
   },
 
 
   setListData(state, data) {
     state.listData = data;
-    state.listImageurl1 =require(data.imageurl1)
-    state.totalPage = data.total_pages;
+    console.log(data.length)
+    var arr = []
+    for (let index = 0; index < data.length; index++) {
+       arr.push(data[index].imageurl1)
+    }
+    console.log(arr)
+    state.listDataImageUrl1 = arr
+    // state.totalPage = data.total_pages;
 
   },
   setListDataDetail(state, data) {
     state.listDataDeatail = data;
+
+
 
   },
 };
