@@ -3,6 +3,7 @@ package com.skhu.usertraders.dto;
 
 import com.skhu.usertraders.domain.entity.BoardEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
+import jdk.jfr.Unsigned;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -45,13 +46,13 @@ public class BoardDto {
     private LocalDateTime modifiedDate;
 
     // 찜수
-    private Integer likecount;
+    private int likecount;
 
     // 조회수
-    private Integer viewcount;
+    private int viewcount;
 
     // 구매 평점
-    private Integer buycount;
+    private int buycount;
 
     // 판매 상태
     private Boolean status;
@@ -61,8 +62,8 @@ public class BoardDto {
     public BoardDto(Integer id, String title, String content, String price,
                     Integer categoryId, UserEntity user, LocalDateTime createdDate,
                     String imageurl1, String imageurl2, String imageurl3,
-                    LocalDateTime modifiedDate, Integer likecount, Integer viewcount,
-                    Integer buycount, Boolean status) {
+                    LocalDateTime modifiedDate, int likecount, int viewcount,
+                    int buycount, Boolean status) {
 
         this.id = id;
         this.title = title;

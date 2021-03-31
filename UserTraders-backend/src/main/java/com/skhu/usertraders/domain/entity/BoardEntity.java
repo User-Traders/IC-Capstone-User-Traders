@@ -37,14 +37,14 @@ public class BoardEntity extends TimeEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @Column(name = "likecount")
-    private Integer likecount;
+    @Column(name = "likecount", nullable = false)
+    private int likecount;
 
-    @Column(name = "viewcount")
-    private Integer viewcount;
+    @Column(name = "viewcount", nullable = false)
+    private int viewcount;
 
-    @Column(name = "buycount")
-    private Integer buycount;
+    @Column(name = "buycount", nullable = false)
+    private int buycount;
 
     @Column(name = "status")
     private Boolean status;
@@ -60,9 +60,9 @@ public class BoardEntity extends TimeEntity {
 
     @Builder
     public BoardEntity(Integer id, String title, String content, String price,
-                       Integer categoryId, UserEntity user, Integer likecount, Integer viewcount,
+                       Integer categoryId, UserEntity user, int likecount, int viewcount,
                        String imageurl1, String imageurl2, String imageurl3,
-                       Integer buycount, Boolean status) {
+                       int buycount, Boolean status) {
 
         this.id = id;
         this.title = title;
