@@ -1,6 +1,7 @@
 package com.skhu.usertraders.service;
 
 import com.skhu.usertraders.domain.entity.BoardEntity;
+import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.BoardRepository;
 import com.skhu.usertraders.dto.BoardDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,7 @@ public class BoardServiceImpl implements BoardService {
     public BoardDto findById(Integer id) { //PK가 id인 목록 1개 조회
         Optional<BoardEntity> boardEntityWrapper = boardRepository.findById(id);
         BoardEntity boardEntity = boardEntityWrapper.get();
+
 
         return this.convertEntityToDto(boardEntity);
     }

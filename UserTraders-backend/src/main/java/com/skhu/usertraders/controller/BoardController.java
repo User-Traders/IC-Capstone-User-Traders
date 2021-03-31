@@ -1,5 +1,6 @@
 package com.skhu.usertraders.controller;
 
+import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.dto.BoardDto;
 import com.skhu.usertraders.service.BoardService;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
@@ -23,7 +25,8 @@ import java.util.List;
 @RequestMapping(value = "/boards")
 public class BoardController {
 
-    @Autowired private WebApplicationContext webApplicationContext;
+    @Autowired
+    private WebApplicationContext webApplicationContext;
     @Autowired
     private BoardService boardService;
     private WebApplicationContext request;
@@ -36,7 +39,16 @@ public class BoardController {
     }
 
     @GetMapping(value = "/list/{id}") // 한 게시물의 id 안에 들어 있는 정보를 반환
-    public ResponseEntity list(@PathVariable("id") Integer id) { //@PathVariable :url 파라미터 값 id를 인자로 받음
+    public ResponseEntity list(@PathVariable("id") Integer id,@AuthenticationPrincipal UserEntity userEntity) { //@PathVariable :url 파라미터 값 id를 인자로 받음
+
+        BoardDto boardDto = boardService.findById(id);
+
+        if(!boardDto.getUser().getId().equals(userEntity.getId())) {
+            int viewcount = boardDto.getViewcount();
+            viewcount = viewcount + 1;
+            boardDto.setViewcount(viewcount);
+            boardService.save(boardDto);
+        }
 
         return ResponseEntity.ok(boardService.findById(id));
     }
@@ -46,31 +58,24 @@ public class BoardController {
         return ResponseEntity.ok(boardService.findAllSearch(keyword));
     }
 
-
-    @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) // 한 게시물 저장
+    @PostMapping(value = "/register") // 한 게시물 저장
     public ResponseEntity register(BoardDto boardDto, List<MultipartFile> files) { //@RequestBody :HTTP 요청 몸체를 자바 객체로 변환
 
-        String baseDir = "C:\\SKHU-project\\IC-Capstone-User-Traders\\UserTraders-frontend\\src\\assets\\images\\";
 
-       log.info("path:{}",baseDir);
+        String baseDir = "C:\\Users\\jaebin2\\Documents\\IC-Capstone-User-Traders\\UserTraders-frontend\\src\\assets\\images\\";
 
-
-
+        log.info("path:{}", baseDir);
         String[] fileName = new String[3];
-
         if (files != null) {
             try {
                 for (int i = 0; i < files.size(); i++) {
-                    fileName[i] =  "@/assets/images/"+files.get(i).getOriginalFilename();
+                    fileName[i] = files.get(i).getOriginalFilename();
                     files.get(i).transferTo(new File(baseDir + files.get(i).getOriginalFilename()));
-
-
                 }
             } catch (IllegalStateException | IOException e) {
                 e.printStackTrace();
             }
         }
-        System.out.println(fileName);
         boardDto.setImageurl1(fileName[0]);
         boardDto.setImageurl2(fileName[1]);
         boardDto.setImageurl3(fileName[2]);
