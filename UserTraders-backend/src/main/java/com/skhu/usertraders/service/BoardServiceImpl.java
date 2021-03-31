@@ -4,6 +4,10 @@ import com.skhu.usertraders.domain.entity.BoardEntity;
 import com.skhu.usertraders.domain.repository.BoardRepository;
 import com.skhu.usertraders.dto.BoardDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -28,6 +32,19 @@ public class BoardServiceImpl implements BoardService {
             return boardDto;
         }).collect(Collectors.toList());
         System.out.println(results);
+
+        return results;
+    }
+
+
+    @Override
+    public List<BoardDto> findAllInfinite(int limit) {
+
+        Page<BoardEntity> page = boardRepository.findAll(PageRequest.of(limit-1 , 2, Sort.by(Sort.Direction.DESC, "createdDate")));
+        List<BoardDto> results = page.stream().map(boardEntity -> {
+            BoardDto boardDto = convertEntityToDto(boardEntity);
+            return boardDto;
+        }).collect(Collectors.toList());
 
         return results;
     }

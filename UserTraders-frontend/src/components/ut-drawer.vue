@@ -38,16 +38,7 @@
         </v-list-item-content>
       </v-list-item>
 
-      
-      <v-list-item :to="{ name: 'JunHome'}" active-class="deep-purple--text text--accent-4">
-        <v-list-item-icon>
-          <v-icon>mdi-gift-outline</v-icon>
-        </v-list-item-icon>
-
-        <v-list-item-content>
-          <v-list-item-title>Product</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+     
 
 
     </v-list>

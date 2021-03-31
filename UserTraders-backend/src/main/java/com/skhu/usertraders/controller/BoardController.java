@@ -23,21 +23,28 @@ import java.util.List;
 @RequestMapping(value = "/boards")
 public class BoardController {
 
-    @Autowired private WebApplicationContext webApplicationContext;
+    @Autowired
+    private WebApplicationContext webApplicationContext;
     @Autowired
     private BoardService boardService;
     private WebApplicationContext request;
 
-    @GetMapping(value = "/list"
-    ) // 모든 게시물 리스트 반환
+    @GetMapping(value = "/list") // 모든 게시물 리스트 반환
     public ResponseEntity list() {
 
         return ResponseEntity.ok(boardService.findAll());
     }
 
+    @GetMapping(value = "/listInfinte") // 모든 게시물 리스트 반환
+    public ResponseEntity list(@RequestParam(value = "limit", defaultValue = "1") int limit) {
+        log.info("zz" + limit);
+        return ResponseEntity.ok(boardService.findAllInfinite(limit));
+    }
+
+
     @GetMapping(value = "/list/{id}") // 한 게시물의 id 안에 들어 있는 정보를 반환
     public ResponseEntity list(@PathVariable("id") Integer id) { //@PathVariable :url 파라미터 값 id를 인자로 받음
-
+        log.info("id:{}", id);
         return ResponseEntity.ok(boardService.findById(id));
     }
 
@@ -47,30 +54,22 @@ public class BoardController {
     }
 
 
-    @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) // 한 게시물 저장
+    @PostMapping(value = "/register") // 한 게시물 저장
     public ResponseEntity register(BoardDto boardDto, List<MultipartFile> files) { //@RequestBody :HTTP 요청 몸체를 자바 객체로 변환
-
+        log.info("user");
         String baseDir = "C:\\SKHU-project\\IC-Capstone-User-Traders\\UserTraders-frontend\\src\\assets\\images\\";
 
-       log.info("path:{}",baseDir);
-
-
-
         String[] fileName = new String[3];
-
         if (files != null) {
             try {
                 for (int i = 0; i < files.size(); i++) {
-                    fileName[i] =  files.get(i).getOriginalFilename();
+                    fileName[i] = files.get(i).getOriginalFilename();
                     files.get(i).transferTo(new File(baseDir + files.get(i).getOriginalFilename()));
-
-
                 }
             } catch (IllegalStateException | IOException e) {
                 e.printStackTrace();
             }
         }
-        System.out.println(fileName);
         boardDto.setImageurl1(fileName[0]);
         boardDto.setImageurl2(fileName[1]);
         boardDto.setImageurl3(fileName[2]);

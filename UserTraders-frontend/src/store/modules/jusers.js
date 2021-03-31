@@ -2,8 +2,8 @@ import http from "@/utils/http";
 import router from "@/router/index.js";
 const state = {
   listData: null,
-  listDataImageUrl1: null,
   listDataDeatail: null,
+  detailImageurl: [],
   totalPage: null,
   page: 1,
   newlistData: null,
@@ -23,24 +23,21 @@ const state = {
 const getters = {};
 
 const actions = {
-
-
-
-
-
   getList({ commit }) {
     return http.process("user", "list").then((data) => {
-      // console.log(data.length)
-      // console.log(data[0].imageurl1)
+      console.log(data)
       commit("setListData", data);
+    }).catch(err => {
+      console.log(err)
     });
-    /* return http.process("user", "item", { id: 1 }).then(data => {
-      commit("setListData", data);
-    }) */
+
+
+
+
+
   },
   getListDetail({ commit }, payload) {
-    return http.process("user", "item", { id: payload }).then((data) => {
-
+    return http.process("user", "listdetail", { id: payload }).then((data) => {
       commit("setListDataDetail", data);
     });
   },
@@ -141,17 +138,27 @@ const mutations = {
 
   setListData(state, data) {
     state.listData = data;
-    console.log(data.length)
-    var arr = []
-    for (let index = 0; index < data.length; index++) {
-       arr.push(data[index].imageurl1)
-    }
-    console.log(arr)
-    state.listDataImageUrl1 = arr
     // state.totalPage = data.total_pages;
 
   },
   setListDataDetail(state, data) {
+   
+    const arr = []
+    arr.push(data.imageurl1)
+    arr.push(data.imageurl2)
+    arr.push(data.imageurl3)
+    // if (data.imageurl1) {
+    //   arr.push(data.imageurl1)
+    // }
+    // if (data.imageurl2) {
+    //   arr.push(data.imageurl2)
+    // }
+    // if (data.imageurl3) {
+    //   arr.push(data.imageurl3)
+    // }
+
+console.log("Zzz")
+    state.detailImageurl = arr;
     state.listDataDeatail = data;
 
 

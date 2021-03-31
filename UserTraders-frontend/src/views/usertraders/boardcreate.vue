@@ -162,14 +162,16 @@ export default {
     allSubmit() {
       var frm = new FormData();
       this.photoFile = this.images;
+
       frm.append("title", this.title);
       frm.append("content", this.content);
       frm.append("price", this.price);
       frm.append("category", this.category);
+
       for (var i = 0; i < this.images.length; i++) {
         frm.append("files", this.images[i]);
       }
-
+      frm.append("user", 27);
 
       // var frm2 = new FormData();
 
@@ -181,15 +183,19 @@ export default {
       // }
 
 
-      axios.post('http://localhost:8090/boards/register', frm,
+      return axios.post('http://localhost:8090/boards/register', frm,
         {
           headers: {
-             'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data'
           }
         })
         .then((res) => {
           console.log(res)
+          this.$router.push({ name: 'Home1' });
+
         }).catch((err) => { console.log(err) })
+
+
     },
   }
 }

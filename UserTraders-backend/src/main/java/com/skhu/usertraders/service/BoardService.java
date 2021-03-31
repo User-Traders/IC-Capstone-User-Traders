@@ -13,6 +13,9 @@ public interface BoardService { // 공통적인 부분은 가지되, 다형성�
     List<BoardDto> findAll(); // 글 전체 조회
 
     @Transactional
+    List<BoardDto> findAllInfinite(int limit);
+
+    @Transactional
     BoardDto findById(Integer id);  //글 1개 조회
 
     @Transactional

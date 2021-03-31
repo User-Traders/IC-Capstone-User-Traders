@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <v-alert :value="isLoginError" type="error" mb-3>
       Check! email and password!!
     </v-alert>

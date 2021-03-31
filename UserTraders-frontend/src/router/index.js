@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Empty from "../views/jun/empty.vue";
 import store from "@/store/modules/jusers.js"
 
 Vue.use(VueRouter)
@@ -9,13 +8,12 @@ Vue.use(VueRouter)
 const Home1 = () => import(/* webpackChunkName: "jun" */ "../views/home.vue");
 const JunHome = () => import(/* webpackChunkName: "jun" */ "../views/jun/jun-home.vue");
 const JunCreate = () => import(/* webpackChunkName: "jun" */ "../views/jun/jun-create.vue");
-const JunDetail = () => import(/* webpackChunkName: "jun" */ "../views/jun/jun-detail.vue");
 const JunUpdate = () => import(/* webpackChunkName: "jun" */ "../views/jun/jun-update.vue");
 const JunMypage = () => import(/* webpackChunkName: "jun" */ "../views/jun/jun-mypage.vue");
 const JunLogin = () => import("../views/jun/jun-login.vue");
-const restTest = () => import(/* webpackChunkName: "jun" */ "../views/jun/rest-test.vue");
-const Create = () => import("../views/usertraders/boardcreate.vue");
-const ImageTest = () => import("../views/usertraders/imageTest.vue");
+const Create = () => import("../views/usertraders/BoardCreate.vue");
+const BoardDetail = () => import("../views/usertraders/BoardDetail.vue")
+
 
 const routes = [
   {
@@ -24,8 +22,8 @@ const routes = [
     component: Home1,
     meta: { isAuth: true },
     /*     beforeEnter: requireAuth() */
-  },
 
+  },
 
 
   {
@@ -35,61 +33,49 @@ const routes = [
 
   },
   {
-    path: "/imageTest",
-    name: "ImageTest",
-    component: ImageTest,
+    path: "/detail/:id",
+    name: "BoardDetail",
+    component: BoardDetail,
+    props: true
+  },
+
+
+
+
+  {
+    path: "home",
+    name: "JunHome",
+    component: JunHome
+  },
+  {
+    path: "create",
+    name: "JunCreate",
+    meta: { pageAuth: true },
+    component: JunCreate
   },
 
   {
-    path: "/jun",
-    component: Empty,
-    children: [
-      {
-        path: "home",
-        name: "JunHome",
-        component: JunHome
-      },
-      {
-        path: "create",
-        name: "JunCreate",
-        meta: { pageAuth: true },
-        component: JunCreate
-      },
-      {
-        path: "detail/:id",
-        name: "JunDetail",
-        component: JunDetail,
-        props: true
+    path: ":id/edit",
+    name: "JunUpdate",
 
-      },
-      {
-        path: ":id/edit",
-        name: "JunUpdate",
+    component: JunUpdate,
+    props: true
+  },
+  {
+    path: "login",
+    name: "JunLogin",
+    meta: { loginAuth: true },
+    component: JunLogin,
 
-        component: JunUpdate,
-        props: true
-      },
-      {
-        path: "login",
-        name: "JunLogin",
-        meta: { loginAuth: true },
-        component: JunLogin,
+  },
+  {
+    path: "mypage",
+    name: "JunMypage",
+    meta: { pageAuth: true },
+    component: JunMypage,
 
-      },
-      {
-        path: "mypage",
-        name: "JunMypage",
-        meta: { pageAuth: true },
-        component: JunMypage,
+  },
 
-      },
-      {
-        path: "rest",
-        name: "restTest",
-        component: restTest,
-      }
-    ],
-  }
 ]
 
 const router = new VueRouter({
