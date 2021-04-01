@@ -34,6 +34,7 @@ public class UserController {
 
     @PostMapping(value = "/signup") // 유저 회원가입
     public ResponseEntity register(@RequestBody UserDto userDto) {
+        System.out.println(userDto.getDepartment());
         customUserDetailService.save(userDto);
         return ResponseEntity.ok(true);
     }

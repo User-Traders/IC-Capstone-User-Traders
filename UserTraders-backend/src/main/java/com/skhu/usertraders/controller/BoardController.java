@@ -51,12 +51,12 @@ public class BoardController {
 
         BoardDto boardDto = boardService.findById(id);
 
-        if (!boardDto.getUser().getId().equals(userEntity.getId())) {
-            int viewcount = boardDto.getViewcount();
-            viewcount = viewcount + 1;
-            boardDto.setViewcount(viewcount);
-            boardService.save(boardDto);
-        }
+//        if (!boardDto.getUser().getId().equals(userEntity.getId())) {//재빈아 잠깐 주석조 했다
+//            int viewcount = boardDto.getViewcount();
+//            viewcount = viewcount + 1;
+//            boardDto.setViewcount(viewcount);
+//            boardService.save(boardDto);
+//        }
 
         return ResponseEntity.ok(boardService.findById(id));
     }

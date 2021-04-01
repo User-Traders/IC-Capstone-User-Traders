@@ -1,13 +1,12 @@
 package com.skhu.usertraders.service;
 
 import com.skhu.usertraders.domain.entity.BoardEntity;
-import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.BoardRepository;
 import com.skhu.usertraders.dto.BoardDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +15,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class BoardServiceImpl implements BoardService {
-
+    private static final int DEFAULT_SIZE = 2;
 
     @Autowired
     private BoardRepository boardRepository;
@@ -39,16 +39,15 @@ public class BoardServiceImpl implements BoardService {
 
 
     @Override
-    public List<BoardDto> findAllInfinite(int limit) {
-
-        Page<BoardEntity> page = boardRepository.findAll(PageRequest.of(limit-1 , 2, Sort.by(Sort.Direction.DESC, "createdDate")));
+    public List<BoardDto> findAllInfinite(int limit) {//무한 스크롤
+        Page<BoardEntity> page = boardRepository.findAll(PageRequest.of(limit-1, 2, Sort.by(Sort.Direction.DESC, "createdDate")));
         List<BoardDto> results = page.stream().map(boardEntity -> {
             BoardDto boardDto = convertEntityToDto(boardEntity);
             return boardDto;
         }).collect(Collectors.toList());
-
         return results;
     }
+
 
     private BoardDto convertEntityToDto(BoardEntity boardEntity) { //엔티티 객체 변수를 디티오 객체 변수로 변환
         return BoardDto.builder()

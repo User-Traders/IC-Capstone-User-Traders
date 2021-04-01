@@ -13,7 +13,9 @@ const JunMypage = () => import(/* webpackChunkName: "jun" */ "../views/jun/jun-m
 const JunLogin = () => import("../views/jun/jun-login.vue");
 const Create = () => import("../views/usertraders/BoardCreate.vue");
 const BoardDetail = () => import("../views/usertraders/BoardDetail.vue")
-
+const UserLogin = () => import("../views/usertraders/UserLogin.vue")
+const SignUp = () => import("../views/usertraders/SignUp.vue")
+const Empty = () =>import("../components/empty.vue")
 
 const routes = [
   {
@@ -37,6 +39,24 @@ const routes = [
     name: "BoardDetail",
     component: BoardDetail,
     props: true
+  },
+  {
+    path: "/user",
+    component : Empty,
+    children: [
+      {
+        path: 'login',
+        name :"UserLogin",
+        component: UserLogin,
+      },
+      {
+        path: 'signup',
+        name :"SignUp",
+        component: SignUp,
+      },
+     
+     
+    ]
   },
 
 

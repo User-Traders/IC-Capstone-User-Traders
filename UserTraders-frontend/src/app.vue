@@ -24,13 +24,13 @@
           </template>
 
           <v-list dense nav>
-            <v-list-item :to="{ name: 'JunLogin'}" active-class="deep-purple--text text--accent-4">
+            <v-list-item :to="{ name: 'UserLogin'}" active-class="deep-purple--text text--accent-4">
               <v-list-item-content>
                 <v-list-item-title>Login</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
 
-            <v-list-item :to="{ name: 'Create'}" active-class="deep-purple--text text--accent-3">
+            <v-list-item :to="{ name: 'SignUp'}" active-class="deep-purple--text text--accent-3">
 
               <v-list-item-content>
                 <v-list-item-title>Sign Up</v-list-item-title>
@@ -48,14 +48,14 @@
     <v-main>
 
       <br><br>
-      <br><br>
+
       <router-view></router-view>
 
     </v-main>
 
     <v-bottom-navigation color="primary" fixed>
 
-      <v-btn>
+      <v-btn :to="{ name: 'Home1'}">
         <span>홈</span>
 
         <v-icon large>mdi-home</v-icon>

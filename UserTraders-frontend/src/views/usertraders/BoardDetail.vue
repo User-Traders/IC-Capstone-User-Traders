@@ -5,12 +5,11 @@
     <div v-if="listDataDeatail">
 
       <v-row class="fill-height" align="center" justify="center">
-
-        <v-card class="pa-2" outlined tile>
+        <v-card class="pa-2"  tile flat >
           <v-carousel progress-color="orange">
             <v-carousel-item v-for="(item, i) in detailImageurl" :key="i" v-bind:src="item |loadImgOrPlaceholder" width="344" height="auto" reverse-transition="fade-transition" transition="fade-transition"></v-carousel-item>
           </v-carousel>
-          <v-card class="pa-2" outlined tile>
+          
             <v-card-title>
               <h4>{{ listDataDeatail.title }}</h4>
               <v-btn class="mx-2" fab dark small color="pink">
@@ -38,11 +37,13 @@
               </v-icon>
             </v-btn>
 
-          </v-card>
+        
 
         </v-card>
 
       </v-row>
+<br>
+<br>
 <br>
     </div>
   </div>

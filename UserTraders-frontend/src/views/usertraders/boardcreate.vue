@@ -1,6 +1,5 @@
  <template>
   <div>
-
     <v-card max-width="500" max-height="auto" class="mx-auto my-12">
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-card-title>
@@ -73,6 +72,7 @@
       </v-btn>
 
     </v-card>
+    <br>
   </div>
 </template>
 <script>
@@ -125,9 +125,11 @@ export default {
 
       this.images = [];
       this.image = [];
-      Array.prototype.push.apply(this.images, files);//array element add
-      if (!this.images.length)
-        return;
+      Array.prototype.push.apply(this.images, files);
+      if (this.images.length < 3) {
+        
+        return alert("이미지는 3장만 가능해용")
+      }
       if (this.images.length > 3) {
 
         return alert("이미지는 3장만 가능해용")
@@ -172,17 +174,6 @@ export default {
         frm.append("files", this.images[i]);
       }
       frm.append("user", 27);
-
-      // var frm2 = new FormData();
-
-      // const params = {
-      //   title: this.title,
-      //   content: this.content,
-      //   price: this.price,
-      //   category: this.category
-      // }
-
-
       return axios.post('http://localhost:8090/boards/register', frm,
         {
           headers: {
