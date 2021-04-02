@@ -30,8 +30,9 @@ public class BoardEntity extends TimeEntity {
     @Column(name = "price")
     private String price;
 
-    @Column(name = "category_id")
-    private Integer categoryId;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private CategoryEntity category;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -60,7 +61,7 @@ public class BoardEntity extends TimeEntity {
 
     @Builder
     public BoardEntity(Integer id, String title, String content, String price,
-                       Integer categoryId, UserEntity user, int likecount, int viewcount,
+                       CategoryEntity category, UserEntity user, int likecount, int viewcount,
                        String imageurl1, String imageurl2, String imageurl3,
                        int buycount, Boolean status) {
 
@@ -68,7 +69,7 @@ public class BoardEntity extends TimeEntity {
         this.title = title;
         this.content = content;
         this.price = price;
-        this.categoryId = categoryId;
+        this.category = category;
         this.user = user;
         this.imageurl1 = imageurl1;
         this.imageurl2 = imageurl2;

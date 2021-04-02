@@ -55,7 +55,7 @@ public class BoardServiceImpl implements BoardService {
                 .title(boardEntity.getTitle())
                 .content(boardEntity.getContent())
                 .price(boardEntity.getPrice())
-                .categoryId(boardEntity.getCategoryId())
+                .category(boardEntity.getCategory())
                 .user(boardEntity.getUser())
                 .imageurl1(boardEntity.getImageurl1())
                 .imageurl2(boardEntity.getImageurl2())

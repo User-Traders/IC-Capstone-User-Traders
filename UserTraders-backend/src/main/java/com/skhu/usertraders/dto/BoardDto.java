@@ -2,6 +2,7 @@ package com.skhu.usertraders.dto;
 
 
 import com.skhu.usertraders.domain.entity.BoardEntity;
+import com.skhu.usertraders.domain.entity.CategoryEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import jdk.jfr.Unsigned;
 import lombok.*;
@@ -34,7 +35,7 @@ public class BoardDto {
     private String imageurl3;
 
     // 제품 카테고리
-    private Integer categoryId;
+    private CategoryEntity category;
 
     // 제품 작성자 고유 번호
     private UserEntity user;
@@ -60,7 +61,7 @@ public class BoardDto {
 
     @Builder
     public BoardDto(Integer id, String title, String content, String price,
-                    Integer categoryId, UserEntity user, LocalDateTime createdDate,
+                    CategoryEntity category, UserEntity user, LocalDateTime createdDate,
                     String imageurl1, String imageurl2, String imageurl3,
                     LocalDateTime modifiedDate, int likecount, int viewcount,
                     int buycount, Boolean status) {
@@ -69,7 +70,7 @@ public class BoardDto {
         this.title = title;
         this.content = content;
         this.price = price;
-        this.categoryId = categoryId;
+        this.category = category;
         this.user = user;
         this.imageurl1 = imageurl1;
         this.imageurl2 = imageurl2;
@@ -92,7 +93,7 @@ public class BoardDto {
                 .imageurl1(imageurl1)
                 .imageurl2(imageurl2)
                 .imageurl3(imageurl3)
-                .categoryId(categoryId)
+                .category(category)
                 .user(user)
                 .likecount(likecount)
                 .viewcount(viewcount)
