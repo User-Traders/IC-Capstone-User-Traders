@@ -6,8 +6,8 @@ export default {
     'boardCreate':{task:'post',url:'boards/register'},
     'update': { task: 'put', url: '/users/#id' },
     'delete':{ task: 'delete', url: '/users/#id' },
-    'login':{ task: 'post', url: '/login/#id' },
     'listdepartment':{task:'get',url:'/departments/list'},
+    'login': {task:'post',url:'/users/login'},
     'signup': {task:'post',url:'/users/signup'},
   }
 }

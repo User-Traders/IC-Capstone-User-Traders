@@ -5,9 +5,11 @@
       <v-app-bar flat color="orange accent-4" height="70" class="fixed-bar " fixed>
         <!-- <v-app-bar-nav-icon @click.stop="openMenu = !openMenu" color="white"></v-app-bar-nav-icon> -->
         <v-toolbar-title>
-          <v-btn color="orange" fab small @click="$router.go(-1)">
-            <v-icon color="white">mdi-arrow-left</v-icon>
-          </v-btn>
+         
+            <v-btn icon @click="$router.go(-1)">
+          <v-icon size="xx-large" color="white">mdi-arrow-left</v-icon>
+        </v-btn>
+
         </v-toolbar-title>
         <v-toolbar-title style="color:white" class="ma-2">User Traders</v-toolbar-title>
         <v-spacer></v-spacer>
@@ -41,18 +43,19 @@
 
       </v-app-bar>
 
-      <navigationdrawer v-model="openMenu" />
+    
 
     </div>
     <v-spacer></v-spacer>
     <v-main>
-
-      <br><br>
-
       <router-view></router-view>
 
     </v-main>
-
+     <v-btn :to="{ name: 'Create'}" fixed bottom fab right >
+        <span>유트-등록</span>
+        <v-icon large color="orange">mdi-plus</v-icon>
+      </v-btn>
+ <!-- <button type="button" class="transition-swing v-btn v-btn--bottom v-btn--is-elevated v-btn--fab v-btn--fixed v-btn--has-bg v-btn--right v-btn--round theme--light v-size--large primary" aria-label="Scroll to top" title="Scroll to top" style="z-index: 6; margin-bottom: 0px; transform-origin: center center;"><span class="v-btn__content"><span aria-hidden="true" class="v-icon notranslate theme--light"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-hidden="true" class="v-icon__svg"><path d="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z"></path></svg></span></span></button> -->
     <v-bottom-navigation color="primary" fixed>
 
       <v-btn :to="{ name: 'Home1'}">
@@ -81,7 +84,7 @@
 </template>
 
 <script>
-import navigationdrawer from "./components/ut-drawer.vue";
+
 import Togglesearch from "./components/toggle-search.vue";
 export default {
 
@@ -90,7 +93,7 @@ export default {
 
   }),
   components: {
-    navigationdrawer,
+   
     Togglesearch,
   },
 

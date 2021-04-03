@@ -1,7 +1,8 @@
 <template>
-
   <div>
     <v-container v-if="listData" three-line>
+      <br>
+      <br>
       <br>
       <br>
       <v-row>
@@ -49,7 +50,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapActions } from "vuex";
 import InfiniteLoading from 'vue-infinite-loading';
 import http from "@/utils/http";
 export default {
@@ -96,9 +97,6 @@ export default {
 
   },
   computed: {
-    ...mapState({
-      // listData: (state) => state.jusers.listData,
-    }),
 
   },
   comments: {
@@ -133,11 +131,7 @@ export default {
       console.log("home init...");
 
     },
-    // getList() {
-    //   this._getList().then(() => {
-    //   });
 
-    // },
     detailPush(id) {
       this.$router.push({ name: 'BoardDetail', params: { id: id } });
     },
@@ -147,7 +141,7 @@ export default {
     },
 
     ...mapActions({
-      _getList: "jusers/getList",
+      _getList: "users/getList",
     }),
   },
 };

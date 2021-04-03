@@ -1,5 +1,6 @@
  <template>
   <div>
+    <br>
     <v-card max-width="500" max-height="auto" class="mx-auto my-12">
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-card-title>
@@ -112,7 +113,10 @@ export default {
   methods: {
     validate() {
       this.$refs.form.validate()
-      this.allSubmit()
+      if (!this.valid) {
+        this.allSubmit()
+      }
+
     },
 
 
@@ -127,7 +131,7 @@ export default {
       this.image = [];
       Array.prototype.push.apply(this.images, files);
       if (this.images.length < 3) {
-        
+
         return alert("이미지는 3장만 가능해용")
       }
       if (this.images.length > 3) {
@@ -168,7 +172,7 @@ export default {
       frm.append("title", this.title);
       frm.append("content", this.content);
       frm.append("price", this.price);
-      frm.append("category", this.category);
+      frm.append("category", 1);
 
       for (var i = 0; i < this.images.length; i++) {
         frm.append("files", this.images[i]);
