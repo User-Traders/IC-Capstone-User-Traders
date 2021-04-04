@@ -34,7 +34,6 @@ public class UserController {
 
     @PostMapping(value = "/signup") // 유저 회원가입
     public ResponseEntity register(@RequestBody UserDto userDto) {
-        System.out.println("씨발련아"+userDto.getDepartment()+userDto.getName());
         customUserDetailService.save(userDto);
         return ResponseEntity.ok(true);
     }
@@ -47,6 +46,8 @@ public class UserController {
 
     @GetMapping(value = "/logout")//로그아웃 처리
     public ResponseEntity logoutPage(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println(request);
+
         new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
         return ResponseEntity.ok(true);
     }
