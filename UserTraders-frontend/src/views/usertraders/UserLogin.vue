@@ -1,7 +1,6 @@
 <template>
 
   <div>
-
     <v-card width="400" class="mx-auto ">
       <div v-if="!isLoginError">
         <v-card-title style="background-color: #CD1F48 ">
