@@ -9,5 +9,7 @@ export default {
     'listdepartment':{task:'get',url:'/departments/list'},
     'login': {task:'post',url:'/users/login'},
     'signup': {task:'post',url:'/users/signup'},
+    'logout': {task:'get',url:'/users/logout'},
+    'userinfo': {task:'get',url:'/users/mypage'},
   }
 }
