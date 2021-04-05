@@ -1,5 +1,5 @@
 import http from "@/utils/http";
-import router from "@/router/index.js";
+// import router from "@/router/index.js";
 const state = {
   listData: null,
   listDataDeatail: null,
@@ -8,12 +8,10 @@ const state = {
   totalPage: null,
   page: 1,
   newlistData: null,
-
+  categories: [],
   isLogin: false,
   isLoginError: false,
   userInfo: null,
-
-
 };
 
 const getters = {};
@@ -32,24 +30,40 @@ const actions = {
       commit("setListDataDetail", data);
     });
   },
+  getCategories({ commit }) {
+    console.log("여기?")
+    return http.process("user", "categoryAll")
+      .then((data => {
+        commit("setCategories", data);
+      }
+      )).catch((err) => { console.log(err) })
+  },
 
   postUserLogin({ commit }, loginObj) {
 
     console.log(loginObj)
     return http.process("user", "login", loginObj
     ).then((res) => {
-      //성공시 토큰 들어옴
-      //토클을 헤더에 포함시켜 유저 정보 요청
+
       commit("setLoginTokken", res);
 
       // let config = {
       //   headers: {
-      //     "access-tokken": res,
+      //     token: res,
       //   }
       // }
-      // http.process("user", "userinfo", res)
-      //   .then(res => { console.log(res) })
-      //   .catch(err => { console.log(err) })
+      console.log(res)
+      http.process("user", "userinfo", null, {
+
+        token: res,
+
+      }
+      )
+        .then(res => { console.log(res) })
+        .catch(err => { console.log(err) })
+
+      // alert("Complete Login")
+      // router.push({ name: 'Home1' })
     })
 
 
@@ -58,7 +72,7 @@ const actions = {
         commit("logoutState")
       });
   },
-  getUserLogout({commit}){
+  getUserLogout({ commit }) {
     if (confirm("로그아웃 하실거에요?")) {
       return http.process("user", "logout")
         .then((res) => {
@@ -91,8 +105,7 @@ const mutations = {
     state.isLogin = true
     state.isLoginError = false
     state.loginTokken = data
-    alert("Complete Login")
-    router.push({ name: 'Home1' })
+
   },
 
   //로그인 실패
@@ -111,11 +124,8 @@ const mutations = {
 
   setListData(state, data) {
     state.listData = data;
-    // state.totalPage = data.total_pages;
-
   },
   setListDataDetail(state, data) {
-
     const arr = []
     arr.push(data.imageurl1)
     arr.push(data.imageurl2)
@@ -124,7 +134,10 @@ const mutations = {
     state.listDataDeatail = data;
 
   },
- 
+  setCategories(state, data) {
+    state.categories = data
+  },
+
 };
 
 export default {
