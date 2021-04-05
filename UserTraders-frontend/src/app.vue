@@ -82,7 +82,6 @@
 
       <v-btn>
         <span>쪽지</span>
-
         <v-icon large>mdi-chat</v-icon>
       </v-btn>
       <v-btn>
