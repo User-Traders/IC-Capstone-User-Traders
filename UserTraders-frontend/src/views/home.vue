@@ -26,7 +26,7 @@
                   </v-btn>
 
                   <h3 class=" font-weight-bold orange--text mb-2">
-                    {{item.title}}
+                   {{item.category.name}} : {{item.title}} 
                   </h3>
                   <div class="font-weight-medium title mb-2">
                     {{ item.price | money }} won

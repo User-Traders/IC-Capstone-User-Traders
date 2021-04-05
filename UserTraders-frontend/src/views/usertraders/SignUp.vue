@@ -1,7 +1,6 @@
 <template>
 
   <div>
-
     <v-card width="400" class="mx-auto ">
       <v-card-title style="background-color: lightgrey; margin-bottom:5px;">
         <h3 style="color: white">
@@ -14,33 +13,30 @@
             <v-container>
               <v-row>
                 <v-col>
-                  <v-text-field v-model="email" :rules="[rules.required]" label="Email address" prepend-icon="mdi-account-circle" required></v-text-field>
-                </v-col>
-                <v-btn :disabled="!email" id="checkEmail" elevation="1" color="blue-grey darken-3" class="mr-3 white--text">
-                  check
-                </v-btn>
-              </v-row>
-
-              <v-row>
-                <v-col>
-                  <v-text-field v-model="password" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" :rules="[rules.required, rules.minPw]" :type="show1 ? 'text' : 'password'" name="input-10-1" label="Password" hint="At least 8 characters" prepend-icon="mdi-lock" counter @click:append="show1 = !show1"></v-text-field>
+                  <v-text-field v-model="email" :rules="[rules.required]" label="Email address" prepend-icon="mdi-account-circle" required outlined></v-text-field>
                 </v-col>
               </v-row>
 
               <v-row>
                 <v-col>
-                  <v-text-field v-model="passwordCheck" :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'" :rules="[rules.required, rules.minPw, rules.pwCheck]" :type="show2 ? 'text' : 'password'" name="input-10-1" label="Password Check" hint="Enter your password once more." prepend-icon="mdi-lock" counter @click:append="show2 = !show2"></v-text-field>
+                  <v-text-field v-model="password" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" :rules="[rules.required, rules.minPw]" :type="show1 ? 'text' : 'password'" name="input-10-1" label="Password" hint="At least 8 characters" prepend-icon="mdi-lock" counter @click:append="show1 = !show1" outlined></v-text-field>
                 </v-col>
               </v-row>
 
               <v-row>
                 <v-col>
-                  <v-text-field v-model="name" :rules="[rules.minName]" label="Name" prepend-icon="mdi-account" required></v-text-field>
+                  <v-text-field v-model="passwordCheck" :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'" :rules="[rules.required, rules.minPw, rules.pwCheck]" :type="show2 ? 'text' : 'password'" name="input-10-1" label="Password Check" hint="Enter your password once more." prepend-icon="mdi-lock" counter @click:append="show2 = !show2" outlined></v-text-field>
+                </v-col>
+              </v-row>
+
+              <v-row>
+                <v-col>
+                  <v-text-field v-model="name" :rules="[rules.minName]" label="Name" prepend-icon="mdi-account" required outlined></v-text-field>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col>
-                  <v-select v-model="select" :items="items" @click="departmentName" label="학과 선택" data-vv-name="select" required></v-select>
+                  <v-select v-model="select" :items="items" @click="departmentName" label="학과 선택" data-vv-name="select" required outlined></v-select>
                 </v-col>
               </v-row>
             </v-container>
@@ -103,7 +99,6 @@ export default {
       const temp = this.select.split(" ")
       const department = { id: temp[0] }
       const userObj = { userid: this.email, password: this.password, department: department, name: this.name }
-
       return http.process("user", "signup", userObj)
         .then((res) => {
           console.log(res)
