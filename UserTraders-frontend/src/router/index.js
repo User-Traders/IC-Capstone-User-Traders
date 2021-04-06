@@ -16,6 +16,7 @@ const BoardDetail = () => import("../views/usertraders/BoardDetail.vue")
 const UserLogin = () => import("../views/usertraders/UserLogin.vue")
 const SignUp = () => import("../views/usertraders/SignUp.vue")
 const Empty = () => import("../components/empty.vue")
+const Mypage= ()=>import("../views/usertraders/Mypage.vue")
 
 const routes = [
   {
@@ -54,6 +55,11 @@ const routes = [
         name: "SignUp",
         component: SignUp,
       },
+      {
+        path:'mypage',
+        name:"Mypage",
+        component:Mypage,
+      }
 
 
     ]

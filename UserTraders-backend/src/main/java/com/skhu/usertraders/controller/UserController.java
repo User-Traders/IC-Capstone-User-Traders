@@ -27,7 +27,6 @@ public class UserController {
     // 로그인
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody Map<String, String> user) {
-
         return ResponseEntity.ok(customUserDetailService.login(user));
 
     }
@@ -40,14 +39,11 @@ public class UserController {
 
     @GetMapping(value = "/mypage") // 한 유저 상세정보 단, 토큰값이 있어야 가능
     public ResponseEntity mypage(@AuthenticationPrincipal UserEntity userEntity) {
-
         return ResponseEntity.ok(customUserDetailService.find(userEntity.getId()));
     }
 
     @GetMapping(value = "/logout")//로그아웃 처리
     public ResponseEntity logoutPage(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println(request);
-
         new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
         return ResponseEntity.ok(true);
     }

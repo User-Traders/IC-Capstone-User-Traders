@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "board_subcategory")
+@Table(name = "category")
 public class CategoryEntity{
 
     // 고유번호

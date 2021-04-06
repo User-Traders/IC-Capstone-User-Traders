@@ -12,5 +12,6 @@ export default {
     'logout': {task:'get',url:'/users/logout'},
     'userinfo': {task:'get',url:'/users/mypage'},
     'categoryAll':{task:'get',url:'/categories/list/board'},
+    'userBoard':{task:'get',url:'/boards/list/user/board'},
   }
 }

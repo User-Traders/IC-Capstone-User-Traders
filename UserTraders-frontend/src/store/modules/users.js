@@ -1,5 +1,5 @@
 import http from "@/utils/http";
-// import router from "@/router/index.js";
+import router from "@/router/index.js";
 const state = {
   listData: null,
   listDataDeatail: null,
@@ -15,7 +15,6 @@ const state = {
 };
 
 const getters = {};
-
 const actions = {
   getList({ commit }) {
     return http.process("user", "list").then((data) => {
@@ -31,7 +30,7 @@ const actions = {
     });
   },
   getCategories({ commit }) {
-    console.log("여기?")
+
     return http.process("user", "categoryAll")
       .then((data => {
         commit("setCategories", data);
@@ -40,30 +39,22 @@ const actions = {
   },
 
   postUserLogin({ commit }, loginObj) {
-
-    console.log(loginObj)
     return http.process("user", "login", loginObj
     ).then((res) => {
-
       commit("setLoginTokken", res);
-
-      // let config = {
-      //   headers: {
-      //     token: res,
-      //   }
-      // }
-      console.log(res)
-      http.process("user", "userinfo", null, {
-
+      localStorage.setItem("user", res)
+      http.process("user", "userinfo", null, {//domain.js에 headers token 주는 방식  
         token: res,
-
       }
-      )
-        .then(res => { console.log(res) })
+      ).then(res => {
+        console.log(res)
+        commit("setUserInfo", res);
+        alert("Complete Login")
+        router.push({ name: 'Home1' })
+      })
         .catch(err => { console.log(err) })
 
-      // alert("Complete Login")
-      // router.push({ name: 'Home1' })
+
     })
 
 
@@ -104,8 +95,11 @@ const mutations = {
   setLoginTokken(state, data) {
     state.isLogin = true
     state.isLoginError = false
+    console.log(data)
     state.loginTokken = data
-
+  },
+  setUserInfo(state, data) {
+    state.userInfo = data
   },
 
   //로그인 실패
