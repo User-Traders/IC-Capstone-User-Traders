@@ -20,9 +20,9 @@ public class CartController {
 
 
     @PostMapping(value = "/register") // 장바구니 저장
-    public ResponseEntity cart_register(@RequestBody @Validated CartDto cartDto , @AuthenticationPrincipal UserEntity userEntity) {
+    public ResponseEntity cart_register(@RequestBody @Validated CartDto cartDto, @AuthenticationPrincipal UserEntity userEntity) {
         System.out.println(cartDto);
-        cartService.cart_save(cartDto,userEntity);
+        cartService.cart_save(cartDto, userEntity);
 
         return ResponseEntity.ok(true);
     }
@@ -35,7 +35,7 @@ public class CartController {
     @DeleteMapping(value = "/list/{id}/{boardId}") // 장바구니 삭제
     public ResponseEntity cart_delete(@PathVariable("id") Integer id,
                                       @PathVariable("boardId") Integer boardId) {
-        cartService.delete_cartlist(id,boardId);
+        cartService.delete_cartlist(id, boardId);
 
         return ResponseEntity.ok(true);
     }

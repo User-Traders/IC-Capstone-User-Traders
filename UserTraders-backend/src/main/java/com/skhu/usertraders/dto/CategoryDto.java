@@ -1,6 +1,7 @@
 package com.skhu.usertraders.dto;
 
 import lombok.*;
+
 @Getter
 @Setter
 @ToString
@@ -14,7 +15,7 @@ public class CategoryDto {
     private String name;
 
     @Builder
-    public CategoryDto(Integer id , String name){
+    public CategoryDto(Integer id, String name) {
         this.id = id;
         this.name = name;
     }

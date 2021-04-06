@@ -3,8 +3,8 @@ package com.skhu.usertraders.dto;
 
 import com.skhu.usertraders.domain.entity.BoardEntity;
 import com.skhu.usertraders.domain.entity.CategoryEntity;
+import com.skhu.usertraders.domain.entity.MessageEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
-import jdk.jfr.Unsigned;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -46,14 +46,17 @@ public class BoardDto {
     // 수정날짜
     private LocalDateTime modifiedDate;
 
-    // 찜수
-    private int likecount;
+    // 장바구니수
+    private int cartcount;
 
     // 조회수
     private int viewcount;
 
     // 구매 평점
     private int buycount;
+
+    //좋아요 수
+    private int likecount;
 
     // 판매 상태
     private Boolean status;
@@ -64,7 +67,7 @@ public class BoardDto {
                     CategoryEntity category, UserEntity user, LocalDateTime createdDate,
                     String imageurl1, String imageurl2, String imageurl3,
                     LocalDateTime modifiedDate, int likecount, int viewcount,
-                    int buycount, Boolean status) {
+                    int buycount, int cartcount, Boolean status) {
 
         this.id = id;
         this.title = title;
@@ -80,6 +83,7 @@ public class BoardDto {
         this.likecount = likecount;
         this.viewcount = viewcount;
         this.buycount = buycount;
+        this.cartcount = cartcount;
         this.status = status;
 
     }
@@ -98,10 +102,13 @@ public class BoardDto {
                 .likecount(likecount)
                 .viewcount(viewcount)
                 .buycount(buycount)
+                .cartcount(cartcount)
                 .status(status)
                 .build();
         return boardEntity;
     }
+
+
 
 }
 

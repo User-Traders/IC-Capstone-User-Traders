@@ -3,7 +3,6 @@ package com.skhu.usertraders.service;
 import com.skhu.usertraders.config.JwtTokenProvider;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.UserRepository;
-import com.skhu.usertraders.dto.DepartmentDto;
 import com.skhu.usertraders.dto.UserDto;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;

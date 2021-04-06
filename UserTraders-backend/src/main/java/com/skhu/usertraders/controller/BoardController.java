@@ -6,7 +6,6 @@ import com.skhu.usertraders.service.BoardService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
@@ -45,8 +44,6 @@ public class BoardController {
 
 
     @GetMapping(value = "/list/{id}") // 한 게시물의 id 안에 들어 있는 정보를 반환
-
-
     public ResponseEntity list(@PathVariable("id") Integer id, @AuthenticationPrincipal UserEntity userEntity) { //@PathVariable :url 파라미터 값 id를 인자로 받음
 
         BoardDto boardDto = boardService.findById(id);

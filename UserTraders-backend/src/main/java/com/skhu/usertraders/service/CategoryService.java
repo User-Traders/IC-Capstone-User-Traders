@@ -1,10 +1,8 @@
 package com.skhu.usertraders.service;
 
 import com.skhu.usertraders.domain.entity.CategoryEntity;
-import com.skhu.usertraders.domain.entity.DepartmentEntity;
 import com.skhu.usertraders.domain.repository.CategoryRepository;
 import com.skhu.usertraders.dto.CategoryDto;
-import com.skhu.usertraders.dto.DepartmentDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

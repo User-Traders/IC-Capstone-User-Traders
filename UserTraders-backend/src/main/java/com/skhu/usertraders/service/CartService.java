@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,12 +41,12 @@ public class CartService {
         System.out.println(userEntity.getId());
         System.out.println(boardDto.getUser().getId());
 
-        // 장바구니를 저장했을때, 해당 게시물의 likecount가 1증가한다 .
+        // 장바구니를 저장했을때, 해당 게시물의 cartcount가 1증가한다 .
         // 하지만 ,현재 로그인한 유저가 해당 게시물이 자신이 작성한 유저가 아니라면 증가한다.
         if (!boardDto.getUser().getId().equals(userEntity.getId())) {
-            int likecount = cartDto.getBoard().getLikecount();
-            likecount = likecount + 1;
-            boardDto.setLikecount(likecount);
+            int cartcount = cartDto.getBoard().getCartcount();
+            cartcount = cartcount + 1;
+            boardDto.setCartcount(cartcount);
             boardService.save(boardDto);
         }
 
@@ -70,16 +69,16 @@ public class CartService {
     }
 
     @Transactional
-    public void delete_cartlist(Integer id,Integer boardId){
+    public void delete_cartlist(Integer id, Integer boardId) {
         cartRepository.deleteById(id);
 
         BoardDto boardDto = boardService.findById(boardId);
 
 
-        int likecount = boardDto.getLikecount();
-        if (likecount >= 1) {
-            likecount = likecount - 1;
-            boardDto.setLikecount(likecount);
+        int cartcount = boardDto.getCartcount();
+        if (cartcount >= 1) {
+            cartcount = cartcount - 1;
+            boardDto.setCartcount(cartcount);
             boardService.save(boardDto);
         }
     }

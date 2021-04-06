@@ -40,7 +40,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public List<BoardDto> findAllInfinite(int limit) {//무한 스크롤
-        Page<BoardEntity> page = boardRepository.findAll(PageRequest.of(limit-1, 2, Sort.by(Sort.Direction.DESC, "createdDate")));
+        Page<BoardEntity> page = boardRepository.findAll(PageRequest.of(limit - 1, 2, Sort.by(Sort.Direction.DESC, "createdDate")));
         List<BoardDto> results = page.stream().map(boardEntity -> {
             BoardDto boardDto = convertEntityToDto(boardEntity);
             return boardDto;
@@ -65,6 +65,7 @@ public class BoardServiceImpl implements BoardService {
                 .likecount(boardEntity.getLikecount())
                 .viewcount(boardEntity.getViewcount())
                 .buycount(boardEntity.getBuycount())
+                .cartcount(boardEntity.getCartcount())
                 .status(boardEntity.getStatus())
                 .build();
     }
@@ -75,7 +76,6 @@ public class BoardServiceImpl implements BoardService {
     public BoardDto findById(Integer id) { //PK가 id인 목록 1개 조회
         Optional<BoardEntity> boardEntityWrapper = boardRepository.findById(id);
         BoardEntity boardEntity = boardEntityWrapper.get();
-
 
         return this.convertEntityToDto(boardEntity);
     }

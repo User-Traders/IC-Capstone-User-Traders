@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping(value = "/api")
@@ -20,7 +21,7 @@ public class CreateImageController {
     @ResponseStatus(value = HttpStatus.OK)
     @RequestMapping(method = RequestMethod.POST, path = "/image")
     public String fileupload(@RequestParam Map params, @RequestBody List<MultipartFile> files) {
-        log.info("파일사이즈"+files.size());
+        log.info("파일사이즈" + files.size());
         try {
             for (int i = 0; i < files.size(); i++) {
                 files.get(i).transferTo(new File("C:\\Users\\jaebin2\\Documents\\IC-Capstone-User-Traders\\UserTraders-backend\\src\\main\\resources\\static\\images\\" + files.get(i).getOriginalFilename()));

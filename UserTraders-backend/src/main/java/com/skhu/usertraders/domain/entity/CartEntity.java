@@ -1,7 +1,6 @@
 package com.skhu.usertraders.domain.entity;
 
 
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,7 @@ public class CartEntity {
 
     // 장바구니 고유번호
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -32,9 +31,8 @@ public class CartEntity {
     private BoardEntity board;
 
 
-
     @Builder
-    public CartEntity(Integer id,UserEntity user,BoardEntity board) {
+    public CartEntity(Integer id, UserEntity user, BoardEntity board) {
         this.id = id;
         this.user = user;
         this.board = board;
