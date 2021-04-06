@@ -1,6 +1,7 @@
 package com.skhu.usertraders.service;
 
 import com.skhu.usertraders.domain.entity.BoardEntity;
+import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.BoardRepository;
 import com.skhu.usertraders.dto.BoardDto;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +41,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public List<BoardDto> findAllInfinite(int limit) {//무한 스크롤
-        Page<BoardEntity> page = boardRepository.findAll(PageRequest.of(limit-1, 2, Sort.by(Sort.Direction.DESC, "createdDate")));
+        Page<BoardEntity> page = boardRepository.findAll(PageRequest.of(limit - 1, 2, Sort.by(Sort.Direction.DESC, "createdDate")));
         List<BoardDto> results = page.stream().map(boardEntity -> {
             BoardDto boardDto = convertEntityToDto(boardEntity);
             return boardDto;
@@ -76,8 +77,20 @@ public class BoardServiceImpl implements BoardService {
         Optional<BoardEntity> boardEntityWrapper = boardRepository.findById(id);
         BoardEntity boardEntity = boardEntityWrapper.get();
 
-
         return this.convertEntityToDto(boardEntity);
+    }
+
+    @Override
+    public List<BoardDto> findAllByUser(UserEntity userEntity) {
+        List<BoardEntity> userBoardList = boardRepository.findAllByUser(userEntity);
+
+        List<BoardDto> results = userBoardList.stream().map(boardEntity -> {
+            BoardDto boardDto = convertEntityToDto(boardEntity);
+            return boardDto;
+        }).collect(Collectors.toList());
+
+
+        return results;
     }
 
     @Transactional
