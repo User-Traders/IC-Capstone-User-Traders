@@ -1,5 +1,7 @@
  <template>
   <div>
+<br>
+    <loding v-if="isLoading" />
     <v-card max-width="500" max-height="auto" class="mx-auto my-12">
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-card-title>
@@ -15,7 +17,8 @@
         </v-card-title>
 
         <v-card-title>
-          <v-select color="orange" :items="items" :rules="[v => !!v || 'category를 선택해주세요']" required v-model="category" :menu-props="{ top: true, offsetY: true }" label="Category" outlined></v-select>
+
+          <v-select color="orange" @click="categoryName" v-model="category" :items="categoryItem" :rules="[v => !!v || 'category를 선택해주세요']" required :menu-props="{ top: true, offsetY: true }" label="Category" outlined></v-select>
         </v-card-title>
 
         <v-card-subtitle>
@@ -76,10 +79,13 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+import http from "@/utils/http";
+import { mapState, mapActions } from "vuex";
+import Loding from "./jun-loding.vue"
 export default {
   data() {
     return {
+      isLoading: true,
       valid: true,
       titleRules: [
         v => !!v || 'title is required',
@@ -90,11 +96,9 @@ export default {
           v => !!v || 'content is required',
           v => (v && v.length <= 50) || '50자 이하로 작성 부탁해용',
         ],
-
-
-
       checkbox: false,
-      items: ['새 책', '중고 책', '족보', '디지털', '뷰티/미용', '자취생 필수품'],
+     
+      categoryItem: [],
       images: {},
       image: [],
       photoFile: [],
@@ -102,92 +106,90 @@ export default {
       price: '',
       category: '',
       content: '',
-
-
-
-
     }
 
   },
+  components: {
+    Loding,
+  },
+  computed: {
+    ...mapState({
+      categories: (state) => state.users.categories,
+    }),
+
+  },
+  mounted() {
+    this.categoryName()
+  }
+  ,
   methods: {
     validate() {
       this.$refs.form.validate()
       this.allSubmit()
     },
+    categoryName() {
+      this.getCategories()
+      for (var i = 0; i < this.categories.length; i++) {
+        this.categoryItem = this.categoryItem.concat(this.categories[i].id + " " + this.categories[i].name)
+      }
+      this.isLoading = false;
 
-
-
+    },
     onClickImageUpload() {
       this.$refs.imageInput.click();
     },
     imagesAdd(e) {
       var files = e.target.files || e.dataTransfer.files;
-
       this.images = [];
       this.image = [];
       Array.prototype.push.apply(this.images, files);
-      if (this.images.length < 3) {
-        
-        return alert("이미지는 3장만 가능해용")
-      }
-      if (this.images.length > 3) {
-
-        return alert("이미지는 3장만 가능해용")
+      if (this.images.length != 3) {
+        return alert("이미지는 3장 올려주세요")
       }
       this.createImage(this.images);
-
     },
 
     createImage(file) {
 
       for (var i = 0; i < file.length; i++) {
-
         var reader = new FileReader();
         var vm = this;
-
         reader.onload = (e) => {
           vm.image.push(e.target.result);
-
         };
         reader.readAsDataURL(file[i]);
       }
-
-
     },
 
-
     removeImage(key) {
-
       this.image.splice(key, 1);
       this.images.splice(key, 1);
     },
-    allSubmit() {
+
+    allSubmit() {//server 전송 
       var frm = new FormData();
       this.photoFile = this.images;
-
       frm.append("title", this.title);
       frm.append("content", this.content);
       frm.append("price", this.price);
-      frm.append("category", this.category);
-
+      const tempCategory = this.category.split(" ")
+      frm.append("category", tempCategory[0]);
       for (var i = 0; i < this.images.length; i++) {
         frm.append("files", this.images[i]);
       }
       frm.append("user", 27);
-      return axios.post('http://localhost:8090/boards/register', frm,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
+      return http.process("user","boardCreate", frm)
         .then((res) => {
           console.log(res)
           this.$router.push({ name: 'Home1' });
-
-        }).catch((err) => { console.log(err) })
-
-
+        }).catch((err) => {
+          console.log(err)
+        })
     },
+    ...mapActions({
+      getCategories: "users/getCategories",
+
+    }),
   }
 }
 </script>

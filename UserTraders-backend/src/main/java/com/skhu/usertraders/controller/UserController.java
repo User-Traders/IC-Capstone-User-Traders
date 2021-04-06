@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
-
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
@@ -34,7 +34,6 @@ public class UserController {
 
     @PostMapping(value = "/signup") // 유저 회원가입
     public ResponseEntity register(@RequestBody UserDto userDto) {
-        System.out.println(userDto.getDepartment());
         customUserDetailService.save(userDto);
         return ResponseEntity.ok(true);
     }
@@ -47,6 +46,8 @@ public class UserController {
 
     @GetMapping(value = "/logout")//로그아웃 처리
     public ResponseEntity logoutPage(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println(request);
+
         new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
         return ResponseEntity.ok(true);
     }

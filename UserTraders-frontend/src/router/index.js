@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import store from "@/store/modules/jusers.js"
+import store from "@/store/modules/users.js"
 
 Vue.use(VueRouter)
 
@@ -15,7 +15,7 @@ const Create = () => import("../views/usertraders/BoardCreate.vue");
 const BoardDetail = () => import("../views/usertraders/BoardDetail.vue")
 const UserLogin = () => import("../views/usertraders/UserLogin.vue")
 const SignUp = () => import("../views/usertraders/SignUp.vue")
-const Empty = () =>import("../components/empty.vue")
+const Empty = () => import("../components/empty.vue")
 
 const routes = [
   {
@@ -42,20 +42,20 @@ const routes = [
   },
   {
     path: "/user",
-    component : Empty,
+    component: Empty,
     children: [
       {
         path: 'login',
-        name :"UserLogin",
+        name: "UserLogin",
         component: UserLogin,
       },
       {
         path: 'signup',
-        name :"SignUp",
+        name: "SignUp",
         component: SignUp,
       },
-     
-     
+
+
     ]
   },
 

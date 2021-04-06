@@ -38,7 +38,7 @@ public class BoardController {
 
     @GetMapping(value = "/listInfinte") // 모든 게시물 리스트 반환
     public ResponseEntity list(@RequestParam(value = "limit", defaultValue = "1") int limit) {
-        log.info("zz" + limit);
+
         return ResponseEntity.ok(boardService.findAllInfinite(limit));
     }
 

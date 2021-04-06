@@ -11,7 +11,7 @@
 
       <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
 
-      <v-text-field type="password" v-model="password" :counter="10" :rules="passwordRules" label="password" required></v-text-field>
+      <v-text-field type="password" v-model="password" label="password" required></v-text-field>
       <v-btn :disabled="!valid" color="success" class="mr-4" @click="submit">
         submit
       </v-btn>
@@ -36,10 +36,7 @@ export default {
       v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
     ],
     password: '',
-    passwordRules: [
-      v => !!v || 'password is required',
-      v => (v && v.length <= 10) || 'password must be less than 10 characters',
-    ],
+    
     pp: false
 
   }),

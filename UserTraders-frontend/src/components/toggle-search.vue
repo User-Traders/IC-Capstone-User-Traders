@@ -23,7 +23,7 @@
             </v-col>
 
             <v-col v-if="!allSelected" cols="12">
-              <v-text-field ref="search" v-model="search" full-width hide-details label="Search" single-line></v-text-field>
+              <v-text-field ref="search" v-model="search" full-width hide-details label="Title Search" single-line></v-text-field>
             </v-col>
           </v-row>
         </v-container>

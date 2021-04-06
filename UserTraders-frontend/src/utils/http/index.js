@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
   headers: { "Cache-Control": "no-cache" },
 });
 
-const _generateUrl = (url, params, mapping = null) => {
+const _generateUrl = (url, params, headers = null) => {
   if (params == null) {
     return url;
   } else {
@@ -20,8 +20,8 @@ const _generateUrl = (url, params, mapping = null) => {
       if (item.startsWith("#")) {
         let key = item.substring(1);
         if (key && key.length > 0) {
-          if (mapping != null) {
-            resultItem = mapping[key] ? mapping[key] : "";
+          if (headers != null) {
+            resultItem = headers[key] ? headers[key] : "";
           } else {
             resultItem = params[key] ? params[key] : "";
             delete params[key];
@@ -35,13 +35,15 @@ const _generateUrl = (url, params, mapping = null) => {
 };
 
 const http = {
-  process: (name, action, params = null, mapping = null) => {
+  process: (name, action, params = null, headers = null) => {
     return new Promise((resolve, reject) => {
       let info = domain[name][action];
 
       if (info) {
-        let headers = {};
-        let newUrl = _generateUrl(info.url, params, mapping);
+        let header = headers;
+
+        console.log(header);
+        let newUrl = _generateUrl(info.url, params, headers);
         let base = WAS_URL;
         newUrl = base + newUrl;
 
@@ -67,12 +69,12 @@ const http = {
         if (method == "get") {
           let opt = {
             params: newParmas,
-            headers: headers,
+            headers: header,
           };
           p = axiosInstance[method](newUrl, opt);
         } else if (method == "post" || method == "put" || method == "delete") {
           p = axiosInstance[method](newUrl, newParmas, {
-            headers: headers,
+            headers: header,
           });
         }
 
