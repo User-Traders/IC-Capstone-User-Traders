@@ -18,6 +18,8 @@ export default {
     if (localStorage.getItem("user")) {
       const token = localStorage.getItem("user")
       this.userBoardList(token)
+    }else{
+      this.$router.push({ name: 'UserLogin' });
     }
 
   },
