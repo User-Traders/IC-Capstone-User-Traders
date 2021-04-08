@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <div>
-
       <v-app-bar flat color="orange accent-4" height="70" class="fixed-bar " fixed>
         <!-- <v-app-bar-nav-icon @click.stop="openMenu = !openMenu" color="white"></v-app-bar-nav-icon> -->
         <v-toolbar-title>
@@ -17,7 +16,7 @@
         <v-btn icon>
           <v-icon size="xx-large" color="white">mdi-cart</v-icon>
         </v-btn>
-        <div v-if="!isLogin">
+        <div v-if="!tokenCheck">
           <v-menu bottom left>
             <template v-slot:activator="{ on, attrs }">
               <v-btn dark icon v-bind="attrs" v-on="on">
@@ -120,8 +119,15 @@ export default {
       isLogin: (state) => state.users.isLogin,
       isLoginError: (state) => state.users.isLoginError,
     }),
+    tokenCheck() {
+      if (localStorage.getItem("user")) {
+        return true;
+      }
+      return false;
+    },
   },
   methods: {
+
     userLogout() {
 
       this.getUserLogout().then(() => {
