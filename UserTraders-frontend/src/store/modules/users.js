@@ -65,6 +65,7 @@ const actions = {
       return http.process("user", "logout")
         .then((res) => {
           console.log(res)
+          localStorage.removeItem('user')
           commit("logoutState")
           this.$router.push({ name: 'Home1' });
 
