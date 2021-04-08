@@ -25,7 +25,7 @@
                   </v-btn>
 
                   <h3 class=" font-weight-bold orange--text mb-2">
-                   {{item.category.name}} : {{item.title}} 
+                    {{item.category.name}} : {{item.title}}
                   </h3>
                   <div class="font-weight-medium title mb-2">
                     {{ item.price | money }} won
@@ -53,7 +53,6 @@ import { mapActions } from "vuex";
 import InfiniteLoading from 'vue-infinite-loading';
 import http from "@/utils/http";
 export default {
-
   data() {
     return {
       limit: 1,
@@ -92,11 +91,8 @@ export default {
   },
   components: {
     InfiniteLoading,
-
-
   },
   computed: {
-
   },
   comments: {
     InfiniteLoading
