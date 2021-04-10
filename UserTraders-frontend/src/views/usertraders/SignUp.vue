@@ -101,7 +101,6 @@ export default {
       return http.process("user", "listdepartment").then((data) => {
         for (var i = 0; i < data.length; i++) {
           this.items = this.items.concat(data[i].id + " " + data[i].name)
-
         }
       }).catch(err => {
         console.log(err)
