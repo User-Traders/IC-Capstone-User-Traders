@@ -1,40 +1,85 @@
 <template>
   <div>
+    <v-container fluid>
+      <v-row justify="center">
+        <v-subheader>Today</v-subheader>
 
-    <v-row>
-      <v-col v-for="(item, i) in userBList" :key="`item-${i}`" cols="12" sm="4">
-        <v-card class="mx-auto" max-width="344" outlined>
-          <v-list-item three-line>
-            <v-list-item-content>
-              <div class="overline mb-4">
-                  {{item.modifiedDate|timeForToday}}
-              </div>
-              <v-list-item-title class="headline mb-1">
-                 {{item.title}}
-              </v-list-item-title>
-              <v-list-item-subtitle>{{item.content}}</v-list-item-subtitle>
-             <v-list-item-subtitle>{{item.price|money}}</v-list-item-subtitle>
-       
-            </v-list-item-content>
+        <v-expansion-panels popout>
+          <v-expansion-panel v-for="(message, i) in messages" :key="i" hide-actions>
+            <div v-if="i==0">
+              <v-expansion-panel-header>
+                <v-row align="center" class="spacer" no-gutters>
+                  <v-col cols="4" sm="2" md="1">
+                    <v-avatar size="36px">
+                      <img v-if="message.avatar" alt="Avatar" src="https://avatars0.githubusercontent.com/u/9064066?v=4&s=460">
+                      <v-icon v-else :color="message.color" v-text="message.icon"></v-icon>
+                    </v-avatar>
+                  </v-col>
 
-            <v-list-item-avatar tile size="120" color="grey">
-         <v-img v-bind:src="item.imageurl1 |loadImgOrPlaceholder">
-         </v-img>
-            </v-list-item-avatar>
-         
-          </v-list-item>
+                  <v-col class="hidden-xs-only" sm="5" md="3">
+                    <strong v-html="message.name"></strong>
+                    <span v-if="message.total" class="grey--text">
+                      &nbsp;({{ message.total }})
+                    </span>
+                  </v-col>
 
-          <v-card-actions>
-            <v-btn outlined rounded text color="orange">
-             상세보기
-            </v-btn>
-             <v-btn outlined rounded text color="orange">
-              수정하기
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
+                  <v-col class="text-no-wrap" cols="5" sm="3">
+                    <v-chip v-if="message.new" :color="`${message.color} lighten-4`" class="ml-0 mr-2 black--text" label small>
+                      {{ message.new }} new
+                    </v-chip>
+                    <strong v-html="message.title"></strong>
+                  </v-col>
+
+                  <v-col v-if="message.excerpt" class="grey--text text-truncate hidden-sm-and-down">
+                    &mdash;
+                    {{ message.excerpt }}
+                  </v-col>
+                </v-row>
+              </v-expansion-panel-header>
+
+              <v-expansion-panel-content>
+                <v-divider></v-divider>
+                <v-row>
+                  <v-col v-for="(item, i) in userBList" :key="`item-${i}`" cols="12" sm="4">
+                    <v-card class="mx-auto" max-width="344" outlined>
+                      <v-list-item three-line>
+                        <v-list-item-content>
+                          <div class="overline mb-4">
+                            {{item.modifiedDate|timeForToday}}
+                          </div>
+                          <v-list-item-title class="headline mb-1">
+                            {{item.title}}
+                          </v-list-item-title>
+                          <v-list-item-subtitle>{{item.content}}</v-list-item-subtitle>
+                          <v-list-item-subtitle>{{item.price|money}}</v-list-item-subtitle>
+
+                        </v-list-item-content>
+
+                        <v-list-item-avatar tile size="120" color="grey">
+                          <v-img v-bind:src="item.imageurl1 |loadImgOrPlaceholder">
+                          </v-img>
+                        </v-list-item-avatar>
+
+                      </v-list-item>
+
+                      <v-card-actions>
+                        <v-btn outlined rounded text color="orange">
+                          상세보기
+                        </v-btn>
+                        <v-btn outlined rounded text color="orange">
+                          수정하기
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-col>
+                </v-row>
+              </v-expansion-panel-content>
+            </div>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-row>
+    </v-container>
+
   </div>
 </template>
 <script>
@@ -44,6 +89,16 @@ export default {
   data() {
     return {
       userBList: [],
+      messages: [
+        {
+          avatar: 'https://avatars0.githubusercontent.com/u/9064066?v=4&s=460',
+          name: 'John Leider',
+          title: 'Welcome to Vuetify!',
+          excerpt: 'Thank you for joining our community...',
+        },
+
+      ],
+      lorem: 'Lorem ipsum dolor sit amet, at aliquam vivendum vel, everti delicatissimi cu eos. Dico iuvaret debitis mel an, et cum zril menandri. Eum in consul legimus accusam. Ea dico abhorreant duo, quo illum minimum incorrupte no, nostro voluptaria sea eu. Suas eligendi ius at, at nemore equidem est. Sed in error hendrerit, in consul constituam cum.',
     }
   },
   filters: {
