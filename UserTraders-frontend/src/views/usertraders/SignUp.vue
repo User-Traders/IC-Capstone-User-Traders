@@ -2,6 +2,8 @@
 
   <div>
     <br>
+    <br>
+    <br>
     <v-card width="400" class="mx-auto ">
       <v-card-title style="background-color: lightgrey; margin-bottom:5px;">
         <h3 style="color: white">
@@ -56,13 +58,11 @@
           <v-icon right>mdi-arrow-right-thick</v-icon>
         </v-btn>
 
-        <v-btn color="blue-grey d" class="mr-4 white--text" rounded>
-          Cancel
-          <v-icon right>mdi-cancel</v-icon>
-        </v-btn>
-
       </v-card-actions>
     </v-card>
+    <br>
+
+    <br>
   </div>
 </template>
 <script>

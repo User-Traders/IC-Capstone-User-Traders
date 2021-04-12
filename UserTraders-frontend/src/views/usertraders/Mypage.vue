@@ -79,11 +79,10 @@
         </v-expansion-panels>
       </v-row>
     </v-container>
-
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import http from "@/utils/http";
 export default {
   data() {
@@ -133,13 +132,20 @@ export default {
   },
 
   mounted() {
-    if (localStorage.getItem("user")) {
-      const token = localStorage.getItem("user")
-      this.userBoardList(token)
-    } else {
-      this.$router.push({ name: 'UserLogin' });
-    }
+    const token = localStorage.getItem("user")
+    console.log(token)
+    return http.process("user", "userValid", { token: token })
+      .then((res) => {
+        console.log(res)
+        if (res) {
+          this.userBoardList(token)
+        } else {
+          this.validTokenError()
+        }
 
+      }).catch((err) => {
+        console.log(err)
+      })
   },
   computed: {
     ...mapState({
@@ -150,13 +156,20 @@ export default {
   methods: {
     userBoardList(token) {
       console.log(token)
-      return http.process("user", "userBoard", null, { token: token }).then((res) => {
-        console.log(res)
-        this.userBList = res
-      }).catch((err) => {
-        console.log(err)
-      })
+      return http.process("user", "userBoard", null, { token: token })
+        .then((res) => {
+          console.log(res)
+          this.userBList = res
+        }).catch((err) => {
+          console.log(err)
+        })
     },
+    ...mapActions({
+      validTokenError: "users/validTokenError",
+
+    }),
   },
+
+
 }
 </script>

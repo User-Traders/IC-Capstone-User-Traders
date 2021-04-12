@@ -68,7 +68,7 @@ export default {
     },
 
     ...mapActions({
-      postUserLogin: "users/postUserLogin",
+      postUserLogin: "auth/postUserLogin",
 
     }),
 
