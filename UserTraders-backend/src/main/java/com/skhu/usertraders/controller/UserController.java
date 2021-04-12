@@ -1,6 +1,7 @@
 
 package com.skhu.usertraders.controller;
 
+import com.skhu.usertraders.config.JwtTokenProvider;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.dto.UserDto;
 import com.skhu.usertraders.service.CustomUserDetailService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
+
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequiredArgsConstructor
@@ -22,7 +24,7 @@ import java.util.Map;
 public class UserController {
 
     private final CustomUserDetailService customUserDetailService;
-
+    private final JwtTokenProvider jwtTokenProvider;
 
     // 로그인
     @PostMapping("/login")
@@ -39,7 +41,13 @@ public class UserController {
 
     @GetMapping(value = "/mypage") // 한 유저 상세정보 단, 토큰값이 있어야 가능
     public ResponseEntity mypage(@AuthenticationPrincipal UserEntity userEntity) {
+
         return ResponseEntity.ok(customUserDetailService.find(userEntity.getId()));
+    }
+
+    @GetMapping(value = "/valid") // 한 유저 상세정보 단, 토큰값이 있어야 가능
+    public boolean valid(@RequestParam("token") String token) {
+        return jwtTokenProvider.validateToken(token);
     }
 
     @GetMapping(value = "/logout")//로그아웃 처리
