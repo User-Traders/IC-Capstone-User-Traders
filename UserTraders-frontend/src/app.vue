@@ -16,7 +16,7 @@
         <v-btn icon>
           <v-icon size="xx-large" color="white">mdi-cart</v-icon>
         </v-btn>
-        <div v-if="!tokenCheck">
+        <div v-if="!loginCheck">
           <v-menu bottom left>
             <template v-slot:activator="{ on, attrs }">
               <v-btn dark icon v-bind="attrs" v-on="on">
@@ -66,11 +66,6 @@
       <router-view></router-view>
 
     </v-main>
-    <!-- <v-btn :to="{ name: 'Create'}" fixed bottom fab right>
-      <span>유트-등록</span>
-      <v-icon large color="orange">mdi-plus</v-icon>
-    </v-btn> -->
-    <!-- <button type="button" class="transition-swing v-btn v-btn--bottom v-btn--is-elevated v-btn--fab v-btn--fixed v-btn--has-bg v-btn--right v-btn--round theme--light v-size--large primary" aria-label="Scroll to top" title="Scroll to top" style="z-index: 6; margin-bottom: 0px; transform-origin: center center;"><span class="v-btn__content"><span aria-hidden="true" class="v-icon notranslate theme--light"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-hidden="true" class="v-icon__svg"><path d="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z"></path></svg></span></span></button> -->
     <v-bottom-navigation color="orange" fixed>
 
       <v-btn :to="{ name: 'Home1'}">
@@ -84,7 +79,7 @@
         <v-icon large>mdi-chat</v-icon>
       </v-btn>
       <v-btn>
-        <span>카테고리</span>
+        <span>카테고리{{isLogin}}</span>
 
         <v-icon large>mdi-shopping-search</v-icon>
       </v-btn>
@@ -108,36 +103,51 @@ export default {
 
   data: () => ({
     openMenu: false,
-
   }),
-  components: {
+  mounted() {
 
+  },
+  components: {
     Togglesearch,
   },
   computed: {
+
     ...mapState({
       isLogin: (state) => state.users.isLogin,
       isLoginError: (state) => state.users.isLoginError,
     }),
-    tokenCheck() {
-      if (localStorage.getItem("user")) {
-        return true;
+
+  },
+  watch: {
+    loginCheck() {
+      if (!localStorage.getItem("user")) {
+        return false
       }
-      return false;
+      else {
+        return true
+      }
     },
   },
   methods: {
-
     userLogout() {
-
       this.getUserLogout().then(() => {
         this.isLoading = false;
       });
     },
+    // tokenCheck() {
+    //   const token = localStorage.getItem("user")
+    //   console.log("zzzzz"+token)
+    //   if (localStorage.getItem("user")) {
+    //     this.isLogin = true
+
+
+    //   }
+    //   else {
+    //     this.isLogin = false
+    //   }
+    // },
     ...mapActions({
-
-      getUserLogout: "users/getUserLogout",
-
+      getUserLogout: "auth/getUserLogout",
     }),
   },
 
