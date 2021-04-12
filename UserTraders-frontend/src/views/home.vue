@@ -94,9 +94,7 @@ export default {
   },
   computed: {
   },
-  comments: {
-    InfiniteLoading
-  },
+ 
   mounted() {
     this.init();
   },
@@ -130,11 +128,6 @@ export default {
     detailPush(id) {
       this.$router.push({ name: 'BoardDetail', params: { id: id } });
     },
-    imageConversion(imageurl) {
-
-      return require(imageurl)
-    },
-
     ...mapActions({
       _getList: "users/getList",
     }),
