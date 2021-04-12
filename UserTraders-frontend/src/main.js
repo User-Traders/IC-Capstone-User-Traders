@@ -18,6 +18,7 @@ Vue.use(alert);
 new Vue({
   router,
   store,
+ 
   vuetify,
   
   render: h => h(app)
