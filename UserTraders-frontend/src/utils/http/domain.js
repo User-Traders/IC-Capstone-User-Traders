@@ -11,7 +11,9 @@ export default {
     'signup': {task:'post',url:'/users/signup'},
     'logout': {task:'get',url:'/users/logout'},
     'userinfo': {task:'get',url:'/users/mypage'},
+    'userValid' : {task:'get',url:'/users/valid'},
     'categoryAll':{task:'get',url:'/categories/list/board'},
     'userBoard':{task:'get',url:'/boards/list/user/board'},
+    
   }
 }
