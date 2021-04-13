@@ -1,9 +1,8 @@
 <template>
   <div>
-    <v-container fluid>
+    <v-container>
       <v-row justify="center">
-        <v-subheader>Today</v-subheader>
-
+        <v-subheader>My Traders</v-subheader>
         <v-expansion-panels popout>
           <v-expansion-panel v-for="(message, i) in messages" :key="i" hide-actions>
             <div v-if="i==0">
@@ -15,14 +14,6 @@
                       <v-icon v-else :color="message.color" v-text="message.icon"></v-icon>
                     </v-avatar>
                   </v-col>
-
-                  <v-col class="hidden-xs-only" sm="5" md="3">
-                    <strong v-html="message.name"></strong>
-                    <span v-if="message.total" class="grey--text">
-                      &nbsp;({{ message.total }})
-                    </span>
-                  </v-col>
-
                   <v-col class="text-no-wrap" cols="5" sm="3">
                     <v-chip v-if="message.new" :color="`${message.color} lighten-4`" class="ml-0 mr-2 black--text" label small>
                       {{ message.new }} new
@@ -31,8 +22,8 @@
                   </v-col>
 
                   <v-col v-if="message.excerpt" class="grey--text text-truncate hidden-sm-and-down">
-                    &mdash;
-                    {{ message.excerpt }}
+
+                    총 {{userBList.length}} 개를 작성했습니다.
                   </v-col>
                 </v-row>
               </v-expansion-panel-header>
@@ -91,13 +82,10 @@ export default {
       messages: [
         {
           avatar: 'https://avatars0.githubusercontent.com/u/9064066?v=4&s=460',
-          name: 'John Leider',
-          title: 'Welcome to Vuetify!',
-          excerpt: 'Thank you for joining our community...',
+          title: 'Welcome to UserTraders!',
         },
 
       ],
-      lorem: 'Lorem ipsum dolor sit amet, at aliquam vivendum vel, everti delicatissimi cu eos. Dico iuvaret debitis mel an, et cum zril menandri. Eum in consul legimus accusam. Ea dico abhorreant duo, quo illum minimum incorrupte no, nostro voluptaria sea eu. Suas eligendi ius at, at nemore equidem est. Sed in error hendrerit, in consul constituam cum.',
     }
   },
   filters: {
@@ -145,6 +133,7 @@ export default {
 
       }).catch((err) => {
         console.log(err)
+        this.validTokenError()
       })
   },
   computed: {
@@ -165,7 +154,7 @@ export default {
         })
     },
     ...mapActions({
-      validTokenError: "users/validTokenError",
+      validTokenError: "auth/validTokenError",
 
     }),
   },
