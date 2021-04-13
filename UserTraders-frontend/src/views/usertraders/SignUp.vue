@@ -1,6 +1,9 @@
 <template>
 
   <div>
+    <br>
+    <br>
+    <br>
     <v-card width="400" class="mx-auto ">
       <v-card-title style="background-color: lightgrey; margin-bottom:5px;">
         <h3 style="color: white">
@@ -36,7 +39,12 @@
               </v-row>
               <v-row>
                 <v-col>
-                  <v-select v-model="select" :items="items" @click="departmentName" label="학과 선택" data-vv-name="select" required outlined></v-select>
+                  <v-text-field v-model="number" label="휴대폰 번호 -없이 입력" prepend-icon="mdi-cellphone" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" outlined></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-select v-model="select" :items="items" @click="departmentName" label="학과 선택" prepend-icon="mdi-school" data-vv-name="select" required outlined></v-select>
                 </v-col>
               </v-row>
             </v-container>
@@ -50,13 +58,11 @@
           <v-icon right>mdi-arrow-right-thick</v-icon>
         </v-btn>
 
-        <v-btn color="blue-grey d" class="mr-4 white--text" rounded>
-          Cancel
-          <v-icon right>mdi-cancel</v-icon>
-        </v-btn>
-
       </v-card-actions>
     </v-card>
+    <br>
+
+    <br>
   </div>
 </template>
 <script>
@@ -74,21 +80,27 @@ export default {
       items: [],
       itemsid: [],
       select: "",
+      number: "",
       rules: {
         required: input => !!input || "Required.",
         minPw: password => password.length >= 8 || "Min 8 characters",
-        minName: Name => Name.length >= 6 || "Min 6 characters",
+        minName: Name => Name.length >= 1 || "Min 1 characters",
+        minPhone: number => number.length >= 11 || "Min 11 characters",
         pwCheck: passwordCheck =>
           this.password === passwordCheck || "Password mismatch"
       }
     };
+  },
+  watch: {
+    number: function () {
+      return this.number = this.number.replace(/[^0-9]/g, '');
+    }
   },
   methods: {
     departmentName() {
       return http.process("user", "listdepartment").then((data) => {
         for (var i = 0; i < data.length; i++) {
           this.items = this.items.concat(data[i].id + " " + data[i].name)
-
         }
       }).catch(err => {
         console.log(err)
@@ -98,11 +110,11 @@ export default {
     signUpSubmit() {
       const temp = this.select.split(" ")
       const department = { id: temp[0] }
-      const userObj = { userid: this.email, password: this.password, department: department, name: this.name }
+      const userObj = { userid: this.email, password: this.password, tel: this.number, department: department, name: this.name }
       return http.process("user", "signup", userObj)
         .then((res) => {
           console.log(res)
-          this.$router.push({ name: 'Home1' });
+          this.$router.push({ name: 'UserLogin' });
 
         }).catch((err) => { console.log(err) })
 

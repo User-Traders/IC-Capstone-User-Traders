@@ -15,7 +15,6 @@
                   <v-img v-bind:src="item.imageurl1 |loadImgOrPlaceholder" :aspect-ratio="11/8" height="mx-auto">
                     <v-expand-transition>
                       <div v-if="hover" class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text" style="height: 100%;">
-
                       </div>
                     </v-expand-transition>
                   </v-img>
@@ -26,7 +25,7 @@
                   </v-btn>
 
                   <h3 class=" font-weight-bold orange--text mb-2">
-                   {{item.category.name}} : {{item.title}} 
+                    {{item.category.name}} : {{item.title}}
                   </h3>
                   <div class="font-weight-medium title mb-2">
                     {{ item.price | money }} won
@@ -54,7 +53,6 @@ import { mapActions } from "vuex";
 import InfiniteLoading from 'vue-infinite-loading';
 import http from "@/utils/http";
 export default {
-
   data() {
     return {
       limit: 1,
@@ -93,15 +91,10 @@ export default {
   },
   components: {
     InfiniteLoading,
-
-
   },
   computed: {
-
   },
-  comments: {
-    InfiniteLoading
-  },
+ 
   mounted() {
     this.init();
   },
@@ -135,11 +128,6 @@ export default {
     detailPush(id) {
       this.$router.push({ name: 'BoardDetail', params: { id: id } });
     },
-    imageConversion(imageurl) {
-
-      return require(imageurl)
-    },
-
     ...mapActions({
       _getList: "users/getList",
     }),

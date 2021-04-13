@@ -1,26 +1,21 @@
  <template>
   <div>
-<br>
+    <br>
     <loding v-if="isLoading" />
     <v-card max-width="500" max-height="auto" class="mx-auto my-12">
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-card-title>
           <v-text-field color="orange" :rules="titleRules" required v-model="title" counter="15" label="Title" clearable clear-icon="mdi-close-circle" outlined></v-text-field>
         </v-card-title>
-
         <v-card-title>
           <v-textarea color="orange" :rules="contentRules" v-model="content" counter="50" label="Content" clearable clear-icon="mdi-close-circle" outlined></v-textarea>
         </v-card-title>
-
         <v-card-title>
-          <v-text-field color="orange" v-model="price" label="Price" clearable clear-icon="mdi-close-circle" outlined></v-text-field>원
+          <v-text-field color="orange" v-model="price" label="Price" clearable clear-icon="mdi-close-circle" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" outlined></v-text-field>원
         </v-card-title>
-
         <v-card-title>
-
           <v-select color="orange" @click="categoryName" v-model="category" :items="categoryItem" :rules="[v => !!v || 'category를 선택해주세요']" required :menu-props="{ top: true, offsetY: true }" label="Category" outlined></v-select>
         </v-card-title>
-
         <v-card-subtitle>
           <h4>Image는 3장만 올려주세요</h4>
         </v-card-subtitle>
@@ -97,7 +92,7 @@ export default {
           v => (v && v.length <= 50) || '50자 이하로 작성 부탁해용',
         ],
       checkbox: false,
-     
+
       categoryItem: [],
       images: {},
       image: [],
@@ -178,7 +173,7 @@ export default {
         frm.append("files", this.images[i]);
       }
       frm.append("user", 27);
-      return http.process("user","boardCreate", frm)
+      return http.process("user", "boardCreate", frm)
         .then((res) => {
           console.log(res)
           this.$router.push({ name: 'Home1' });

@@ -1,6 +1,7 @@
 package com.skhu.usertraders.service;
 
 import com.skhu.usertraders.domain.entity.BoardEntity;
+import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.BoardRepository;
 import com.skhu.usertraders.dto.BoardDto;
 import lombok.extern.slf4j.Slf4j;
@@ -78,6 +79,19 @@ public class BoardServiceImpl implements BoardService {
         BoardEntity boardEntity = boardEntityWrapper.get();
 
         return this.convertEntityToDto(boardEntity);
+    }
+
+    @Override
+    public List<BoardDto> findAllByUser(UserEntity userEntity) {
+        List<BoardEntity> userBoardList = boardRepository.findAllByUser(userEntity);
+
+        List<BoardDto> results = userBoardList.stream().map(boardEntity -> {
+            BoardDto boardDto = convertEntityToDto(boardEntity);
+            return boardDto;
+        }).collect(Collectors.toList());
+
+
+        return results;
     }
 
     @Transactional

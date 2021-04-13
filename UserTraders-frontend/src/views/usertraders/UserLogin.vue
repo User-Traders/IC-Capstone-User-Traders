@@ -16,7 +16,7 @@
       <v-card-text>
         <v-form ref="form" v-model="valid" lazy-validation>
           <v-text-field v-model="email" :rules="emailRules" label="E-mail" prepend-icon="mdi-account-circle" required></v-text-field>
-          <v-text-field v-model="password" label="password" prepend-icon="mdi-lock"  type="password"></v-text-field>
+          <v-text-field v-model="password" label="password" prepend-icon="mdi-lock" type="password"></v-text-field>
         </v-form>
       </v-card-text>
       <v-divider> </v-divider>
@@ -60,8 +60,6 @@ export default {
     reset() {
       this.$refs.form.reset();
     },
-
-
     loginSubmit() {
       const loginObj = { userid: this.email, password: this.password }
       this.postUserLogin(loginObj).then(() => {
@@ -70,7 +68,7 @@ export default {
     },
 
     ...mapActions({
-      postUserLogin: "users/postUserLogin",
+      postUserLogin: "auth/postUserLogin",
 
     }),
 

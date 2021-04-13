@@ -41,8 +41,6 @@ const http = {
 
       if (info) {
         let header = headers;
-
-        console.log(header);
         let newUrl = _generateUrl(info.url, params, headers);
         let base = WAS_URL;
         newUrl = base + newUrl;

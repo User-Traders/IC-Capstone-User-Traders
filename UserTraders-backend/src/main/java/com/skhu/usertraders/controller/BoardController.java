@@ -60,14 +60,20 @@ public class BoardController {
 
     @GetMapping(value = "/list/search") //검색기능
     public ResponseEntity search(@RequestParam(value = "keyword") String keyword) {
+
         return ResponseEntity.ok(boardService.findAllSearch(keyword));
+    }
+    @GetMapping(value = "/list/user/board")
+    public  ResponseEntity findAllByUser(@AuthenticationPrincipal UserEntity userEntity){
+        
+        return  ResponseEntity.ok(boardService.findAllByUser(userEntity));
     }
 
 
     @PostMapping(value = "/register") // 한 게시물 저장
     public ResponseEntity register(BoardDto boardDto, List<MultipartFile> files) { //@RequestBody :HTTP 요청 몸체를 자바 객체로 변환
         log.info("user");
-        String baseDir = "C:\\Users\\jaebin2\\Documents\\IC-Capstone-User-Traders\\UserTraders-frontend\\src\\assets\\images\\";
+        String baseDir = "C:\\SKHU-project\\IC-Capstone-User-Traders\\UserTraders-frontend\\src\\assets\\images\\";
 
 
         String[] fileName = new String[3];

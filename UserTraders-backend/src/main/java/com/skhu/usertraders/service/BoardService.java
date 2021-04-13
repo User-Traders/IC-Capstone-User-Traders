@@ -1,5 +1,6 @@
 package com.skhu.usertraders.service;
 
+import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.dto.BoardDto;
 
 import javax.transaction.Transactional;
@@ -28,4 +29,7 @@ public interface BoardService { // 공통적인 부분은 가지되, 다형성�
 
     @Transactional
     List<BoardDto> findAllSearch(String title);
+
+    @Transactional
+    List<BoardDto> findAllByUser(UserEntity userEntity);
 }

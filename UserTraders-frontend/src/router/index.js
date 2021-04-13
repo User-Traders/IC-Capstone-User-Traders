@@ -6,16 +6,12 @@ Vue.use(VueRouter)
 
 
 const Home1 = () => import(/* webpackChunkName: "jun" */ "../views/home.vue");
-const JunHome = () => import(/* webpackChunkName: "jun" */ "../views/jun/jun-home.vue");
-const JunCreate = () => import(/* webpackChunkName: "jun" */ "../views/jun/jun-create.vue");
-const JunUpdate = () => import(/* webpackChunkName: "jun" */ "../views/jun/jun-update.vue");
-const JunMypage = () => import(/* webpackChunkName: "jun" */ "../views/jun/jun-mypage.vue");
-const JunLogin = () => import("../views/jun/jun-login.vue");
 const Create = () => import("../views/usertraders/BoardCreate.vue");
 const BoardDetail = () => import("../views/usertraders/BoardDetail.vue")
 const UserLogin = () => import("../views/usertraders/UserLogin.vue")
 const SignUp = () => import("../views/usertraders/SignUp.vue")
 const Empty = () => import("../components/empty.vue")
+const Mypage= ()=>import("../views/usertraders/Mypage.vue")
 
 const routes = [
   {
@@ -26,7 +22,10 @@ const routes = [
     /*     beforeEnter: requireAuth() */
 
   },
+<<<<<<< HEAD
 
+=======
+>>>>>>> 89303eaea01bd98e3f5496894aca2731d8f5d146
   {
     path: "/create",
     name: "Create",
@@ -53,48 +52,15 @@ const routes = [
         name: "SignUp",
         component: SignUp,
       },
+      {
+        path:'mypage',
+        name:"Mypage",
+        component:Mypage,
+      }
 
 
     ]
   },
-
-
-
-
-  {
-    path: "home",
-    name: "JunHome",
-    component: JunHome
-  },
-  {
-    path: "create",
-    name: "JunCreate",
-    meta: { pageAuth: true },
-    component: JunCreate
-  },
-
-  {
-    path: ":id/edit",
-    name: "JunUpdate",
-
-    component: JunUpdate,
-    props: true
-  },
-  {
-    path: "login",
-    name: "JunLogin",
-    meta: { loginAuth: true },
-    component: JunLogin,
-
-  },
-  {
-    path: "mypage",
-    name: "JunMypage",
-    meta: { pageAuth: true },
-    component: JunMypage,
-
-  },
-
 ]
 
 const router = new VueRouter({
