@@ -27,7 +27,6 @@ const routes = [
 
   },
 
-
   {
     path: "/create",
     name: "Create",
