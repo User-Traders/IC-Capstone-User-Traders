@@ -16,7 +16,7 @@
         <v-btn icon>
           <v-icon size="xx-large" color="white">mdi-cart</v-icon>
         </v-btn>
-        <div v-if="!loginCheck">
+        <div v-if="!isLogin">
           <v-menu bottom left>
             <template v-slot:activator="{ on, attrs }">
               <v-btn dark icon v-bind="attrs" v-on="on">
