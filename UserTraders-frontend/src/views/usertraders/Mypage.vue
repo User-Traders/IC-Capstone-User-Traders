@@ -130,7 +130,6 @@ export default {
         } else {
           this.validTokenError()
         }
-
       }).catch((err) => {
         console.log(err)
         this.validTokenError()
