@@ -12,6 +12,7 @@ const UserLogin = () => import("../views/usertraders/UserLogin.vue")
 const SignUp = () => import("../views/usertraders/SignUp.vue")
 const Empty = () => import("../components/empty.vue")
 const Mypage= ()=>import("../views/usertraders/Mypage.vue")
+const Cart =()=>import("../views/usertraders/Cart.vue")
 
 const routes = [
   {
@@ -52,6 +53,11 @@ const routes = [
         path:'mypage',
         name:"Mypage",
         component:Mypage,
+      },
+      {
+        path:'cart',
+        name:'Cart',
+        component:Cart,
       }
 
 
