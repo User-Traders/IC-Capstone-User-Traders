@@ -13,7 +13,7 @@
         <v-toolbar-title style="color:white" class="ma-2">User Traders</v-toolbar-title>
         <v-spacer></v-spacer>
         <Togglesearch />
-        <v-btn icon>
+        <v-btn icon :to="{ name: 'Cart'}">
           <v-icon size="xx-large" color="white">mdi-cart</v-icon>
         </v-btn>
         <div v-if="!isLogin">
