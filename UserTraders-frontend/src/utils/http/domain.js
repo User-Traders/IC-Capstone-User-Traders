@@ -18,6 +18,6 @@ export default {
   'cart':{
     'register': { task: 'post', url: '/carts/register' },
     'list': { task: 'get', url: '/carts/list' },
-    'delete' :{task:'delete',url:'/carts/list'}
+    'delete' :{task:'delete',url:'/carts/list'},
   }
 }
