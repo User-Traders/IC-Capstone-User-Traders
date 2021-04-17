@@ -23,7 +23,7 @@
           </v-card-subtitle>
           <v-card-text>{{ `가격 : ${listDataDeatail.price} 원 ` }}</v-card-text>
 
-          <v-btn color="blue-grey" class="ma-2 white--text">
+          <v-btn color="blue-grey" class="ma-2 white--text" @click="cartAdd(listDataDeatail.id)">
             Add To Cart
             <v-icon right dark>
               mdi-cart
@@ -48,7 +48,8 @@
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
-import Loding from "./jun-loding.vue"
+import Loding from "./jun-loding.vue";
+import http from "@/utils/http";
 export default {
   props: ["id"],
 
@@ -83,6 +84,16 @@ export default {
       this._getListDetail(id).then(() => {
         this.isLoading = false;
       });
+    },
+    cartAdd(id) {
+      console.log(id)
+      return http.process("cart", "register",id)
+        .then((res) => {
+          console.log(res)
+          this.userBList = res
+        }).catch((err) => {
+          console.log(err)
+        })
     },
 
     ...mapActions({
