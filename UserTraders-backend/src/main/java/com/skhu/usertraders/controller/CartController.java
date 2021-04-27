@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @RequestMapping(value = "/carts")
 public class CartController {
-
     @Autowired
     private CartService cartService;
-
 
     @PostMapping(value = "/register") // 장바구니 저장
     public ResponseEntity cart_register(@RequestBody @Validated CartDto cartDto, @AuthenticationPrincipal UserEntity userEntity) {
