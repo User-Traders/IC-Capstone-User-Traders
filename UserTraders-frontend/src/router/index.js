@@ -22,10 +22,6 @@ const routes = [
     /*     beforeEnter: requireAuth() */
 
   },
-<<<<<<< HEAD
-
-=======
->>>>>>> 89303eaea01bd98e3f5496894aca2731d8f5d146
   {
     path: "/create",
     name: "Create",

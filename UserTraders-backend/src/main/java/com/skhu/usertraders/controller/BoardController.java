@@ -73,7 +73,7 @@ public class BoardController {
     @PostMapping(value = "/register") // 한 게시물 저장
     public ResponseEntity register(BoardDto boardDto, List<MultipartFile> files) { //@RequestBody :HTTP 요청 몸체를 자바 객체로 변환
         log.info("user");
-        String baseDir = "C:\\SKHU-project\\IC-Capstone-User-Traders\\UserTraders-frontend\\src\\assets\\images\\";
+        String baseDir = "C:\\Users\\jaebin2\\Documents\\IC-Capstone-User-Traders\\UserTraders-frontend\\src\\assets\\images\\";
 
 
         String[] fileName = new String[3];
