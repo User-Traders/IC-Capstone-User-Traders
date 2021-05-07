@@ -9,7 +9,6 @@
           <v-carousel progress-color="orange">
             <v-carousel-item v-for="(item, i) in detailImageurl" :key="i" v-bind:src="item |loadImgOrPlaceholder" width="344" height="auto" reverse-transition="fade-transition" transition="fade-transition"></v-carousel-item>
           </v-carousel>
-
           <v-card-title>
             <h4>{{ listDataDeatail.title }}</h4>
             <v-btn class="mx-2" fab dark small color="pink">
@@ -36,9 +35,7 @@
               mdi-arrow-right-bold
             </v-icon>
           </v-btn>
-
         </v-card>
-
       </v-row>
       <br>
       <br>

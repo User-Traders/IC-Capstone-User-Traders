@@ -59,8 +59,6 @@ const routes = [
         name:'Cart',
         component:Cart,
       }
-
-
     ]
   },
 ]
@@ -99,6 +97,4 @@ router.beforeEach((to, from, next) => {// pageAuth
     next() // 반드시 next()를 호출하십시오!
   }
 })
-
-
 export default router;

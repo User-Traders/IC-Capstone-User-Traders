@@ -70,7 +70,6 @@ public class BoardController {
         if (files != null) {
             try {
                 for (int i = 0; i < files.size(); i++) {
-
                     fileName[i] = files.get(i).getOriginalFilename();
                     files.get(i).transferTo(new File(baseDir + files.get(i).getOriginalFilename()));
                 }
