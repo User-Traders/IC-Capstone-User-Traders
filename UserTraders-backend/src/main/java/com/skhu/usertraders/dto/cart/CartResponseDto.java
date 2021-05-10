@@ -6,6 +6,8 @@ import com.skhu.usertraders.domain.entity.UserEntity;
 import lombok.*;
 
 @Getter
+@Setter
+@ToString
 @AllArgsConstructor
 public class CartResponseDto {
     private Integer id;
