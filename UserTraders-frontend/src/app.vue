@@ -47,7 +47,6 @@
                 <v-icon size="xx-large">mdi-account-check-outline</v-icon>
               </v-btn>
             </template>
-
             <v-list dense nav>
               <v-list-item active-class="deep-purple--text text--accent-4">
                 <v-list-item-content>

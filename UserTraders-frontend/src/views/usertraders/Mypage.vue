@@ -20,10 +20,8 @@
                     </v-chip>
                     <strong v-html="message.title"></strong>
                   </v-col>
-
-                  <v-col v-if="message.excerpt" class="grey--text text-truncate hidden-sm-and-down">
-
-                    총 {{userBList.length}} 개를 작성했습니다.
+                  <v-col class="grey--text text-truncate hidden-sm-and-down">
+                  Total {{userBList.length}} List
                   </v-col>
                 </v-row>
               </v-expansion-panel-header>
@@ -84,7 +82,6 @@ export default {
           avatar: 'https://avatars0.githubusercontent.com/u/9064066?v=4&s=460',
           title: 'Welcome to UserTraders!',
         },
-
       ],
     }
   },

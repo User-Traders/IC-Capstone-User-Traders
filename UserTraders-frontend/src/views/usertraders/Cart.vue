@@ -1,118 +1,95 @@
 <template>
-  <div>
-    <v-container>
-      <h1>Products</h1>
-      <v-card v-for="product in products" :key="product.id">
+  <v-container>
+    <v-card>
+      <h1 align="center" class="grey--text">
+        <v-icon size="xxx-large" color="orange">mdi-gift</v-icon>
+        My Cart List
+      </h1>
+      <v-card v-for="(cart,index) in cartList" :key="cart.id">
+    
+      
         <v-layout>
           <v-flex xs3>
-            <v-img :src="product.imgsrc" contain height="125px"></v-img>
+            <v-img v-bind:src="cart.board.imageurl1 | loadImgOrPlaceholder" contain height="125px"></v-img>
           </v-flex>
           <v-layout column>
             <v-card-title>
-              <h1>{{ product.title }}</h1>
+              <h4>{{ cart.board.title }}</h4>
             </v-card-title>
-            <v-card-text>{{ `$ ${product.price} (Inventory: ${product.inventory})` }}</v-card-text>
-            <v-card-actions>
-              <v-btn :disabled="product.inventory <= 0" @click="addToCart(product)">Add Cart</v-btn>
-            </v-card-actions>
+            <v-card-text>{{ `가격 : ${cart.board.price} 원 `| moneyFilter }}</v-card-text>
           </v-layout>
+          <v-card-actions>
+            <v-btn right color="blue-grey" class="ma-2 white--text" fab @click="cartDelete(index,cart.id)">
+              <v-icon dark>
+                mdi-delete
+              </v-icon>
+            </v-btn>
+          </v-card-actions>
         </v-layout>
       </v-card>
-      <v-spacer />
-      <h1>My Cart Items ($ {{totalAmount}}) </h1>
-      <v-card v-for="cartItem in cartItems" :key="'C' + cartItem.id">
-        <v-layout>
-          <v-flex xs3>
-            <v-img :src="cartItem.imgsrc" contain height="125px"></v-img>
-          </v-flex>
-          <v-layout column>
-            <v-card-title>
-              <h1>{{ cartItem.title }}</h1><br />
-            </v-card-title>
-            <v-card-text>{{ `$ ${cartItem.price} x ${cartItem.quantity} = ${cartItem.subsum}` }}</v-card-text>
-          </v-layout>
-        </v-layout>
-      </v-card>
-    </v-container>
-    <br>
-    <br>
-    <br>
-  </div>
+      <v-card-subtitle>
+        <h3 align="center">
+          Count
+          <p style="color: orange">{{ cartList.length }}</p>
+          Total Price($ {{ total| moneyFilter }} 원)
+        </h3>
+      </v-card-subtitle>
+    </v-card>
+    <v-spacer />
+  </v-container>
 </template>
+
 <script>
+import http from "@/utils/http";
+import myMixin from "@/filter";
+
 export default {
+  mixins: [myMixin],
   data() {
     return {
-      products: [
-        {
-          id: 1,
-          title: 'Apple iPad (Wi-Fi, 32GB) - Space Gray',
-          price: 350,
-          inventory: 7,
-          imgsrc: 'https://images-na.ssl-images-amazon.com/images/I/51x4j48wCpL._SL1024_.jpg'
-        },
-        {
-          id: 2,
-          title: 'Apple iPhone XR (64GB) - RED',
-          price: 749,
-          inventory: 5,
-          imgsrc: 'https://images-na.ssl-images-amazon.com/images/I/51YXG1bDM5L._SL1024_.jpg'
-        },
-        {
-          id: 3,
-          title: 'Apple Macbook Retina Display Laptop',
-          price: 949,
-          inventory: 2,
-          imgsrc: 'https://images-na.ssl-images-amazon.com/images/I/819zx3uAjhL._SL1500_.jpg'
-        },
-      ],
-      cartItems: [
-      ],
-      totalAmount: 0
-    }
+      cartList: [],
+    };
+  },
+  mounted() {
+    this.init();
   },
   methods: {
-    addToCart: function (product) {
-      // STEP01 - products 배열에서 id 를 기준으로 필터링하고 필터링된 아이템에서 inventory 값을 -1 한다.
-      this.products
-        .filter(function (p) {
-          return p.id === product.id
+    init() {
+      console.log("cart init...");
+      this.getCartList(this.id);
+    },
+    getCartList() {
+      const token = localStorage.getItem("user")
+      return http.process("cart", "list", null, { token: token })
+        .then((res) => {
+          console.log()
+          this.cartList = res
+        }).catch((err) => {
+          console.log(err)
         })
-        .map(function (p) {
-          return p.inventory--
-        });
+    },
+    cartDelete(idx, cartId) {
+      const token = localStorage.getItem("user")
+      this.cartList.splice(idx, 1);
+      return http.process("cart", "delete", {id:cartId}, { token: token })
+        .then((res) => {
+          console.log()
+          this.cartList = res
+        }).catch((err) => {
+          console.log(err)
+        })
+    },
 
-      // STEP02 - cartItems 배열에서 id 를 기준으로 필터링하고...
-      var _cartItem = this.cartItems.filter(function (p) {
-        return p.id === product.id
+  },
+
+  computed: {
+    total() {
+      let total = 0;
+      this.cartList.forEach(cartItem => {
+        total += parseInt(cartItem.board.price);
       });
-      if (_cartItem.length > 0) {
-        // 필터링 된 아이템이 존재하면 quantity 값을 +1 한다.
-        _cartItem.map(function (p) {
-          return p.quantity++
-        });
-      } else {
-        // 필터링 된 아이템이 없으면 새로운 객체를 생성해서 추가한다.
-        this.cartItems.push({
-          "id": product.id,
-          "title": product.title,
-          "price": product.price,
-          "quantity": 1,
-          "imgsrc": product.imgsrc
-        });
-      }
-
-      // STEP03 - cartItems 배열에서 "소계 = 가격 x 수량" 을 계산하여 아이템의 subsum 속성 값으로 대입한다.
-      this.cartItems.map(function (p) {
-        p.subsum = p.price * p.quantity;
-        return p;
-      });
-
-      // STEP4 - cartItems 배열에서 REDUCE 하여 "총계" 값을 구해서 totalAmount 변수에 대입한다.
-      this.totalAmount = this.cartItems.reduce(function (previousSum, currentItem) {
-        return previousSum + currentItem.price * currentItem.quantity;
-      }, 0);
+      return total;
     }
   }
-}
+};
 </script>
