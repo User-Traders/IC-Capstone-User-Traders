@@ -1,11 +1,9 @@
 package com.skhu.usertraders.dto.board;
 
-
 import com.skhu.usertraders.domain.entity.BoardEntity;
 import com.skhu.usertraders.domain.entity.CategoryEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 @Getter
@@ -111,7 +109,5 @@ public class BoardDto {
                 .status(boardEntity.getStatus())
                 .build();
     }
-
-
 }
 

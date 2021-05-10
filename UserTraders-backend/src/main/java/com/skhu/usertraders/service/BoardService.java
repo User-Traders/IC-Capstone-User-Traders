@@ -2,10 +2,8 @@ package com.skhu.usertraders.service;
 
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.dto.board.BoardDto;
-
 import javax.transaction.Transactional;
 import java.util.List;
-
 
 public interface BoardService { // 공통적인 부분은 가지되, 다형성을 가지기 위함.
 
