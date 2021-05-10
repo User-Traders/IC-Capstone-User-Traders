@@ -1,8 +1,6 @@
 package com.skhu.usertraders.dto;
 
 
-
 public enum ReadEnum {
-    NO,YES
-
+    NO, YES
 }

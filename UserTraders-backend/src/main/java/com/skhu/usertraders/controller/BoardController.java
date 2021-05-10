@@ -67,7 +67,7 @@ public class BoardController {
         log.info("user");
 
         String baseDir = "C:\\Users\\jaebin2\\Documents\\IC-Capstone-User-Traders\\UserTraders-frontend\\src\\assets\\images\\";
-        
+
         String[] fileName = new String[3];
         if (files != null) {
             try {

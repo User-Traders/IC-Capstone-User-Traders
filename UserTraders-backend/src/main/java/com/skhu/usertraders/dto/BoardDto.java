@@ -3,7 +3,6 @@ package com.skhu.usertraders.dto;
 
 import com.skhu.usertraders.domain.entity.BoardEntity;
 import com.skhu.usertraders.domain.entity.CategoryEntity;
-import com.skhu.usertraders.domain.entity.MessageEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import lombok.*;
 
@@ -107,7 +106,6 @@ public class BoardDto {
                 .build();
         return boardEntity;
     }
-
 
 
 }

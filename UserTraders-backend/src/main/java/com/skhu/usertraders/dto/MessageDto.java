@@ -41,6 +41,9 @@ public class MessageDto {
     @Enumerated(EnumType.STRING)
     private ReadEnum recvRead;
 
+    public MessageDto(String s) {
+    }
+
 
     public MessageEntity convertDtoToEntity() { //메시지 저장을 위한 엔티티
         return MessageEntity.builder()
@@ -55,7 +58,7 @@ public class MessageDto {
                 .build();
     }
 
-        public MessageDto convertEntityToDto(MessageEntity messageEntity) {//엔티티 객체 변수를 디티오 객체 변수로 변환 해서 조회.
+    public MessageDto convertEntityToDto(MessageEntity messageEntity) {//엔티티 객체 변수를 디티오 객체 변수로 변환 해서 조회.
         return MessageDto.builder()
                 .id(messageEntity.getId())
                 .recvId(messageEntity.getRecvId())

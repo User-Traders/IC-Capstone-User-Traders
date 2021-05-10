@@ -10,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/messages")
@@ -67,4 +65,10 @@ public class MessageController {
         return ResponseEntity.ok(true);
     }
 
+    //받은 쪽지함 메시지 개수
+    @GetMapping(value = "/list/recv/count")
+    public ResponseEntity recvListCount(@RequestParam(value = "recvId") UserEntity recvId) {
+
+        return ResponseEntity.ok(messageService.recvMessageListCount(recvId));
+    }
 }

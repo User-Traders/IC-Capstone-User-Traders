@@ -45,8 +45,8 @@ public class MessageService {
         System.out.println();
 
 
-
         MessageEntity messageEntity = messageDto.convertDtoToEntity();
+
         return messageRepository.save(messageEntity).getId();
 
 
@@ -108,8 +108,29 @@ public class MessageService {
         return new MessageDto().convertEntityToDto(messageEntity);
     }
 
+    //메시지 1개 삭제
     @Transactional
     public void deleteById(Integer id) {
         messageRepository.deleteById(id);
+    }
+
+    //받은 메시지 목록 개수
+    @Transactional
+    public Integer recvMessageListCount(UserEntity recvId) {
+
+        List<MessageEntity> messageEntityList =  messageRepository.findByRecvIdEqualsAndRecvReadEquals(recvId,ReadEnum.NO);
+        System.out.println(messageEntityList);
+        System.out.println(messageEntityList.get(0).getId());
+
+        List<MessageDto> results = messageEntityList.stream().map(messageEntity -> {
+            MessageDto messageDto = new MessageDto().
+                    convertEntityToDto(messageEntity);
+            return messageDto;
+        }).collect(Collectors.toList());
+
+        int a = results.size();
+        System.out.println(a);
+
+        return a;
     }
 }
