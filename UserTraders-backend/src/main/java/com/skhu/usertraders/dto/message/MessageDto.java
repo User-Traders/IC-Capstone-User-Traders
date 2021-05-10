@@ -1,7 +1,8 @@
-package com.skhu.usertraders.dto;
+package com.skhu.usertraders.dto.message;
 
 import com.skhu.usertraders.domain.entity.MessageEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
+import com.skhu.usertraders.dto.board.ReadEnum;
 import lombok.*;
 
 import javax.persistence.EnumType;

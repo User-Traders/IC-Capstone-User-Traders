@@ -1,7 +1,7 @@
 package com.skhu.usertraders.service;
 
 import com.skhu.usertraders.domain.entity.UserEntity;
-import com.skhu.usertraders.dto.BoardDto;
+import com.skhu.usertraders.dto.board.BoardDto;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -22,7 +22,7 @@ public interface BoardService { // 공통적인 부분은 가지되, 다형성�
     Integer save(BoardDto boardDto);  //글쓰기 저장
 
     @Transactional
-    Integer updateById(BoardDto boardDto);  //글 1개 수정
+    Integer updateById(BoardDto boardDto,Integer id);  //글 1개 수정
 
     @Transactional
     void deleteById(Integer id);  // 글 1개 삭제

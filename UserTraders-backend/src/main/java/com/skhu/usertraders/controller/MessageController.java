@@ -2,7 +2,7 @@ package com.skhu.usertraders.controller;
 
 
 import com.skhu.usertraders.domain.entity.UserEntity;
-import com.skhu.usertraders.dto.MessageDto;
+import com.skhu.usertraders.dto.message.MessageDto;
 import com.skhu.usertraders.service.MessageService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

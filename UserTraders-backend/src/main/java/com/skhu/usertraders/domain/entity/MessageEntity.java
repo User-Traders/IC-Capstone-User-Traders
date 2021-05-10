@@ -1,6 +1,6 @@
 package com.skhu.usertraders.domain.entity;
 
-import com.skhu.usertraders.dto.ReadEnum;
+import com.skhu.usertraders.dto.board.ReadEnum;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

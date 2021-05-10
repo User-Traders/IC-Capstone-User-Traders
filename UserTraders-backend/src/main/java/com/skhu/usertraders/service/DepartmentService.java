@@ -2,7 +2,7 @@ package com.skhu.usertraders.service;
 
 import com.skhu.usertraders.domain.entity.DepartmentEntity;
 import com.skhu.usertraders.domain.repository.DepartmentRepository;
-import com.skhu.usertraders.dto.DepartmentDto;
+import com.skhu.usertraders.dto.user.DepartmentDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +43,7 @@ public class DepartmentService {
 
 
         List<DepartmentDto> results = departmentEntityList.stream().map(departmentEntity -> {
-            DepartmentDto departmentDto = convertEntityToDto(departmentEntity);
+            DepartmentDto departmentDto = DepartmentDto.builder().build().convertEntityToDto(departmentEntity);
             return departmentDto;
         }).collect(Collectors.toList());
 
@@ -56,7 +56,8 @@ public class DepartmentService {
         List<DepartmentEntity> departmentEntityList = departmentRepository.findAll();
 
         List<DepartmentDto> results = departmentEntityList.stream().map(departmentEntity -> {
-            DepartmentDto departmentDto = convertEntityToDto(departmentEntity);
+            DepartmentDto departmentDto =  DepartmentDto.builder()
+                    .build().convertEntityToDto(departmentEntity);
             return departmentDto;
         }).collect(Collectors.toList());
 
@@ -64,12 +65,5 @@ public class DepartmentService {
         return results;
     }
 
-
-    private DepartmentDto convertEntityToDto(DepartmentEntity departmentEntity) { //엔티티 객체 변수를 디티오 객체 변수로 변환
-        return DepartmentDto.builder()
-                .id(departmentEntity.getId())
-                .name(departmentEntity.getName())
-                .build();
-    }
 
 }

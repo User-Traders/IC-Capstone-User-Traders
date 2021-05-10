@@ -1,7 +1,7 @@
 package com.skhu.usertraders.controller;
 
 import com.skhu.usertraders.domain.entity.UserEntity;
-import com.skhu.usertraders.dto.BoardDto;
+import com.skhu.usertraders.dto.board.BoardDto;
 import com.skhu.usertraders.service.BoardService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,17 +30,17 @@ public class BoardController {
     private BoardService boardService;
     private WebApplicationContext request;
 
-    @GetMapping(value = "/list") // 모든 게시물 리스트 반환
+    @GetMapping(value = "/list") // 모든 게시물 리스트 반환,조회
     public ResponseEntity list() {
         return ResponseEntity.ok(boardService.findAll());
     }
 
-    @GetMapping(value = "/listInfinte") // 모든 게시물 리스트 반환
+    @GetMapping(value = "/listInfinte") // 모든 게시물 리스트 반환,조회
     public ResponseEntity list(@RequestParam(value = "limit", defaultValue = "1") int limit) {
         return ResponseEntity.ok(boardService.findAllInfinite(limit));
     }
 
-    @GetMapping(value = "/list/{id}") // 한 게시물의 id 안에 들어 있는 정보를 반환
+    @GetMapping(value = "/list/{id}") // 한 게시물의 id 안에 들어 있는 정보를 반환,조회
     public ResponseEntity list(@PathVariable("id") Integer id, @AuthenticationPrincipal UserEntity userEntity) { //@PathVariable :url 파라미터 값 id를 인자로 받음
         BoardDto boardDto = boardService.findById(id);
 //        if (!boardDto.getUser().getId().equals(userEntity.getId())) {//재빈아 잠깐 주석조 했다
@@ -52,12 +52,12 @@ public class BoardController {
         return ResponseEntity.ok(boardService.findById(id));
     }
 
-    @GetMapping(value = "/list/search") //검색기능
+    @GetMapping(value = "/list/search") //키워드로 검색기능
     public ResponseEntity search(@RequestParam(value = "keyword") String keyword) {
         return ResponseEntity.ok(boardService.findAllSearch(keyword));
     }
 
-    @GetMapping(value = "/list/user/board")
+    @GetMapping(value = "/list/user/board")// 어떤 한 유저가 가지고 있는 게시물 조회
     public ResponseEntity findAllByUser(@AuthenticationPrincipal UserEntity userEntity) {
         return ResponseEntity.ok(boardService.findAllByUser(userEntity));
     }
@@ -86,12 +86,11 @@ public class BoardController {
         return ResponseEntity.ok(true);
     }
 
-
-    @PutMapping(value = "/list/{id}") // 한 게시물의 id 를 받아서 그 안에 들어있는 정보 수정.
+    @PutMapping(value = "/list/{id}") // 한 게시물의 id 를 받아서 그 안에 들어 있는 게시물 정보 수정.
     public ResponseEntity update(@RequestBody @Validated BoardDto boardDto,
                                  @PathVariable("id") Integer id) {
         boardDto.setId(id);
-        boardService.updateById(boardDto);
+        boardService.updateById(boardDto,id);
         return ResponseEntity.ok(true);
     }
 

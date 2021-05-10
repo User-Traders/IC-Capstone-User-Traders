@@ -1,4 +1,4 @@
-package com.skhu.usertraders.dto;
+package com.skhu.usertraders.dto.board;
 
 
 import com.skhu.usertraders.domain.entity.BoardEntity;
@@ -16,51 +16,37 @@ public class BoardDto {
 
     // 게시물 고유번호
     private Integer id;
-
     // 제품 제목
     private String title;
-
     // 제품 내용
     private String content;
-
     // 제품 가격
     private String price;
-
     //제품 사진1
     private String imageurl1;
     //제품 사진2
     private String imageurl2;
     //제품 사진3
     private String imageurl3;
-
     // 제품 카테고리
     private CategoryEntity category;
-
     // 제품 작성자 고유 번호
     private UserEntity user;
-
     // 등록날짜
     private LocalDateTime createdDate;
-
     // 수정날짜
     private LocalDateTime modifiedDate;
-
     // 장바구니수
     private int cartcount;
-
     // 조회수
     private int viewcount;
-
     // 구매 평점
     private int buycount;
-
     //좋아요 수
     private int likecount;
-
     // 판매 상태
     private Boolean status;
-
-
+    
     @Builder
     public BoardDto(Integer id, String title, String content, String price,
                     CategoryEntity category, UserEntity user, LocalDateTime createdDate,
@@ -86,8 +72,7 @@ public class BoardDto {
         this.status = status;
 
     }
-
-    public BoardEntity convertDtoToEntity() { //글쓰기 저장을 위한 엔티티
+    public BoardEntity convertDtoToEntity() { //게시물 글쓰기 저장을 위한 boardRequestDto를 BoardEntity로 변환
         BoardEntity boardEntity = BoardEntity.builder()
                 .id(id)
                 .title(title)
@@ -105,6 +90,26 @@ public class BoardDto {
                 .status(status)
                 .build();
         return boardEntity;
+    }
+    public BoardDto convertEntityToDto(BoardEntity boardEntity) { //board 테이블안의 전체 칼럼 조회를 위한, 엔티티 객체를 디티오 객체 로 변환
+        return BoardDto.builder()
+                .id(boardEntity.getId())
+                .title(boardEntity.getTitle())
+                .content(boardEntity.getContent())
+                .price(boardEntity.getPrice())
+                .category(boardEntity.getCategory())
+                .user(boardEntity.getUser())
+                .imageurl1(boardEntity.getImageurl1())
+                .imageurl2(boardEntity.getImageurl2())
+                .imageurl3(boardEntity.getImageurl3())
+                .createdDate(boardEntity.getCreatedDate())
+                .modifiedDate(boardEntity.getModifiedDate())
+                .likecount(boardEntity.getLikecount())
+                .viewcount(boardEntity.getViewcount())
+                .buycount(boardEntity.getBuycount())
+                .cartcount(boardEntity.getCartcount())
+                .status(boardEntity.getStatus())
+                .build();
     }
 
 

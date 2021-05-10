@@ -1,4 +1,4 @@
-package com.skhu.usertraders.dto;
+package com.skhu.usertraders.dto.user;
 
 
 import com.skhu.usertraders.domain.entity.DepartmentEntity;

@@ -97,10 +97,8 @@ router.beforeEach((to, from, next) => {// pageAuth
     next() // 반드시 next()를 호출하십시오!
   }
 })
-<<<<<<< HEAD
+
 
 
 export default router;
-=======
-export default router;
->>>>>>> 7265300b69f4afd524db9234fb36e10e22d8e604
+

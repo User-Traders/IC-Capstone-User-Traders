@@ -3,7 +3,7 @@ package com.skhu.usertraders.service;
 import com.skhu.usertraders.domain.entity.CartEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.CartRepository;
-import com.skhu.usertraders.dto.BoardDto;
+import com.skhu.usertraders.dto.board.BoardDto;
 import com.skhu.usertraders.dto.cart.CartRequestDto;
 import com.skhu.usertraders.dto.cart.CartResponseDto;
 import lombok.AllArgsConstructor;

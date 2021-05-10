@@ -4,8 +4,8 @@ package com.skhu.usertraders.service;
 import com.skhu.usertraders.domain.entity.MessageEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.MessageRepository;
-import com.skhu.usertraders.dto.MessageDto;
-import com.skhu.usertraders.dto.ReadEnum;
+import com.skhu.usertraders.dto.message.MessageDto;
+import com.skhu.usertraders.dto.board.ReadEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
