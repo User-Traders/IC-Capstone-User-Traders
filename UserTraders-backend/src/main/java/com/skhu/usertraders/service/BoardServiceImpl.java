@@ -39,7 +39,6 @@ public class BoardServiceImpl implements BoardService {
                     .build().convertEntityToDto(boardEntity);
             return boardDto;
         }).collect(Collectors.toList());
-        System.out.println(results);
 
         return results;
     }

@@ -13,7 +13,6 @@ import java.util.Map;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping(value = "/api")
-
 @Slf4j
 public class CreateImageController {
 

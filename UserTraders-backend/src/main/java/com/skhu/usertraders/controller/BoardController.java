@@ -27,6 +27,7 @@ public class BoardController {
     private WebApplicationContext webApplicationContext;
     @Autowired
     private BoardService boardService;
+    @Autowired
     private WebApplicationContext request;
 
     @GetMapping(value = "/list") // 모든 게시물 리스트 반환,조회

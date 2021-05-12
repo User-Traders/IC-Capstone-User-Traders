@@ -18,30 +18,30 @@ public class MessageController {
     MessageService messageService;
 
     @PostMapping(value = "/send") // 메시지 저장
-    public ResponseEntity add(@RequestBody MessageDto messageDto, @AuthenticationPrincipal UserEntity userEntity) {
+    public ResponseEntity register(@RequestBody MessageDto messageDto, @AuthenticationPrincipal UserEntity userEntity) {
         messageDto.setSentId(userEntity);
-        messageService.addmessage(messageDto);
+        messageService.save(messageDto);
         return ResponseEntity.ok("메시지가 정상적으로 보내졌습니다.");
     }
     //보낸 쪽지함 목록
     @GetMapping(value = "/list/sent")
-    public ResponseEntity sent_list(@RequestParam(value = "sentId") UserEntity sentId) {
-        return ResponseEntity.ok(messageService.sentmessage_list(sentId));
+    public ResponseEntity listSent(@RequestParam(value = "sentId") UserEntity sentId) {
+        return ResponseEntity.ok(messageService.findAllBySentId(sentId));
     }
     //받은 쪽지함 목록
     @GetMapping(value = "/list/recv")
-    public ResponseEntity recv_list(@RequestParam(value = "recvId") UserEntity recvId) {
-        return ResponseEntity.ok(messageService.recvmessage_list(recvId));
+    public ResponseEntity listRecv(@RequestParam(value = "recvId") UserEntity recvId) {
+        return ResponseEntity.ok(messageService.findAllByRecvId(recvId));
     }
     //보낸 쪽지함 메시지 상세 정보
     @GetMapping(value = "/list/sent/{id}")
-    public ResponseEntity sent_list(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(messageService.sentmessage_list_id(id));
+    public ResponseEntity listSentId(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(messageService.findBySentId(id));
     }
     //받은 쪽지함 메시지 상세 정보
     @GetMapping(value = "/list/recv/{id}")
-    public ResponseEntity recv_list(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(messageService.recvmessage_list_id(id));
+    public ResponseEntity listRecvId(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(messageService.findByRecvId(id));
     }
     //쪽지 삭제
     @DeleteMapping(value = "/list/{id}") // 한 게시물 삭제
@@ -51,7 +51,7 @@ public class MessageController {
     }
     //받은 쪽지함 메시지 개수
     @GetMapping(value = "/list/recv/count")
-    public ResponseEntity recvListCount(@RequestParam(value = "recvId") UserEntity recvId) {
-        return ResponseEntity.ok(messageService.recvMessageListCount(recvId));
+    public ResponseEntity listRecvCount(@RequestParam(value = "recvId") UserEntity recvId) {
+        return ResponseEntity.ok(messageService.listRecvCount(recvId));
     }
 }

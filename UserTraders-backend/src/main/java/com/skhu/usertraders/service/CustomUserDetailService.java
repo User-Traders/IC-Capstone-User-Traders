@@ -67,7 +67,7 @@ public class CustomUserDetailService implements UserDetailsService {
     }
 
     @Transactional // 회원 한명 정보 조회
-    public UserDto find(Integer id) {
+    public UserDto findById(Integer id) {
         Optional<UserEntity> userEntityWrapper = userRepository.findById(id);
         UserEntity userEntity = userEntityWrapper.get();
         return UserDto.builder().build().UserEntityToDto(userEntity);
@@ -75,7 +75,7 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Transactional // 회원 한명 정보 수정
     public Integer updateById(UserDto userDto,Integer id) {
-        UserDto user = this.find(id);
+        UserDto user = this.findById(id);
         Optional<UserEntity> userEntityWrapper = userRepository.findById(userDto.getId());
         userEntityWrapper.ifPresent(userEntity -> {
             userEntity = UserEntity.builder()

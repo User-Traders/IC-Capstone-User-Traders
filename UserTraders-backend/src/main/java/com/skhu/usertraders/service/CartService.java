@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,7 +48,7 @@ public class CartService {
 //    }
 
     @Transactional
-    public Integer cartsave(CartRequestDto cartDto, UserEntity user) {
+    public Integer save(CartRequestDto cartDto, UserEntity user) {
         //지금 장바구니 요청 dto 안에는 보드의 게시물 번호만  있음, 그리고 유저 엔티티 객체 user는 토큰값으로 받은 객체고
         //번호만 받아서 밑에서 그번호에 해당되는 게시물의 객체를 board에 담았음
         BoardDto board = boardService.findById(cartDto.getBoardId());
@@ -87,22 +88,28 @@ public class CartService {
 //    }
 
     @Transactional
-    public List<CartResponseDto> findCartlist(Integer id) { //해당 유저가 저장한 장바구니 목록만 출력
+    public List<CartResponseDto> findByUserId(Integer id) { //해당 유저가 저장한 장바구니 목록만 출력
         List<CartEntity> carts = cartRepository.findByUserId(id);
         return carts.stream().map(CartResponseDto::from).collect(Collectors.toList());
     }
 
     @Transactional
-    public void deletecartlist(Integer id, Integer boardId) {
-        cartRepository.deleteById(id);
-        BoardDto boardDto = boardService.findById(boardId);
+    public CartResponseDto findByCartId(Integer id) { //장바구니 고유 번호로 한 목록 찾기
+        Optional<CartEntity> cartEntityWrapper = cartRepository.findById(id);
+        CartEntity cartEntity = cartEntityWrapper.get();
+        return CartResponseDto.builder().build().convertEntityToDto(cartEntity);
+    }
 
+    @Transactional
+    public void deleteById(Integer id, UserEntity user) {
+        BoardDto boardDto = boardService.findById(this.findByCartId(id).getBoard().getId());
+        //장바구니 고유번호로 찾은 보드게시물에 장바구니 삭제시 -1 해줘야함
         int cartcount = boardDto.getCartcount();
         if (cartcount >= 1) {
             cartcount = cartcount - 1;
             boardDto.setCartcount(cartcount);
-
             boardService.save(boardDto);
         }
+        cartRepository.deleteByIdAndUser(id, user);
     }
 }
