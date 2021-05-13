@@ -6,6 +6,7 @@ import com.skhu.usertraders.domain.repository.LikeRepository;
 import com.skhu.usertraders.dto.board.BoardDto;
 import com.skhu.usertraders.dto.boardlike.LikeRequestDto;
 import com.skhu.usertraders.dto.boardlike.LikeResponseDto;
+import com.skhu.usertraders.dto.boardlike.LikeStatusResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -48,11 +49,11 @@ public class LikeService {
         return boardlike.stream().map(LikeResponseDto::from).collect(Collectors.toList());
     }
 
-    @Transactional // 해당 유저의 게시물 아이디와 유저
-    public List<LikeResponseDto> findByStatus(Integer boardId, UserEntity user) {
+    @Transactional // 시물 아이디와 현재 로그인한 유저로 , 그유저가 좋아요를 한 상태인지 아닌지
+    public List<LikeStatusResponseDto> findByStatus(Integer boardId, UserEntity user) {
         List<LikeEntity> likeEntityList = likeRepository.findByStatus(boardId, user);
         return likeEntityList.stream().map(likeEntity -> {
-            LikeResponseDto responseDto = LikeResponseDto.builder()
+            LikeStatusResponseDto responseDto = LikeStatusResponseDto.builder()
                     .build().convertEntityToDto(likeEntity);
             return responseDto;
         }).collect(Collectors.toList());

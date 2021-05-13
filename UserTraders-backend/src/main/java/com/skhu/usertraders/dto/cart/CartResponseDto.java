@@ -2,12 +2,7 @@ package com.skhu.usertraders.dto.cart;
 
 import com.skhu.usertraders.domain.entity.BoardEntity;
 import com.skhu.usertraders.domain.entity.CartEntity;
-import com.skhu.usertraders.domain.entity.CategoryEntity;
-import com.skhu.usertraders.domain.entity.UserEntity;
-import com.skhu.usertraders.dto.board.BoardDto;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter

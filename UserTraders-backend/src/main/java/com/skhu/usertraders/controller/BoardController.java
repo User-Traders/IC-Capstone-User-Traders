@@ -2,10 +2,13 @@ package com.skhu.usertraders.controller;
 
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.dto.board.BoardDto;
+import com.skhu.usertraders.exception.ApiRequestException;
 import com.skhu.usertraders.service.BoardService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMessage;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
@@ -31,8 +34,9 @@ public class BoardController {
     private WebApplicationContext request;
 
     @GetMapping(value = "/list") // 모든 게시물 리스트 반환,조회
-    public ResponseEntity list() {
-        return ResponseEntity.ok(boardService.findAll());
+    public ResponseEntity<List<BoardDto>> list(){
+        return new ResponseEntity<List<BoardDto>>(boardService.findAll(), HttpStatus.OK);
+//        new ApiRequestException("예외! 모든 게시물을 조회 할 수 없습니다.");
     }
 
     @GetMapping(value = "/listInfinte") // 모든 게시물 리스트 반환,조회
@@ -42,7 +46,7 @@ public class BoardController {
 
     @GetMapping(value = "/list/{id}") // 한 게시물의 id 안에 들어 있는 정보를 반환,조회
     public ResponseEntity list(@PathVariable("id") Integer id, @AuthenticationPrincipal UserEntity userEntity) { //@PathVariable :url 파라미터 값 id를 인자로 받음
-        BoardDto boardDto = boardService.findById(id);
+//        BoardDto boardDto = boardService.findById(id);
 //        if (!boardDto.getUser().getId().equals(userEntity.getId())) {//재빈아 잠깐 주석조 했다
 //            int viewcount = boardDto.getViewcount();
 //            viewcount = viewcount + 1;
@@ -64,25 +68,7 @@ public class BoardController {
 
     @PostMapping(value = "/register") // 한 게시물 저장
     public ResponseEntity register(BoardDto boardDto, List<MultipartFile> files) { //@RequestBody :HTTP 요청 몸체를 자바 객체로 변환
-        log.info("user");
-
-        String baseDir = "C:\\Users\\jaebin2\\Documents\\IC-Capstone-User-Traders\\UserTraders-frontend\\src\\assets\\images\\";
-
-        String[] fileName = new String[3];
-        if (files != null) {
-            try {
-                for (int i = 0; i < files.size(); i++) {
-                    fileName[i] = files.get(i).getOriginalFilename();
-                    files.get(i).transferTo(new File(baseDir + files.get(i).getOriginalFilename()));
-                }
-            } catch (IllegalStateException | IOException e) {
-                e.printStackTrace();
-            }
-        }
-        boardDto.setImageurl1(fileName[0]);
-        boardDto.setImageurl2(fileName[1]);
-        boardDto.setImageurl3(fileName[2]);
-        boardService.save(boardDto);
+        boardService.save(boardDto,files);
         return ResponseEntity.ok(true);
     }
 

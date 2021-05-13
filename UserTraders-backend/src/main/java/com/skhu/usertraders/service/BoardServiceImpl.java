@@ -10,7 +10,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,7 +28,30 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional
     @Override
-    public Integer save(BoardDto boardDto) { // 한 객체를 보드테이블에 저장
+    public Integer save(BoardDto boardDto,List<MultipartFile> files) { // 한 객체를 보드 테이블에 저장, 파일까지 저장
+        String baseDir = "C:\\Users\\jaebin2\\Documents\\IC-Capstone-User-Traders\\UserTraders-frontend\\src\\assets\\images\\";
+        String[] fileName = new String[3];
+        if (files != null) {
+            try {
+                for (int i = 0; i < files.size(); i++) {
+                    fileName[i] = files.get(i).getOriginalFilename();
+                    files.get(i).transferTo(new File(baseDir + files.get(i).getOriginalFilename()));
+                }
+            } catch (IllegalStateException | IOException e) {
+                e.printStackTrace();
+            }
+        }
+        boardDto.setImageurl1(fileName[0]);
+        boardDto.setImageurl2(fileName[1]);
+        boardDto.setImageurl3(fileName[2]);
+
+        BoardEntity boardEntity = boardDto.convertDtoToEntity();
+        return boardRepository.save(boardEntity).getId();
+    }
+
+    @Transactional
+    @Override
+    public Integer save(BoardDto boardDto) { // 한 객체를 보드 테이블에 저장
         BoardEntity boardEntity = boardDto.convertDtoToEntity();
         return boardRepository.save(boardEntity).getId();
     }
@@ -75,7 +102,6 @@ public class BoardServiceImpl implements BoardService {
             return boardDto;
         }).collect(Collectors.toList());
 
-
         return results;
     }
 
@@ -97,7 +123,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional
     @Override
-    public Integer updateById(BoardDto boardDto,Integer id) {
+    public Integer updateById(BoardDto boardDto, Integer id) {
         BoardDto board = this.findById(id);
 
         // 요청 받은 수정할 객체 정보를 건내받고 , 그 객체의 아이디를 뽑아서  수정전 정보를 wrapper에 담고
@@ -126,6 +152,4 @@ public class BoardServiceImpl implements BoardService {
     public void deleteById(Integer id) {
         boardRepository.deleteById(id);
     }
-
-
 }

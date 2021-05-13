@@ -26,10 +26,6 @@ public class LikeResponseDto {
         this.status = status;
     }
 
-    public static CartResponseDto from(CartEntity cart) {
-        return new CartResponseDto(cart.getId(), cart.getBoard());
-    }
-
     public LikeResponseDto convertEntityToDto(LikeEntity likeEntity) { //board 테이블안의 전체 칼럼 조회를 위한, 엔티티 객체를 디티오 객체 로 변환
         return LikeResponseDto.builder()
                 .id(likeEntity.getId())
