@@ -3,10 +3,13 @@ package com.skhu.usertraders.service;
 import com.skhu.usertraders.domain.entity.MessageEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.MessageRepository;
-import com.skhu.usertraders.dto.message.MessageDto;
 import com.skhu.usertraders.dto.board.ReadEnum;
+import com.skhu.usertraders.dto.message.MessageDto;
+import com.skhu.usertraders.dto.message.MessageRequestDto;
+import com.skhu.usertraders.dto.user.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,14 +21,24 @@ public class MessageService {
     @Autowired
     MessageRepository messageRepository;
 
+    @Autowired
+    CustomUserDetailService userService;
+
     //메시지 작성 , 저장
     @Transactional
-    public Integer save(MessageDto messageDto) {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        messageDto.setDateSent(localDateTime);
+    public Integer save(MessageRequestDto messageDto, UserEntity userEntity) {
+        UserDto recvuser = userService.findByUserId(messageDto.getRecvId());
         ReadEnum readEnum = ReadEnum.valueOf("NO");
-        messageDto.setRecvRead(readEnum);
-        MessageEntity messageEntity = messageDto.convertDtoToEntity();
+
+        MessageEntity messageEntity = MessageEntity.builder()
+                .recvId(recvuser.convertDtoToEntity())
+                .sentId(userEntity)
+                .title(messageDto.getTitle())
+                .content(messageDto.getContent())
+                .dateSent(LocalDateTime.now())
+                .dateRead(null)
+                .recvRead(readEnum)
+                .build();
         return messageRepository.save(messageEntity).getId();
     }
 

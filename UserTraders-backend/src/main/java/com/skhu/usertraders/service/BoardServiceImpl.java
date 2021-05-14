@@ -4,7 +4,8 @@ import com.skhu.usertraders.domain.entity.BoardEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.BoardRepository;
 import com.skhu.usertraders.dto.board.BoardDto;
-import com.skhu.usertraders.exception.board.ApiRequestException;
+import com.skhu.usertraders.exception.board.ApiIllegalArgumentException;
+import com.skhu.usertraders.exception.board.ApiNullPointerException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,7 +30,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional
     @Override
-    public Integer save(BoardDto boardDto,List<MultipartFile> files) { // 한 객체를 보드 테이블에 저장, 파일까지 저장
+    public Integer save(BoardDto boardDto, List<MultipartFile> files){ // 한 객체를 보드 테이블에 저장, 파일까지 저장
         String baseDir = "C:\\Users\\jaebin2\\Documents\\IC-Capstone-User-Traders\\UserTraders-frontend\\src\\assets\\images\\";
         String[] fileName = new String[3];
         if (files != null) {
@@ -45,7 +46,7 @@ public class BoardServiceImpl implements BoardService {
         boardDto.setImageurl1(fileName[0]);
         boardDto.setImageurl2(fileName[1]);
         boardDto.setImageurl3(fileName[2]);
-
+            
         BoardEntity boardEntity = boardDto.convertDtoToEntity();
         return boardRepository.save(boardEntity).getId();
     }
@@ -61,7 +62,6 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<BoardDto> findAll() { // 전체 목록 조회한 것
         List<BoardEntity> boardEntityList = boardRepository.findAll();
-
         List<BoardDto> results = boardEntityList.stream().map(boardEntity -> {
             BoardDto boardDto = BoardDto.builder()
                     .build().convertEntityToDto(boardEntity);
@@ -86,12 +86,8 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     @Override
     public BoardDto findById(Integer id) { //PK가 id인 목록 1개 조회
-        if (id == 56){
-            throw new ApiRequestException(" id 는 56 이 될수 없습니다.");
-        }
-
-        Optional<BoardEntity> boardEntityWrapper = boardRepository.findById(id);
-        BoardEntity boardEntity = boardEntityWrapper.get();
+        BoardEntity boardEntity = boardRepository.findById(id)
+                .orElseThrow(() -> new ApiIllegalArgumentException("해당되는 게시물 번호 " + id + " 값의 상세정보가 없습니다."));
         BoardDto board = BoardDto.builder().build().convertEntityToDto(boardEntity);
 
         int viewcount = board.getViewcount();
@@ -105,30 +101,31 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     @Override
     public List<BoardDto> findAllByUser(UserEntity userEntity) {
+        if (userEntity == null){
+            throw new ApiNullPointerException("유저 정보가 없습니다");
+        }
         List<BoardEntity> userBoardList = boardRepository.findAllByUser(userEntity);
-
         List<BoardDto> results = userBoardList.stream().map(boardEntity -> {
             BoardDto boardDto = BoardDto.builder()
                     .build().convertEntityToDto(boardEntity);
             return boardDto;
         }).collect(Collectors.toList());
-
         return results;
     }
 
     @Transactional
     @Override
     public List<BoardDto> findAllSearch(String title) {
+        if (title == null){
+            throw new ApiNullPointerException("검색어가 없습니다");
+        }
         List<BoardEntity> boardEntityList = boardRepository.findByTitleContaining(title);
-
         List<BoardDto> results = boardEntityList.stream().map(boardEntity -> {
             BoardDto boardDto = BoardDto.builder()
                     .build().convertEntityToDto(boardEntity);
             return boardDto;
         }).collect(Collectors.toList());
-
         if (boardEntityList.isEmpty()) return results;
-
         return results;
     }
 
@@ -161,6 +158,9 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     @Override
     public void deleteById(Integer id) {
+        if(id ==null){
+            throw new ApiNullPointerException("삭제하려는 게시물"+id+"아이디가 없습니다.");
+        }
         boardRepository.deleteById(id);
     }
 }

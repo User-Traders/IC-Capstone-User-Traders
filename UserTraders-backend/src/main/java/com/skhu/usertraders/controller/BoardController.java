@@ -2,7 +2,7 @@ package com.skhu.usertraders.controller;
 
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.dto.board.BoardDto;
-import com.skhu.usertraders.exception.board.ApiIllegalStateException;
+import com.skhu.usertraders.exception.board.ApiIllegalArgumentException;
 import com.skhu.usertraders.exception.board.ApiNullPointerException;
 import com.skhu.usertraders.exception.board.ApiRequestException;
 import com.skhu.usertraders.service.BoardService;
@@ -39,8 +39,8 @@ public class BoardController {
     }
 
     @GetMapping(value = "/request/illegal/exception")
-    public String requestIllegalStateException() throws ApiIllegalStateException {
-        throw new ApiIllegalStateException("400에러!! 그중에 IllegalStateException!!");
+    public String requestIllegalStateException() throws ApiIllegalArgumentException {
+        throw new ApiIllegalArgumentException("400에러!! 그중에 IllegalStateException!!");
     }
 
     @GetMapping(value = "/request/null/exception")

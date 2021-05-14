@@ -66,6 +66,13 @@ public class CustomUserDetailService implements UserDetailsService {
                 .build()).getId();
     }
 
+    @Transactional
+    public UserDto findByUserId(String userId){
+        Optional<UserEntity> userEntityWrapper = userRepository.findByUserid(userId);
+        UserEntity userEntity = userEntityWrapper.get();
+        return UserDto.builder().build().UserEntityToDto(userEntity);
+    }
+
     @Transactional // 회원 한명 정보 조회
     public UserDto findById(Integer id) {
         Optional<UserEntity> userEntityWrapper = userRepository.findById(id);

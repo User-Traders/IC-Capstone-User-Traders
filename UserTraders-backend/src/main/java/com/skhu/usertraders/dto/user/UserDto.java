@@ -32,17 +32,17 @@ public class UserDto {
     // 학과번호
     private DepartmentEntity department;
 
-//    public UserEntity convertDtoToEntity() { //회원 정보 추가를 위한 엔티티 - 디티오 변환 ,그러나 안쓰고 직접 빌드 하여 사용했다.
-//        return UserEntity.builder()
-//                .id(id)
-//                .userid(userid)
-//                .password(password)
-//                .tel(tel)
-//                .department(department)
-//                .name(name)
-//                .roles(roles)
-//                .build();
-//    }
+    public UserEntity convertDtoToEntity() { //회원 정보 추가를 위한 엔티티 - 디티오 변환 ,그러나 안쓰고 직접 빌드 하여 사용했다.
+        return UserEntity.builder()
+                .id(id)
+                .userid(userid)
+                .password(password)
+                .tel(tel)
+                .department(department)
+                .name(name)
+                .roles(roles)
+                .build();
+    }
     public UserDto UserEntityToDto(UserEntity userEntity) {//나중에 쓸 일 있을것 같아서 유저정보들 객체에 담아놨음
         return UserDto.builder()
                 .id(userEntity.getId())

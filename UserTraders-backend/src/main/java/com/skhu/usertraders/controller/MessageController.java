@@ -3,6 +3,7 @@ package com.skhu.usertraders.controller;
 
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.dto.message.MessageDto;
+import com.skhu.usertraders.dto.message.MessageRequestDto;
 import com.skhu.usertraders.service.MessageService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,8 @@ public class MessageController {
     MessageService messageService;
 
     @PostMapping(value = "/send") // 메시지 저장
-    public ResponseEntity register(@RequestBody MessageDto messageDto, @AuthenticationPrincipal UserEntity userEntity) {
-        messageDto.setSentId(userEntity);
-        messageService.save(messageDto);
+    public ResponseEntity register(@RequestBody MessageRequestDto messageDto, @AuthenticationPrincipal UserEntity userEntity) {
+        messageService.save(messageDto,userEntity);
         return ResponseEntity.ok("메시지가 정상적으로 보내졌습니다.");
     }
     //보낸 쪽지함 목록
