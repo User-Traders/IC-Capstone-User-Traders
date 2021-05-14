@@ -2,8 +2,9 @@ package com.skhu.usertraders.controller;
 
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.dto.board.BoardDto;
-import com.skhu.usertraders.exception.ApiRequestException;
-import com.skhu.usertraders.exception.BoardNotFoundEexception;
+import com.skhu.usertraders.exception.board.ApiIllegalStateException;
+import com.skhu.usertraders.exception.board.ApiNullPointerException;
+import com.skhu.usertraders.exception.board.ApiRequestException;
 import com.skhu.usertraders.service.BoardService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,20 +34,32 @@ public class BoardController {
     private WebApplicationContext request;
 
     @GetMapping(value = "/request/exception")
-    public String requestException(){
+    public String requestException() throws ApiRequestException{
         throw new ApiRequestException("400 에러!!, 요청값을 다시 확인해주세요");
     }
+
+    @GetMapping(value = "/request/illegal/exception")
+    public String requestIllegalStateException() throws ApiIllegalStateException {
+        throw new ApiIllegalStateException("400에러!! 그중에 IllegalStateException!!");
+    }
+
+    @GetMapping(value = "/request/null/exception")
+    public String requestNullPointerException() throws ApiNullPointerException {
+        throw new ApiNullPointerException("400 에러!!, 그중에 NullPointerException");
+    }
+
     @GetMapping(value = "/access/exception")
     public String accessDeniedException() throws AccessDeniedException {
         throw new AccessDeniedException("401 에러!!, 요청값을 다시 확인해주세요");
     }
+
     @GetMapping(value = "/internal/exception")
     public String internalServerError() throws Exception {
         throw new Exception("500 에러!!, 요청값을 다시 확인해주세요");
     }
 
     @GetMapping(value = "/list") // 모든 게시물 리스트 반환,조회
-    public ResponseEntity<List<BoardDto>> list(){
+    public ResponseEntity<List<BoardDto>> list() {
         return ResponseEntity.ok().body(boardService.findAll());
     }
 
@@ -57,14 +70,7 @@ public class BoardController {
 
     @GetMapping(value = "/list/{id}") // 한 게시물의 id 안에 들어 있는 정보를 반환,조회
     public ResponseEntity list(@PathVariable("id") Integer id) { //@PathVariable :url 파라미터 값 id를 인자로 받음
-//        BoardDto boardDto = boardService.findById(id);
-//        if (!boardDto.getUser().getId().equals(userEntity.getId())) {//재빈아 잠깐 주석조 했다
-//            int viewcount = boardDto.getViewcount();
-//            viewcount = viewcount + 1;
-//            boardDto.setViewcount(viewcount);
-//            boardService.save(boardDto);
-//        }
-            return ResponseEntity.ok(boardService.findById(id));
+        return ResponseEntity.ok(boardService.findById(id));
     }
 
     @GetMapping(value = "/list/search") //키워드로 검색기능
@@ -78,8 +84,8 @@ public class BoardController {
     }
 
     @PostMapping(value = "/register") // 한 게시물 저장
-    public ResponseEntity register(BoardDto boardDto, List<MultipartFile> files){//@RequestBody :HTTP 요청 몸체를 자바 객체로 변환
-        boardService.save(boardDto,files);
+    public ResponseEntity register(BoardDto boardDto, List<MultipartFile> files) {//@RequestBody :HTTP 요청 몸체를 자바 객체로 변환
+        boardService.save(boardDto, files);
         return ResponseEntity.ok(true);
     }
 
@@ -87,7 +93,7 @@ public class BoardController {
     public ResponseEntity update(@RequestBody @Validated BoardDto boardDto,
                                  @PathVariable("id") Integer id) {
         boardDto.setId(id);
-        boardService.updateById(boardDto,id);
+        boardService.updateById(boardDto, id);
         return ResponseEntity.ok(true);
     }
 

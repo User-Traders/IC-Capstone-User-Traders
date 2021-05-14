@@ -4,7 +4,6 @@ package com.skhu.usertraders.controller;
 import com.skhu.usertraders.config.JwtTokenProvider;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.dto.user.UserDto;
-import com.skhu.usertraders.exception.ApiRequestException;
 import com.skhu.usertraders.service.CustomUserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

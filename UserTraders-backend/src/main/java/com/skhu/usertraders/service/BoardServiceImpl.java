@@ -4,7 +4,7 @@ import com.skhu.usertraders.domain.entity.BoardEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.BoardRepository;
 import com.skhu.usertraders.dto.board.BoardDto;
-import com.skhu.usertraders.exception.ApiRequestException;
+import com.skhu.usertraders.exception.board.ApiRequestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -89,6 +89,14 @@ public class BoardServiceImpl implements BoardService {
         if (id == 56){
             throw new ApiRequestException(" id 는 56 이 될수 없습니다.");
         }
+//        System.out.println(id);
+//            BoardDto boardDto = this.findById(id);
+//        System.out.println(boardDto.getViewcount());
+//            int viewcount = boardDto.getViewcount();
+//            viewcount = viewcount + 1;
+//            boardDto.setViewcount(viewcount);
+//            this.save(boardDto);
+
         Optional<BoardEntity> boardEntityWrapper = boardRepository.findById(id);
         BoardEntity boardEntity = boardEntityWrapper.get();
 

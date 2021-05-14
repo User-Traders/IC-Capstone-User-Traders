@@ -1,4 +1,4 @@
-package com.skhu.usertraders.exception;
+package com.skhu.usertraders.exception.board;
 
 import lombok.Getter;
 import lombok.Setter;
