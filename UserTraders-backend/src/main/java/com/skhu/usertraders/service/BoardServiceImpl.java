@@ -89,18 +89,17 @@ public class BoardServiceImpl implements BoardService {
         if (id == 56){
             throw new ApiRequestException(" id 는 56 이 될수 없습니다.");
         }
-//        System.out.println(id);
-//            BoardDto boardDto = this.findById(id);
-//        System.out.println(boardDto.getViewcount());
-//            int viewcount = boardDto.getViewcount();
-//            viewcount = viewcount + 1;
-//            boardDto.setViewcount(viewcount);
-//            this.save(boardDto);
 
         Optional<BoardEntity> boardEntityWrapper = boardRepository.findById(id);
         BoardEntity boardEntity = boardEntityWrapper.get();
+        BoardDto board = BoardDto.builder().build().convertEntityToDto(boardEntity);
 
-        return BoardDto.builder().build().convertEntityToDto(boardEntity);
+        int viewcount = board.getViewcount();
+        viewcount = viewcount + 1;
+        board.setViewcount(viewcount);
+        this.save(board);
+
+        return board;
     }
 
     @Transactional
