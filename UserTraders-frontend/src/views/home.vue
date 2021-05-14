@@ -52,7 +52,9 @@
 import { mapActions } from "vuex";
 import InfiniteLoading from 'vue-infinite-loading';
 import http from "@/utils/http";
+import myMixin from "@/filter";
 export default {
+  mixins: [myMixin],
   data() {
     return {
       limit: 1,

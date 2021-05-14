@@ -16,7 +16,7 @@
         <v-btn icon :to="{ name: 'Cart'}">
           <v-icon size="xx-large" color="white">mdi-cart</v-icon>
         </v-btn>
-        <div v-if="!isLogin">
+        <div v-if="!loginflag">
           <v-menu bottom left>
             <template v-slot:activator="{ on, attrs }">
               <v-btn dark icon v-bind="attrs" v-on="on">
@@ -102,6 +102,7 @@ export default {
 
   data: () => ({
     openMenu: false,
+    loginflag: false,
   }),
   mounted() {
 
@@ -117,34 +118,25 @@ export default {
     }),
 
   },
-  watch: {
-    loginCheck() {
-      if (!localStorage.getItem("user")) {
-        return false
-      }
-      else {
-        return true
-      }
-    },
+  mounted() {
+    this.loginCheck()
   },
   methods: {
+     loginCheck() {
+      if (!localStorage.getItem("user")) {
+        this.loginflag = false
+      }
+      else {
+        this.loginflag = true
+      }
+    },
     userLogout() {
       this.getUserLogout().then(() => {
         this.isLoading = false;
+        localStorage.removeItem("user")
+        this.$router.push({ name: 'Home1' });
       });
     },
-    // tokenCheck() {
-    //   const token = localStorage.getItem("user")
-    //   console.log("zzzzz"+token)
-    //   if (localStorage.getItem("user")) {
-    //     this.isLogin = true
-
-
-    //   }
-    //   else {
-    //     this.isLogin = false
-    //   }
-    // },
     ...mapActions({
       getUserLogout: "auth/getUserLogout",
     }),

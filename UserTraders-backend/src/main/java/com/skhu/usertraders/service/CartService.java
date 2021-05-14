@@ -1,7 +1,9 @@
 package com.skhu.usertraders.service;
 
+import com.skhu.usertraders.domain.entity.BoardEntity;
 import com.skhu.usertraders.domain.entity.CartEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
+import com.skhu.usertraders.domain.repository.BoardRepository;
 import com.skhu.usertraders.domain.repository.CartRepository;
 import com.skhu.usertraders.dto.BoardDto;
 import com.skhu.usertraders.dto.cart.CartRequestDto;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,7 +25,7 @@ public class CartService {
     private CartRepository cartRepository;
 
     @Autowired
-    private BoardService boardService;
+    private BoardRepository boardRepository;
 //    @Transactional
 //    public Integer cart_save(CartResponseDto cartDto, UserEntity userEntity) {
 //
@@ -47,10 +50,10 @@ public class CartService {
 //    }
 
     @Transactional
-    public CartResponseDto cart_save(CartRequestDto cartDto, UserEntity user) {
-        BoardDto board = boardService.findById(cartDto.getBoardId());
+    public CartResponseDto cartSave(CartRequestDto cartDto, UserEntity user) {
+        Optional<BoardEntity> board = boardRepository.findById(cartDto.getBoardId());
         CartEntity cart = CartEntity.builder()
-                .board(board.convertDtoToEntity())
+                .board(board.get())
                 .user(user)
                 .build();
         return CartResponseDto.from(cartRepository.save(cart));
@@ -79,15 +82,9 @@ public class CartService {
 
 
     @Transactional
-    public void delete_cartlist(Integer id, Integer boardId) {
-        cartRepository.deleteById(id);
-        BoardDto boardDto = boardService.findById(boardId);
-        int likecount = boardDto.getLikecount();
-        if (likecount >= 1) {
-            likecount = likecount - 1;
-            boardDto.setLikecount(likecount);
-            boardService.save(boardDto);
-        }
+    public void removeCart(Integer id) {
+        Optional<CartEntity> cartOpt = cartRepository.findById(id);
+        cartRepository.delete(cartOpt.get());
     }
 
 

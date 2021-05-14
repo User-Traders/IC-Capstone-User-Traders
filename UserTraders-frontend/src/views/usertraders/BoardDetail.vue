@@ -20,7 +20,7 @@
           <v-card-subtitle>
             {{listDataDeatail.content}}
           </v-card-subtitle>
-          <v-card-text>{{ `가격 : ${listDataDeatail.price} 원 ` }}</v-card-text>
+          <v-card-text>가격 : {{ listDataDeatail.price}}원 </v-card-text>
 
           <v-btn color="blue-grey" class="ma-2 white--text" @click="cartAdd(listDataDeatail.id)">
             Add To Cart
@@ -47,7 +47,9 @@
 import { mapState, mapActions } from "vuex";
 import Loding from "./jun-loding.vue";
 import http from "@/utils/http";
+import myMixin from "@/filter";
 export default {
+  mixins: [myMixin],
   props: ["id"],
 
   components: {
@@ -56,13 +58,10 @@ export default {
   data() {
     return {
       isLoading: true,
+      token: "",
     };
   },
-  filters: {
-    loadImgOrPlaceholder: function (path) {
-      return require("@/assets/images/" + path)
-    }
-  },
+
   computed: {
     ...mapState({
       listDataDeatail: (state) => state.users.listDataDeatail,
@@ -76,6 +75,7 @@ export default {
     init() {
       console.log("detail init...");
       this.getListDetail(this.id);
+      this.token = localStorage.getItem("user")
     },
     getListDetail(id) {
       this._getListDetail(id).then(() => {
@@ -83,13 +83,14 @@ export default {
       });
     },
     cartAdd(id) {
-      console.log(id)
-      return http.process("cart", "register",id)
+      return http.process("cart", "register", { boardId: id }, { token: this.token })
         .then((res) => {
           console.log(res)
-          this.userBList = res
+          this.$router.push({ name: "Cart" })
         }).catch((err) => {
           console.log(err)
+          alert("로그인 후 이용해 주세요")
+          this.$router.push({ name: 'UserLogin' });
         })
     },
 
