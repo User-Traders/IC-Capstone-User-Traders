@@ -4,6 +4,7 @@ import com.skhu.usertraders.domain.entity.BoardEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.BoardRepository;
 import com.skhu.usertraders.dto.board.BoardDto;
+import com.skhu.usertraders.exception.ApiRequestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -85,6 +86,9 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     @Override
     public BoardDto findById(Integer id) { //PK가 id인 목록 1개 조회
+        if (id == 56){
+            throw new ApiRequestException(" id 는 56 이 될수 없습니다.");
+        }
         Optional<BoardEntity> boardEntityWrapper = boardRepository.findById(id);
         BoardEntity boardEntity = boardEntityWrapper.get();
 
