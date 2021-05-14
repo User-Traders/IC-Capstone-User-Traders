@@ -13,7 +13,7 @@
         <v-toolbar-title style="color:white" class="ma-2">User Traders</v-toolbar-title>
         <v-spacer></v-spacer>
         <Togglesearch />
-        <v-btn icon>
+        <v-btn icon :to="{ name: 'Cart'}">
           <v-icon size="xx-large" color="white">mdi-cart</v-icon>
         </v-btn>
         <div v-if="!isLogin">
@@ -47,7 +47,6 @@
                 <v-icon size="xx-large">mdi-account-check-outline</v-icon>
               </v-btn>
             </template>
-
             <v-list dense nav>
               <v-list-item active-class="deep-purple--text text--accent-4">
                 <v-list-item-content>

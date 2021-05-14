@@ -15,8 +15,9 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "category")
-public class CategoryEntity{
+@Table(name = "board_subcategory")
+public class CategoryEntity {
+
 
     // 고유번호
     @Id
@@ -28,7 +29,7 @@ public class CategoryEntity{
     private String name;
 
     @Builder
-    public CategoryEntity(Integer id , String name){
+    public CategoryEntity(Integer id, String name) {
         this.id = id;
         this.name = name;
     }

@@ -3,15 +3,19 @@ package com.skhu.usertraders.service;
 import com.skhu.usertraders.domain.entity.BoardEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.BoardRepository;
-import com.skhu.usertraders.dto.BoardDto;
+import com.skhu.usertraders.dto.board.BoardDto;
+import com.skhu.usertraders.exception.board.ApiRequestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,9 +24,38 @@ import java.util.stream.Collectors;
 @Service
 public class BoardServiceImpl implements BoardService {
     private static final int DEFAULT_SIZE = 2;
-
     @Autowired
     private BoardRepository boardRepository;
+
+    @Transactional
+    @Override
+    public Integer save(BoardDto boardDto,List<MultipartFile> files) { // 한 객체를 보드 테이블에 저장, 파일까지 저장
+        String baseDir = "C:\\Users\\jaebin2\\Documents\\IC-Capstone-User-Traders\\UserTraders-frontend\\src\\assets\\images\\";
+        String[] fileName = new String[3];
+        if (files != null) {
+            try {
+                for (int i = 0; i < files.size(); i++) {
+                    fileName[i] = files.get(i).getOriginalFilename();
+                    files.get(i).transferTo(new File(baseDir + files.get(i).getOriginalFilename()));
+                }
+            } catch (IllegalStateException | IOException e) {
+                e.printStackTrace();
+            }
+        }
+        boardDto.setImageurl1(fileName[0]);
+        boardDto.setImageurl2(fileName[1]);
+        boardDto.setImageurl3(fileName[2]);
+
+        BoardEntity boardEntity = boardDto.convertDtoToEntity();
+        return boardRepository.save(boardEntity).getId();
+    }
+
+    @Transactional
+    @Override
+    public Integer save(BoardDto boardDto) { // 한 객체를 보드 테이블에 저장
+        BoardEntity boardEntity = boardDto.convertDtoToEntity();
+        return boardRepository.save(boardEntity).getId();
+    }
 
     @Transactional
     @Override
@@ -30,65 +63,56 @@ public class BoardServiceImpl implements BoardService {
         List<BoardEntity> boardEntityList = boardRepository.findAll();
 
         List<BoardDto> results = boardEntityList.stream().map(boardEntity -> {
-            BoardDto boardDto = convertEntityToDto(boardEntity);
+            BoardDto boardDto = BoardDto.builder()
+                    .build().convertEntityToDto(boardEntity);
             return boardDto;
         }).collect(Collectors.toList());
-        System.out.println(results);
 
         return results;
     }
 
-
+    @Transactional
     @Override
     public List<BoardDto> findAllInfinite(int limit) {//무한 스크롤
         Page<BoardEntity> page = boardRepository.findAll(PageRequest.of(limit - 1, 2, Sort.by(Sort.Direction.DESC, "createdDate")));
         List<BoardDto> results = page.stream().map(boardEntity -> {
-            BoardDto boardDto = convertEntityToDto(boardEntity);
+            BoardDto boardDto = BoardDto.builder()
+                    .build().convertEntityToDto(boardEntity);
             return boardDto;
         }).collect(Collectors.toList());
         return results;
     }
 
-
-    private BoardDto convertEntityToDto(BoardEntity boardEntity) { //엔티티 객체 변수를 디티오 객체 변수로 변환
-        return BoardDto.builder()
-                .id(boardEntity.getId())
-                .title(boardEntity.getTitle())
-                .content(boardEntity.getContent())
-                .price(boardEntity.getPrice())
-                .category(boardEntity.getCategory())
-                .user(boardEntity.getUser())
-                .imageurl1(boardEntity.getImageurl1())
-                .imageurl2(boardEntity.getImageurl2())
-                .imageurl3(boardEntity.getImageurl3())
-                .createdDate(boardEntity.getCreatedDate())
-                .modifiedDate(boardEntity.getModifiedDate())
-                .likecount(boardEntity.getLikecount())
-                .viewcount(boardEntity.getViewcount())
-                .buycount(boardEntity.getBuycount())
-                .status(boardEntity.getStatus())
-                .build();
-    }
-
-
     @Transactional
     @Override
     public BoardDto findById(Integer id) { //PK가 id인 목록 1개 조회
+        if (id == 56){
+            throw new ApiRequestException(" id 는 56 이 될수 없습니다.");
+        }
+//        System.out.println(id);
+//            BoardDto boardDto = this.findById(id);
+//        System.out.println(boardDto.getViewcount());
+//            int viewcount = boardDto.getViewcount();
+//            viewcount = viewcount + 1;
+//            boardDto.setViewcount(viewcount);
+//            this.save(boardDto);
+
         Optional<BoardEntity> boardEntityWrapper = boardRepository.findById(id);
         BoardEntity boardEntity = boardEntityWrapper.get();
 
-        return this.convertEntityToDto(boardEntity);
+        return BoardDto.builder().build().convertEntityToDto(boardEntity);
     }
 
+    @Transactional
     @Override
     public List<BoardDto> findAllByUser(UserEntity userEntity) {
         List<BoardEntity> userBoardList = boardRepository.findAllByUser(userEntity);
 
         List<BoardDto> results = userBoardList.stream().map(boardEntity -> {
-            BoardDto boardDto = convertEntityToDto(boardEntity);
+            BoardDto boardDto = BoardDto.builder()
+                    .build().convertEntityToDto(boardEntity);
             return boardDto;
         }).collect(Collectors.toList());
-
 
         return results;
     }
@@ -99,7 +123,8 @@ public class BoardServiceImpl implements BoardService {
         List<BoardEntity> boardEntityList = boardRepository.findByTitleContaining(title);
 
         List<BoardDto> results = boardEntityList.stream().map(boardEntity -> {
-            BoardDto boardDto = convertEntityToDto(boardEntity);
+            BoardDto boardDto = BoardDto.builder()
+                    .build().convertEntityToDto(boardEntity);
             return boardDto;
         }).collect(Collectors.toList());
 
@@ -110,26 +135,28 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional
     @Override
-    public Integer save(BoardDto boardDto) { // 한 객체를 보드테이블에 저장
-        BoardEntity boardEntity = boardDto.convertDtoToEntity();
-        return boardRepository.save(boardEntity).getId();
-    }
-
-    @Transactional
-    @Override
-    public Integer updateById(BoardDto boardDto) {
+    public Integer updateById(BoardDto boardDto, Integer id) {
+        BoardDto board = this.findById(id);
 
         // 요청 받은 수정할 객체 정보를 건내받고 , 그 객체의 아이디를 뽑아서  수정전 정보를 wrapper에 담고
         // 수정 할 객체 정보를 수정전 객체 정보에 저장 ,  수정 끝
         //Optinal 클래스의 ifPresent 함수의 사용: 수정값에 null이 있는지 확인하는 if문을 줄이기 위함
         Optional<BoardEntity> boardEntityWrapper = boardRepository.findById(boardDto.getId());
         boardEntityWrapper.ifPresent(boardEntity -> {
-            boardEntity = boardDto.convertDtoToEntity();
+            boardEntity = BoardEntity.builder()
+                    .id(boardDto.getId())
+                    .title(boardDto.getTitle())
+                    .content(boardDto.getContent())
+                    .price(boardDto.getPrice())
+                    .imageurl1(board.getImageurl1())
+                    .imageurl2(board.getImageurl2())
+                    .imageurl3(board.getImageurl3())
+                    .category(board.getCategory())
+                    .user(board.getUser())
+                    .status(board.getStatus()).build();
             boardRepository.save(boardEntity);
         });
-
         return boardEntityWrapper.get().getId();
-
     }
 
     @Transactional
@@ -137,6 +164,4 @@ public class BoardServiceImpl implements BoardService {
     public void deleteById(Integer id) {
         boardRepository.deleteById(id);
     }
-
-
 }
