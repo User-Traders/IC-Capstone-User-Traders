@@ -84,8 +84,8 @@ public class BoardController {
     }
 
     @PostMapping(value = "/register") // 한 게시물 저장
-    public ResponseEntity register(BoardDto boardDto, List<MultipartFile> files) {//@RequestBody :HTTP 요청 몸체를 자바 객체로 변환
-        boardService.save(boardDto, files);
+    public ResponseEntity register(BoardDto boardDto, List<MultipartFile> files,@AuthenticationPrincipal UserEntity user) {//@RequestBody :HTTP 요청 몸체를 자바 객체로 변환
+        boardService.save(boardDto, files,user);
         return ResponseEntity.ok(true);
     }
 

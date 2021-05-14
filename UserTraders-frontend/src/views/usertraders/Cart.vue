@@ -6,8 +6,7 @@
         My Cart List
       </h1>
       <v-card v-for="(cart,index) in cartList" :key="cart.id">
-    
-      
+
         <v-layout>
           <v-flex xs3>
             <v-img v-bind:src="cart.board.imageurl1 | loadImgOrPlaceholder" contain height="125px"></v-img>
@@ -42,7 +41,7 @@
 <script>
 import http from "@/utils/http";
 import myMixin from "@/filter";
-
+import { userTokenValid } from "@/api/userValid"
 export default {
   mixins: [myMixin],
   data() {
@@ -51,30 +50,34 @@ export default {
     };
   },
   mounted() {
-    this.init();
+    const token = localStorage.getItem("user")
+    if (!localStorage.getItem("user")) {
+      alert("로그인 후 이용해 주세요")
+      this.$router.push({ name: 'UserLogin' });
+    }
+    else if (!userTokenValid(token)) {
+      alert("토큰이 만료되었습니다. 다시 로그인 해주세요!!")
+      this.$router.push({ name: 'UserLogin' });
+    }
+    this.getCartList(token);
+
   },
   methods: {
-    init() {
-      console.log("cart init...");
-      this.getCartList(this.id);
-    },
-    getCartList() {
-      const token = localStorage.getItem("user")
+    getCartList(token) {
       return http.process("cart", "list", null, { token: token })
         .then((res) => {
-          console.log()
           this.cartList = res
         }).catch((err) => {
           console.log(err)
+          alert("로그인 해주세요");
+          this.$router.push({ name: 'UserLogin' });
         })
     },
-    cartDelete(idx, cartId) {
-      const token = localStorage.getItem("user")
+    cartDelete(idx, id) {
       this.cartList.splice(idx, 1);
-      return http.process("cart", "delete", {id:cartId}, { token: token })
+      return http.process("cart", "remove", { id: id })
         .then((res) => {
-          console.log()
-          this.cartList = res
+          console.log(res)
         }).catch((err) => {
           console.log(err)
         })

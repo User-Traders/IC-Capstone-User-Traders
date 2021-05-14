@@ -18,20 +18,21 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
-    @PostMapping(value = "/register") // 장바구니 저장
-    public ResponseEntity register(@RequestBody CartRequestDto cartDto, @AuthenticationPrincipal UserEntity userEntity) {
+
+    @PostMapping(value = "/register")
+    public ResponseEntity cartRegister(@RequestBody CartRequestDto cartDto,@AuthenticationPrincipal UserEntity userEntity ) {
         cartService.save(cartDto, userEntity);
         return ResponseEntity.ok("장바구니 등록 완료");
     }
 
-    @GetMapping(value = "/list") //한 유저 장바구니 목록 단, 토큰값이 있어야 가능
-    public ResponseEntity list(@AuthenticationPrincipal UserEntity userEntity) {
+    @GetMapping(value = "/list")
+    public ResponseEntity cartList(@AuthenticationPrincipal UserEntity userEntity) {
         return ResponseEntity.ok(cartService.findByUserId(userEntity.getId()));
     }
 
-    @DeleteMapping(value = "/list/{id}") // 장바구니 삭제
-    public ResponseEntity delete(@AuthenticationPrincipal UserEntity userEntity, @PathVariable("id") Integer id) {
-        cartService.deleteById(id,userEntity);
-        return ResponseEntity.ok(true);
+    @DeleteMapping("/list/delete/{id}")
+    public ResponseEntity cartDelete(@PathVariable("id") Integer id) {
+        cartService.deleteById(id);
+        return ResponseEntity.ok().body("장바구니 삭제 완료");
     }
 }

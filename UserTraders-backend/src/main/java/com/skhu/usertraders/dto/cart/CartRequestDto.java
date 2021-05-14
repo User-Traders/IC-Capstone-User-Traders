@@ -1,10 +1,9 @@
 package com.skhu.usertraders.dto.cart;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Setter
-@ToString
 @NoArgsConstructor
 public class CartRequestDto {
     private Integer boardId;

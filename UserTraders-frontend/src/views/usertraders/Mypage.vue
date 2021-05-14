@@ -2,7 +2,6 @@
   <div>
     <v-container>
       <v-row justify="center">
-        <v-subheader>My Traders</v-subheader>
         <v-expansion-panels popout>
           <v-expansion-panel v-for="(message, i) in messages" :key="i" hide-actions>
             <div v-if="i==0">
@@ -18,14 +17,66 @@
                     <v-chip v-if="message.new" :color="`${message.color} lighten-4`" class="ml-0 mr-2 black--text" label small>
                       {{ message.new }} new
                     </v-chip>
-                    <strong v-html="message.title"></strong>
+                    <strong>내 정보</strong>
+                  </v-col>
+
+                </v-row>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-divider></v-divider>
+                <v-row>
+                  <v-list-item three-line>
+                    <v-list-item-content>
+                      <div class="overline mb-4">
+                        email : {{userInfo.userid}}
+                      </div>
+                      <div class="overline mb-4">
+                        가입일 : {{userInfo.createdDate}}
+                      </div>
+                      <div class="overline mb-4">
+                        학과 : {{department}}
+                      </div>
+                      <div class="overline mb-4">
+                        TEL : {{userInfo.tel}}
+                      </div>
+                    </v-list-item-content>
+                  </v-list-item>
+
+                  <v-card-actions>
+                    <v-btn outlined rounded text>
+                      회원정보 수정
+                    </v-btn>
+                  </v-card-actions>
+                </v-row>
+              </v-expansion-panel-content>
+            </div>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-row>
+
+      <v-row justify="center">
+        <v-expansion-panels popout>
+          <v-expansion-panel v-for="(message, i) in messages" :key="i" hide-actions>
+            <div v-if="i==0">
+              <v-expansion-panel-header>
+                <v-row align="center" class="spacer" no-gutters>
+                  <v-col cols="4" sm="2" md="1">
+                    <v-avatar size="36px">
+                      <img v-if="message.avatar" alt="Avatar" src="https://avatars0.githubusercontent.com/u/9064066?v=4&s=460">
+                      <v-icon v-else :color="message.color" v-text="message.icon"></v-icon>
+                    </v-avatar>
+                  </v-col>
+                  <v-col class="text-no-wrap" cols="5" sm="3">
+                    <v-chip v-if="message.new" :color="`${message.color} lighten-4`" class="ml-0 mr-2 black--text" label small>
+                      {{ message.new }} new
+                    </v-chip>
+                    <strong>거래 목록</strong>
                   </v-col>
                   <v-col class="grey--text text-truncate hidden-sm-and-down">
-                  Total {{userBList.length}} List
+                    Total {{userBList.length}} List
                   </v-col>
                 </v-row>
               </v-expansion-panel-header>
-
               <v-expansion-panel-content>
                 <v-divider></v-divider>
                 <v-row>
@@ -36,11 +87,15 @@
                           <div class="overline mb-4">
                             {{item.modifiedDate|timeForToday}}
                           </div>
+                          <div class="overline mb-4">
+
+                            거래 상태 : {{item.status|tradeStatus}}
+                          </div>
                           <v-list-item-title class="headline mb-1">
                             {{item.title}}
                           </v-list-item-title>
                           <v-list-item-subtitle>{{item.content}}</v-list-item-subtitle>
-                          <v-list-item-subtitle>{{item.price|money}}</v-list-item-subtitle>
+                          <v-list-item-subtitle>{{item.price|moneyFilter}}</v-list-item-subtitle>
 
                         </v-list-item-content>
 
@@ -71,88 +126,56 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from "vuex";
 import http from "@/utils/http";
+import myMixin from "@/filter";
+import { userTokenValid } from "@/api/userValid"
 export default {
+  mixins: [myMixin],
   data() {
     return {
       userBList: [],
+      userInfo: [],
       messages: [
         {
           avatar: 'https://avatars0.githubusercontent.com/u/9064066?v=4&s=460',
           title: 'Welcome to UserTraders!',
         },
       ],
+      department: "",
     }
   },
-  filters: {
-    loadImgOrPlaceholder: function (path) {
-      return require("@/assets/images/" + path)
-    },
-    money: function (value) {
-      return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    },
-    timeForToday: function (value) {
-      const today = new Date();
-      const timeValue = new Date(value);
-
-      const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
-      if (betweenTime < 1) return '방금전';
-      if (betweenTime < 60) {
-        return `${betweenTime}분전`;
-      }
-
-      const betweenTimeHour = Math.floor(betweenTime / 60);
-      if (betweenTimeHour < 24) {
-        return `${betweenTimeHour}시간전`;
-      }
-
-      const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-      if (betweenTimeDay < 365) {
-        return `${betweenTimeDay}일전`;
-      }
-
-      return `${Math.floor(betweenTimeDay / 365)}년전`;
-    }
-  },
-
   mounted() {
     const token = localStorage.getItem("user")
-    console.log(token)
-    return http.process("user", "userValid", { token: token })
-      .then((res) => {
-        console.log(res)
-        if (res) {
-          this.userBoardList(token)
-        } else {
-          this.validTokenError()
-        }
-      }).catch((err) => {
-        console.log(err)
-        this.validTokenError()
-      })
+    if (!token) {
+      alert("로그인 후 이용해 주세요")
+      this.$router.push({ name: 'UserLogin' });
+    } else if (!userTokenValid(token)) {
+      alert("토큰이 만료되었습니다. 다시 로그인 해주세요!!")
+      this.$router.push({ name: 'UserLogin' });
+    }
+    this.userBoardList(token)
+    this.userInfoList(token)
   },
-  computed: {
-    ...mapState({
-      userInfo: (state) => state.users.userInfo,
 
-    }),
-  },
   methods: {
     userBoardList(token) {
-      console.log(token)
       return http.process("user", "userBoard", null, { token: token })
         .then((res) => {
-          console.log(res)
           this.userBList = res
         }).catch((err) => {
           console.log(err)
         })
     },
-    ...mapActions({
-      validTokenError: "auth/validTokenError",
+    userInfoList(token) {
+      return http.process("user", "userinfo", null, { token: token })
+        .then((res) => {
+          this.userInfo = res
+          this.department = res.department.name
+        }).catch((err) => {
+          console.log(err)
+        })
+    }
 
-    }),
   },
 
 

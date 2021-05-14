@@ -17,8 +17,6 @@ import javax.persistence.Table;
 @Setter
 @Table(name = "board_subcategory")
 public class CategoryEntity {
-
-
     // 고유번호
     @Id
     @Column(name = "id")

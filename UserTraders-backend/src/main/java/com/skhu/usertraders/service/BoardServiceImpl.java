@@ -30,7 +30,8 @@ public class BoardServiceImpl implements BoardService {
 
     @Transactional
     @Override
-    public Integer save(BoardDto boardDto, List<MultipartFile> files){ // 한 객체를 보드 테이블에 저장, 파일까지 저장
+
+    public Integer save(BoardDto boardDto,List<MultipartFile> files,UserEntity user) { // 한 객체를 보드 테이블에 저장, 파일까지 저장
         String baseDir = "C:\\Users\\jaebin2\\Documents\\IC-Capstone-User-Traders\\UserTraders-frontend\\src\\assets\\images\\";
         String[] fileName = new String[3];
         if (files != null) {
@@ -46,11 +47,11 @@ public class BoardServiceImpl implements BoardService {
         boardDto.setImageurl1(fileName[0]);
         boardDto.setImageurl2(fileName[1]);
         boardDto.setImageurl3(fileName[2]);
-            
+        boardDto.setUser(user);
+
         BoardEntity boardEntity = boardDto.convertDtoToEntity();
         return boardRepository.save(boardEntity).getId();
     }
-
     @Transactional
     @Override
     public Integer save(BoardDto boardDto) { // 한 객체를 보드 테이블에 저장
