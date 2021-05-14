@@ -28,7 +28,7 @@ public class DepartmentController {
 
     @GetMapping(value = "/list/user"
     ) // 모든 유저의 학과 리스트 반환
-    public ResponseEntity list_user() {
+    public ResponseEntity listUser() {
 
         return ResponseEntity.ok(departmentService.findAll());
     }

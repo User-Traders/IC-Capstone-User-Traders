@@ -1,7 +1,6 @@
  <template>
   <div>
     <br>
-    <loding v-if="isLoading" />
     <v-card max-width="500" max-height="auto" class="mx-auto my-12">
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-card-title>
@@ -76,11 +75,11 @@
 <script>
 import http from "@/utils/http";
 import { mapState, mapActions } from "vuex";
-import Loding from "./jun-loding.vue"
+import { userTokenValid } from "@/api/userValid"
 export default {
   data() {
     return {
-      isLoading: true,
+      
       valid: true,
       titleRules: [
         v => !!v || 'title is required',
@@ -101,11 +100,9 @@ export default {
       price: '',
       category: '',
       content: '',
+      tokenRefesh:"",
     }
 
-  },
-  components: {
-    Loding,
   },
   computed: {
     ...mapState({
@@ -113,10 +110,17 @@ export default {
     }),
 
   },
-  mounted() {
-    this.categoryName()
-  }
-  ,
+    mounted() {
+     this.token = localStorage.getItem("user")
+    if (!this.token) {
+      alert("로그인을 해야 상품 등록이 가능합니다!!")
+      this.$router.push({ name: 'UserLogin' });
+    } else if (!userTokenValid(this.token)) {
+      alert("로그인 시간이 만료되었습니다. 다시 로그인 해주세요!!")
+      this.$router.push({ name: 'UserLogin' });
+    }
+     this.categoryName()
+  },
   methods: {
     validate() {
       this.$refs.form.validate()
@@ -127,8 +131,6 @@ export default {
       for (var i = 0; i < this.categories.length; i++) {
         this.categoryItem = this.categoryItem.concat(this.categories[i].id + " " + this.categories[i].name)
       }
-      this.isLoading = false;
-
     },
     onClickImageUpload() {
       this.$refs.imageInput.click();
@@ -172,8 +174,7 @@ export default {
       for (var i = 0; i < this.images.length; i++) {
         frm.append("files", this.images[i]);
       }
-      frm.append("user", 27);
-      return http.process("user", "boardCreate", frm)
+      return http.process("user", "boardCreate", frm,{token:this.token})
         .then((res) => {
           console.log(res)
           this.$router.push({ name: 'Home1' });

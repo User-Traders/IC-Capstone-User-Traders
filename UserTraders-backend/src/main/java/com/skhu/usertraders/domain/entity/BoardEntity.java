@@ -1,18 +1,13 @@
 package com.skhu.usertraders.domain.entity;
 
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.persistence.*;
-
 
 @Entity
 @NoArgsConstructor
 @Getter
-@Setter
 @Table(name = "board")
 public class BoardEntity extends TimeEntity {
 
@@ -47,6 +42,9 @@ public class BoardEntity extends TimeEntity {
     @Column(name = "buycount", nullable = false)
     private int buycount;
 
+    @Column(name = "cartcount", nullable = false)
+    private int cartcount;
+
     @Column(name = "status")
     private Boolean status;
 
@@ -63,7 +61,7 @@ public class BoardEntity extends TimeEntity {
     public BoardEntity(Integer id, String title, String content, String price,
                        CategoryEntity category, UserEntity user, int likecount, int viewcount,
                        String imageurl1, String imageurl2, String imageurl3,
-                       int buycount, Boolean status) {
+                       int buycount, int cartcount, Boolean status) {
 
         this.id = id;
         this.title = title;
@@ -77,6 +75,7 @@ public class BoardEntity extends TimeEntity {
         this.likecount = likecount;
         this.viewcount = viewcount;
         this.buycount = buycount;
+        this.cartcount = cartcount;
         this.status = status;
 
     }

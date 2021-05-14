@@ -6,5 +6,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class CartRequestDto {
-    Integer boardId;
+    private Integer boardId;
+
+    public CartRequestDto(Integer boardId) {
+        this.boardId = boardId;
+    }
 }

@@ -1,6 +1,5 @@
 package com.skhu.usertraders.domain.entity;
 
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,25 +37,19 @@ public class UserEntity extends TimeEntity implements UserDetails {
     @JoinColumn(name = "department_id")
     private DepartmentEntity department;
 
-
     @Column(name = "name")
     private String name;
 
-
     @ElementCollection(fetch = FetchType.EAGER)
-
     @CollectionTable(
             name = "role",
             joinColumns = @JoinColumn(name = "id")
     )
-
     private List<String> roles = new ArrayList<>();
-
 
     @Builder
     public UserEntity(Integer id, String userid, String password, String tel,
                       DepartmentEntity department, String name, List<String> roles) {
-
         this.id = id;
         this.userid = userid;
         this.password = password;
@@ -66,7 +58,6 @@ public class UserEntity extends TimeEntity implements UserDetails {
         this.name = name;
         this.roles = roles;
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

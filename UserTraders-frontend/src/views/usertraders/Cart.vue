@@ -51,18 +51,15 @@ export default {
   },
   mounted() {
     const token = localStorage.getItem("user")
-    if (!token) {
+    if (!localStorage.getItem("user")) {
       alert("로그인 후 이용해 주세요")
       this.$router.push({ name: 'UserLogin' });
-    } else {
-      if (!userTokenValid(token)) {
-        alert("토큰이 만료되었습니다. 다시 로그인 해주세요!!")
-        this.$router.push({ name: 'UserLogin' });
-      }
-      else {
-        this.getCartList(token);
-      }
     }
+    else if (!userTokenValid(token)) {
+      alert("토큰이 만료되었습니다. 다시 로그인 해주세요!!")
+      this.$router.push({ name: 'UserLogin' });
+    }
+    this.getCartList(token);
 
   },
   methods: {
@@ -72,7 +69,8 @@ export default {
           this.cartList = res
         }).catch((err) => {
           console.log(err)
-          alert(err+"zzz")
+          alert("로그인 해주세요");
+          this.$router.push({ name: 'UserLogin' });
         })
     },
     cartDelete(idx, id) {

@@ -1,10 +1,10 @@
 let myMixin = {
 
   filters: {
-    loadImgOrPlaceholder: function(path) {
+    loadImgOrPlaceholder: function (path) {
       return require("@/assets/images/" + path);
     },
-    moneyFilter: function(value) {
+    moneyFilter: function (value) {
       return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
     timeForToday: function (value) {
@@ -28,7 +28,15 @@ let myMixin = {
       }
 
       return `${Math.floor(betweenTimeDay / 365)}년전`;
-    }
+    },
+    tradeStatus: function (value) {
+
+      if (value == true) {
+        return "판매중"
+      }
+      return "판매완료"
+    },
+  
   }
 };
 export default myMixin;

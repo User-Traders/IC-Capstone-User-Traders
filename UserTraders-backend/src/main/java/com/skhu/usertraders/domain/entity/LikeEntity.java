@@ -1,14 +1,15 @@
 package com.skhu.usertraders.domain.entity;
 
 import lombok.*;
+
 import javax.persistence.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
 @Entity
-@Table(name = "board_cart")
-public class CartEntity {
+@Table(name = "board_like")
+public class LikeEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +23,14 @@ public class CartEntity {
     @JoinColumn(name = "board_id")
     private BoardEntity board;
 
+    @Column(name = "status")
+    private Boolean status;
+
     @Builder
-    public CartEntity(BoardEntity board, UserEntity user) {
+    public LikeEntity(BoardEntity board, UserEntity user, Boolean status) {
         this.board = board;
         this.user = user;
+        this.status = status;
     }
 }
+

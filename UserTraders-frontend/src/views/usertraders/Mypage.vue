@@ -1,9 +1,7 @@
 <template>
   <div>
     <v-container>
-      {{userInfo}}
       <v-row justify="center">
-        <v-subheader>My Traders</v-subheader>
         <v-expansion-panels popout>
           <v-expansion-panel v-for="(message, i) in messages" :key="i" hide-actions>
             <div v-if="i==0">
@@ -19,14 +17,66 @@
                     <v-chip v-if="message.new" :color="`${message.color} lighten-4`" class="ml-0 mr-2 black--text" label small>
                       {{ message.new }} new
                     </v-chip>
-                    <strong v-html="message.title"></strong>
+                    <strong>내 정보</strong>
+                  </v-col>
+
+                </v-row>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-divider></v-divider>
+                <v-row>
+                  <v-list-item three-line>
+                    <v-list-item-content>
+                      <div class="overline mb-4">
+                        email : {{userInfo.userid}}
+                      </div>
+                      <div class="overline mb-4">
+                        가입일 : {{userInfo.createdDate}}
+                      </div>
+                      <div class="overline mb-4">
+                        학과 : {{department}}
+                      </div>
+                      <div class="overline mb-4">
+                        TEL : {{userInfo.tel}}
+                      </div>
+                    </v-list-item-content>
+                  </v-list-item>
+
+                  <v-card-actions>
+                    <v-btn outlined rounded text>
+                      회원정보 수정
+                    </v-btn>
+                  </v-card-actions>
+                </v-row>
+              </v-expansion-panel-content>
+            </div>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-row>
+
+      <v-row justify="center">
+        <v-expansion-panels popout>
+          <v-expansion-panel v-for="(message, i) in messages" :key="i" hide-actions>
+            <div v-if="i==0">
+              <v-expansion-panel-header>
+                <v-row align="center" class="spacer" no-gutters>
+                  <v-col cols="4" sm="2" md="1">
+                    <v-avatar size="36px">
+                      <img v-if="message.avatar" alt="Avatar" src="https://avatars0.githubusercontent.com/u/9064066?v=4&s=460">
+                      <v-icon v-else :color="message.color" v-text="message.icon"></v-icon>
+                    </v-avatar>
+                  </v-col>
+                  <v-col class="text-no-wrap" cols="5" sm="3">
+                    <v-chip v-if="message.new" :color="`${message.color} lighten-4`" class="ml-0 mr-2 black--text" label small>
+                      {{ message.new }} new
+                    </v-chip>
+                    <strong>거래 목록</strong>
                   </v-col>
                   <v-col class="grey--text text-truncate hidden-sm-and-down">
                     Total {{userBList.length}} List
                   </v-col>
                 </v-row>
               </v-expansion-panel-header>
-
               <v-expansion-panel-content>
                 <v-divider></v-divider>
                 <v-row>
@@ -36,6 +86,10 @@
                         <v-list-item-content>
                           <div class="overline mb-4">
                             {{item.modifiedDate|timeForToday}}
+                          </div>
+                          <div class="overline mb-4">
+
+                            거래 상태 : {{item.status|tradeStatus}}
                           </div>
                           <v-list-item-title class="headline mb-1">
                             {{item.title}}
@@ -87,7 +141,7 @@ export default {
           title: 'Welcome to UserTraders!',
         },
       ],
-
+      department: "",
     }
   },
   mounted() {
@@ -112,15 +166,16 @@ export default {
           console.log(err)
         })
     },
-    userInfoList(token){
+    userInfoList(token) {
       return http.process("user", "userinfo", null, { token: token })
         .then((res) => {
           this.userInfo = res
+          this.department = res.department.name
         }).catch((err) => {
           console.log(err)
         })
     }
-    
+
   },
 
 
