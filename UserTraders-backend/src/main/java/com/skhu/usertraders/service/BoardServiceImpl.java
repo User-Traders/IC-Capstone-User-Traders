@@ -4,6 +4,7 @@ import com.skhu.usertraders.domain.entity.BoardEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.BoardRepository;
 import com.skhu.usertraders.dto.board.BoardDto;
+import com.skhu.usertraders.dto.board.BoardResponseUserDto;
 import com.skhu.usertraders.exception.board.ApiIllegalArgumentException;
 import com.skhu.usertraders.exception.board.ApiNullPointerException;
 import lombok.extern.slf4j.Slf4j;
@@ -112,6 +113,16 @@ public class BoardServiceImpl implements BoardService {
             return boardDto;
         }).collect(Collectors.toList());
         return results;
+    }
+
+
+    @Transactional
+    @Override
+    public BoardResponseUserDto findUserIdWhereBoardId(Integer id) {
+        BoardEntity boardEntity = boardRepository.findById(id)
+                .orElseThrow(() -> new ApiIllegalArgumentException("해당되는 게시물 번호 " + id + " 값의 상세정보가 없습니다."));
+
+        return BoardResponseUserDto.builder().build().convertEntityToDto(boardEntity);
     }
 
     @Transactional

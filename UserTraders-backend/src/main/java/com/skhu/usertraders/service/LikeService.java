@@ -5,7 +5,8 @@ import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.LikeRepository;
 import com.skhu.usertraders.dto.board.BoardDto;
 import com.skhu.usertraders.dto.boardlike.LikeRequestDto;
-import com.skhu.usertraders.dto.boardlike.LikeResponseDto;
+import com.skhu.usertraders.dto.boardlike.LikeResponseBoardDto;
+import com.skhu.usertraders.dto.boardlike.LikeResponseUserDto;
 import com.skhu.usertraders.dto.boardlike.LikeStatusResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,9 +45,9 @@ public class LikeService {
     }
 
     @Transactional
-    public List<LikeResponseDto> findByUserId(Integer userId) { //해당 유저가 저장한 좋아요 한 목록만 출력
+    public List<LikeResponseBoardDto> findByUserId(Integer userId) { //해당 유저가 저장한 좋아요 한 목록만 출력
         List<LikeEntity> boardlike = likeRepository.findByUserId(userId);
-        return boardlike.stream().map(LikeResponseDto::from).collect(Collectors.toList());
+        return boardlike.stream().map(LikeResponseBoardDto::from).collect(Collectors.toList());
     }
 
     @Transactional // 시물 아이디와 현재 로그인한 유저로 , 그유저가 좋아요를 한 상태인지 아닌지
@@ -60,10 +61,10 @@ public class LikeService {
     }
 
     @Transactional
-    public LikeResponseDto findByBoardLikeId(Integer id) {
+    public LikeResponseBoardDto findByBoardLikeId(Integer id) {
         Optional<LikeEntity> boardLikeEntityWrapper = likeRepository.findById(id);
         LikeEntity likeEntity = boardLikeEntityWrapper.get();
-        return LikeResponseDto.builder().build().convertEntityToDto(likeEntity);
+        return LikeResponseBoardDto.builder().build().convertEntityToDto(likeEntity);
     }
 
     @Transactional
@@ -77,6 +78,12 @@ public class LikeService {
             boardService.save(boardDto);
         }
         likeRepository.deleteByIdAndUser(id, user);
+    }
+
+    @Transactional // 해당 게시물 번호로 그 게시물을 좋아하는 사람들 찾기
+    public List<LikeResponseUserDto> findByBoardId(Integer boardId) {
+        List<LikeEntity> boardlike =likeRepository.findByBoard_Id(boardId);
+        return boardlike.stream().map(LikeResponseUserDto::from).collect(Collectors.toList());
     }
 }
 

@@ -86,7 +86,7 @@ public class BoardController {
     @PostMapping(value = "/register") // 한 게시물 저장
     public ResponseEntity register(BoardDto boardDto, List<MultipartFile> files,@AuthenticationPrincipal UserEntity user) {//@RequestBody :HTTP 요청 몸체를 자바 객체로 변환
         boardService.save(boardDto, files,user);
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok(boardDto.getId()+"번 게시물이 저장되었습니다.");
     }
 
     @PutMapping(value = "/list/{id}") // 한 게시물의 id 를 받아서 그 안에 들어 있는 게시물 정보 수정.
@@ -94,13 +94,19 @@ public class BoardController {
                                  @PathVariable("id") Integer id) {
         boardDto.setId(id);
         boardService.updateById(boardDto, id);
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok(id+"번 게시물이 수정되었습니다.");
 
     }
 
     @DeleteMapping(value = "/list/{id}") // 한 게시물 삭제
     public ResponseEntity delete(@PathVariable("id") Integer id) {
         boardService.deleteById(id);
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok(id+"번 게시물이 삭제되었습니다.");
     }
+
+    @GetMapping(value = "/list/{id}/userId") // 한 게시물의 id 안에 그 게시물을 작성한 유저의 userid(이메일)
+    public ResponseEntity listUser(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(boardService.findUserIdWhereBoardId(id));
+    }
+
 }

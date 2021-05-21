@@ -106,6 +106,7 @@ public class MessageService {
         }).collect(Collectors.toList());
 
         int a = results.size();
+        System.out.println(a);
         return a;
     }
 }

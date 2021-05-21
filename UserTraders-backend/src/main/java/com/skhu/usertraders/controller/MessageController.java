@@ -20,7 +20,7 @@ public class MessageController {
     @PostMapping(value = "/send") // 메시지 저장,보내기
     public ResponseEntity register(@RequestBody MessageRequestDto messageDto, @AuthenticationPrincipal UserEntity userEntity) {
         messageService.save(messageDto,userEntity);
-    //recvId ,
+    //recvId , 카카오 api 넣을곳
 
 
         return ResponseEntity.ok("메시지가 정상적으로 보내졌습니다.");
@@ -49,11 +49,11 @@ public class MessageController {
     @DeleteMapping(value = "/list/{id}") // 한 게시물 삭제
     public ResponseEntity delete(@PathVariable("id") Integer id) {
         messageService.deleteById(id);
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok("게시물이 삭제 되었습니다.");
     }
     //받은 쪽지함 메시지 개수, 그 중 수신 확인 NO 칼럼
     @GetMapping(value = "/list/user/recv/count")
-    public ResponseEntity listRecvCount(@RequestParam(value = "recvId") UserEntity recvId) {
-        return ResponseEntity.ok(messageService.listRecvCount(recvId));
+    public ResponseEntity listRecvCount(@AuthenticationPrincipal UserEntity recvId) {
+        return ResponseEntity.ok("받은 쪽지함 중 안읽은 메시지의 개수는 "+messageService.listRecvCount(recvId)+ " 개 입니다.");
     }
 }

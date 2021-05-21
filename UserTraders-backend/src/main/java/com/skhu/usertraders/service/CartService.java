@@ -4,8 +4,10 @@ import com.skhu.usertraders.domain.entity.CartEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.CartRepository;
 import com.skhu.usertraders.dto.board.BoardDto;
+import com.skhu.usertraders.dto.board.BoardResponseUserDto;
 import com.skhu.usertraders.dto.cart.CartRequestDto;
 import com.skhu.usertraders.dto.cart.CartResponseDto;
+import com.skhu.usertraders.exception.board.ApiIllegalArgumentException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +27,21 @@ public class CartService {
     @Autowired
     private BoardService boardService;
 
+    // 장바구니 저장 로직에는 1. 게시물을 작성한 자신이 장바구니를 저장할 수 없어야한다.
+    //2.똑같은 장바구니는 저장 할 수 없어야한다.
     @Transactional
     public Integer save(CartRequestDto cartDto, UserEntity user) {
+        BoardResponseUserDto boardResponseUserDto =
+                boardService.findUserIdWhereBoardId(cartDto.getBoardId());
+        if (user.getUserid().equals(boardResponseUserDto.getUserId())) {
+            throw new ApiIllegalArgumentException("나의 게시물은 장바구니에 담을 수 없습니다.");
+        }
+
+        List<CartEntity> cartEntity = cartRepository.findAllByBoard_IdAndUser(cartDto.getBoardId(), user);
+        if (cartEntity.size() >= 1) {
+            throw new ApiIllegalArgumentException("중복된 게시물은 장바구니에 담을 수 없습니다.");
+        }
+
         BoardDto board = boardService.findById(cartDto.getBoardId());
         CartEntity cart = CartEntity.builder()
                 .board(board.convertDtoToEntity())
@@ -35,13 +50,13 @@ public class CartService {
 
         if (!board.getUser().getId().equals(user.getId())) {
             int cartcount = board.getCartcount();
-
             cartcount = cartcount + 1;
             board.setCartcount(cartcount);
             boardService.save(board);
         }
         return cartRepository.save(cart).getId();
     }
+
     @Transactional
     public List<CartResponseDto> findByUserId(Integer id) { //해당 유저가 저장한 장바구니 목록만 출력
         List<CartEntity> carts = cartRepository.findByUserId(id);

@@ -22,7 +22,7 @@ public class CartController {
     @PostMapping(value = "/register")
     public ResponseEntity cartRegister(@RequestBody CartRequestDto cartDto,@AuthenticationPrincipal UserEntity userEntity ) {
         cartService.save(cartDto, userEntity);
-        return ResponseEntity.ok("장바구니 등록 완료");
+        return ResponseEntity.ok(cartDto.getBoardId()+"번 게시물 장바구니 등록이 완료되었습니다.");
     }
 
     @GetMapping(value = "/list")
@@ -33,6 +33,6 @@ public class CartController {
     @DeleteMapping("/list/delete/{id}")
     public ResponseEntity cartDelete(@PathVariable("id") Integer id) {
         cartService.deleteById(id);
-        return ResponseEntity.ok().body("장바구니 삭제 완료");
+        return ResponseEntity.ok().body("장바구니 삭제가 완료되었습니다.");
     }
 }

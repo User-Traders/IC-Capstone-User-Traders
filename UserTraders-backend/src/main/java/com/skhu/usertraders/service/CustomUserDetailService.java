@@ -4,6 +4,7 @@ import com.skhu.usertraders.config.JwtTokenProvider;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.UserRepository;
 import com.skhu.usertraders.dto.user.UserDto;
+import com.skhu.usertraders.exception.board.ApiIllegalArgumentException;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -40,9 +41,9 @@ public class CustomUserDetailService implements UserDetailsService {
     @Transactional // 회원 로그인
     public String login(Map<String, String> user) {
         UserEntity userEntity = userRepository.findByUserid(user.get("userid"))
-                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
+                .orElseThrow(() -> new ApiIllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
         if (!passwordEncoder.matches(user.get("password"), userEntity.getPassword())) {
-            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+            throw new ApiIllegalArgumentException("잘못된 비밀번호입니다.");
         }
         return jwtTokenProvider.createToken(userEntity.getUsername(), userEntity.getRoles());
     }
