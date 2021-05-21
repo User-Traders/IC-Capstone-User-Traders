@@ -95,6 +95,7 @@ public class BoardController {
         boardDto.setId(id);
         boardService.updateById(boardDto, id);
         return ResponseEntity.ok(true);
+
     }
 
     @DeleteMapping(value = "/list/{id}") // 한 게시물 삭제
