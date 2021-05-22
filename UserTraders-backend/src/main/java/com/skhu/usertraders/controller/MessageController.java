@@ -20,9 +20,6 @@ public class MessageController {
     @PostMapping(value = "/send") // 메시지 저장,보내기
     public ResponseEntity register(@RequestBody MessageRequestDto messageDto, @AuthenticationPrincipal UserEntity userEntity) {
         messageService.save(messageDto,userEntity);
-    //recvId , 카카오 api 넣을곳
-
-
         return ResponseEntity.ok("메시지가 정상적으로 보내졌습니다.");
     }
     //보낸 쪽지함 목록, 여기로 토큰값 보내면 됨
@@ -54,6 +51,6 @@ public class MessageController {
     //받은 쪽지함 메시지 개수, 그 중 수신 확인 NO 칼럼
     @GetMapping(value = "/list/user/recv/count")
     public ResponseEntity listRecvCount(@AuthenticationPrincipal UserEntity recvId) {
-        return ResponseEntity.ok("받은 쪽지함 중 안읽은 메시지의 개수는 "+messageService.listRecvCount(recvId)+ " 개 입니다.");
+        return ResponseEntity.ok(messageService.listRecvCount(recvId));
     }
 }
