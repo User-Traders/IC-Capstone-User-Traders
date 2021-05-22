@@ -14,7 +14,10 @@ export default {
     'userValid': { task: 'get', url: '/users/valid' },
     'categoryAll': { task: 'get', url: '/categories/list/board' },
     'userBoard': { task: 'get', url: '/boards/list/user/board' },
+    'categorySearch':{task:'get',url:'/boards/category/search/#id'},
+    'keywordSearch':{task:'get',url:'/boards/keword/search'},
   },
+
   'cart': {
     'register': { task: 'post', url: '/carts/register' },
     'list': { task: 'get', url: '/carts/list' },

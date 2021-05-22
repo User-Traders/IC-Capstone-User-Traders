@@ -27,11 +27,7 @@ import java.util.List;
 public class BoardController {
 
     @Autowired
-    private WebApplicationContext webApplicationContext;
-    @Autowired
     private BoardService boardService;
-    @Autowired
-    private WebApplicationContext request;
 
     @GetMapping(value = "/request/exception")
     public String requestException() throws ApiRequestException{
@@ -73,9 +69,14 @@ public class BoardController {
         return ResponseEntity.ok(boardService.findById(id));
     }
 
-    @GetMapping(value = "/list/search") //키워드로 검색기능
-    public ResponseEntity search(@RequestParam(value = "keyword") String keyword) {
-        return ResponseEntity.ok(boardService.findAllSearch(keyword));
+    @GetMapping(value = "/keword/search") //키워드로 검색기능
+    public ResponseEntity kewordSearch(@RequestParam String keyword) {
+        return ResponseEntity.ok(boardService.findByTitleContaining(keyword));
+    }
+
+    @GetMapping(value = "/category/search/{id}")
+    public ResponseEntity categorySearch(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(boardService.findAllByCategoryContaining(id));
     }
 
     @GetMapping(value = "/list/user/board")// 어떤 한 유저가 가지고 있는 게시물 조회

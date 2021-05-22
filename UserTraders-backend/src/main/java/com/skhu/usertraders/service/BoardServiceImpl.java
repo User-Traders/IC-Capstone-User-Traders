@@ -3,6 +3,7 @@ package com.skhu.usertraders.service;
 import com.skhu.usertraders.domain.entity.BoardEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.BoardRepository;
+import com.skhu.usertraders.domain.repository.CategoryRepository;
 import com.skhu.usertraders.dto.board.BoardDto;
 import com.skhu.usertraders.dto.board.BoardResponseUserDto;
 import com.skhu.usertraders.exception.board.ApiIllegalArgumentException;
@@ -25,14 +26,15 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class BoardServiceImpl implements BoardService {
-    private static final int DEFAULT_SIZE = 2;
     @Autowired
     private BoardRepository boardRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Transactional
     @Override
 
-    public Integer save(BoardDto boardDto,List<MultipartFile> files,UserEntity user) { // 한 객체를 보드 테이블에 저장, 파일까지 저장
+    public Integer save(BoardDto boardDto, List<MultipartFile> files, UserEntity user) { // 한 객체를 보드 테이블에 저장, 파일까지 저장
         String baseDir = "C:\\Users\\jaebin2\\Documents\\IC-Capstone-User-Traders\\UserTraders-frontend\\src\\assets\\images\\";
         String[] fileName = new String[3];
         if (files != null) {
@@ -53,6 +55,7 @@ public class BoardServiceImpl implements BoardService {
         BoardEntity boardEntity = boardDto.convertDtoToEntity();
         return boardRepository.save(boardEntity).getId();
     }
+
     @Transactional
     @Override
     public Integer save(BoardDto boardDto) { // 한 객체를 보드 테이블에 저장
@@ -72,6 +75,29 @@ public class BoardServiceImpl implements BoardService {
 
         return results;
     }
+    @Override
+    public List<BoardDto> findAllByCategoryContaining(Integer id) {
+        List<BoardEntity> boardEntityList = boardRepository.findAllByCategory_Id(id);
+        List<BoardDto> results = boardEntityList.stream().map(boardEntity -> {
+            BoardDto boardDto = BoardDto.builder()
+                    .build().convertEntityToDto(boardEntity);
+            return boardDto;
+        }).collect(Collectors.toList());
+
+        return results;
+    }
+    @Override
+    public List<BoardDto> findByTitleContaining(String keyword) {
+        List<BoardEntity> boardEntityList = boardRepository.findByTitleContaining(keyword);
+        List<BoardDto> results = boardEntityList.stream().map(boardEntity -> {
+            BoardDto boardDto = BoardDto.builder()
+                    .build().convertEntityToDto(boardEntity);
+            return boardDto;
+        }).collect(Collectors.toList());
+
+        return results;
+    }
+
 
     @Transactional
     @Override
@@ -85,6 +111,7 @@ public class BoardServiceImpl implements BoardService {
         return results;
     }
 
+
     @Transactional
     @Override
     public BoardDto findById(Integer id) { //PK가 id인 목록 1개 조회
@@ -96,14 +123,13 @@ public class BoardServiceImpl implements BoardService {
         viewcount = viewcount + 1;
         board.setViewcount(viewcount);
         this.save(board);
-
         return board;
     }
 
     @Transactional
     @Override
     public List<BoardDto> findAllByUser(UserEntity userEntity) {
-        if (userEntity == null){
+        if (userEntity == null) {
             throw new ApiNullPointerException("유저 정보가 없습니다");
         }
         List<BoardEntity> userBoardList = boardRepository.findAllByUser(userEntity);
@@ -125,21 +151,7 @@ public class BoardServiceImpl implements BoardService {
         return BoardResponseUserDto.builder().build().convertEntityToDto(boardEntity);
     }
 
-    @Transactional
-    @Override
-    public List<BoardDto> findAllSearch(String title) {
-        if (title == null){
-            throw new ApiNullPointerException("검색어가 없습니다");
-        }
-        List<BoardEntity> boardEntityList = boardRepository.findByTitleContaining(title);
-        List<BoardDto> results = boardEntityList.stream().map(boardEntity -> {
-            BoardDto boardDto = BoardDto.builder()
-                    .build().convertEntityToDto(boardEntity);
-            return boardDto;
-        }).collect(Collectors.toList());
-        if (boardEntityList.isEmpty()) return results;
-        return results;
-    }
+
 
     @Transactional
     @Override
@@ -170,9 +182,11 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     @Override
     public void deleteById(Integer id) {
-        if(id ==null){
-            throw new ApiNullPointerException("삭제하려는 게시물"+id+"아이디가 없습니다.");
+        if (id == null) {
+            throw new ApiNullPointerException("삭제하려는 게시물" + id + "아이디가 없습니다.");
         }
         boardRepository.deleteById(id);
     }
+
+
 }

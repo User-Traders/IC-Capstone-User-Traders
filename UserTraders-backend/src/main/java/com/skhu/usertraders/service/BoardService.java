@@ -20,7 +20,7 @@ public interface BoardService { // 공통적인 부분은 가지되, 다형성�
     BoardDto findById(Integer id);  //글 1개 조회
 
     @Transactional
-    Integer save(BoardDto boardDto,List<MultipartFile> files,UserEntity user);  //글쓰기 맨처음, 파일 까지 저장
+    Integer save(BoardDto boardDto, List<MultipartFile> files, UserEntity user);  //글쓰기 맨처음, 파일 까지 저장
 
     @Transactional
     Integer save(BoardDto boardDto);  //글쓰기 저장
@@ -32,7 +32,10 @@ public interface BoardService { // 공통적인 부분은 가지되, 다형성�
     void deleteById(Integer id);  // 글 1개 삭제
 
     @Transactional
-    List<BoardDto> findAllSearch(String title);
+    List<BoardDto> findByTitleContaining(String keyword);
+
+    @Transactional
+    List<BoardDto> findAllByCategoryContaining(Integer id);
 
     @Transactional
     List<BoardDto> findAllByUser(UserEntity userEntity);
