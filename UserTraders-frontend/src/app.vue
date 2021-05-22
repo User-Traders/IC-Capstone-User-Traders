@@ -79,9 +79,8 @@
         <span>쪽지</span>
         <v-icon large>mdi-chat</v-icon>
       </v-btn>
-      <v-btn>
-        <span>카테고리{{isLogin}}</span>
-
+      <v-btn :to="{ name: 'Search'}">
+        <span>카테고리</span>
         <v-icon large>mdi-shopping-search</v-icon>
       </v-btn>
       <v-btn :to="{ name: 'Mypage'}">
