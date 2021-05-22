@@ -1,16 +1,16 @@
 package com.skhu.usertraders.domain.repository;
 
-
+import com.skhu.usertraders.domain.entity.GradeEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+public interface GradeRepository extends JpaRepository<GradeEntity, Integer> {
 
-    Optional<UserEntity> findByUserid(String userid);
-
+    List<GradeEntity> findByRecvId(UserEntity user);
 
 }
+

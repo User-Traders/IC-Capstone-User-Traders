@@ -110,4 +110,9 @@ public class BoardController {
         return ResponseEntity.ok(boardService.findUserIdWhereBoardId(id));
     }
 
+    @GetMapping(value = "/list/userId")
+    public ResponseEntity listUserId(@RequestParam(value = "userId") String userId){
+        return ResponseEntity.ok(boardService.findAllByUserId(userId));
+    }
+
 }

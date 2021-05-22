@@ -6,6 +6,8 @@ import com.skhu.usertraders.domain.repository.BoardRepository;
 import com.skhu.usertraders.domain.repository.CategoryRepository;
 import com.skhu.usertraders.dto.board.BoardDto;
 import com.skhu.usertraders.dto.board.BoardResponseUserDto;
+import com.skhu.usertraders.dto.board.BoardResponseUserIdDto;
+import com.skhu.usertraders.dto.user.UserDto;
 import com.skhu.usertraders.exception.board.ApiIllegalArgumentException;
 import com.skhu.usertraders.exception.board.ApiNullPointerException;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +31,7 @@ public class BoardServiceImpl implements BoardService {
     @Autowired
     private BoardRepository boardRepository;
     @Autowired
-    private CategoryRepository categoryRepository;
+    private CustomUserDetailService userService;
 
     @Transactional
     @Override
@@ -141,7 +143,6 @@ public class BoardServiceImpl implements BoardService {
         return results;
     }
 
-
     @Transactional
     @Override
     public BoardResponseUserDto findUserIdWhereBoardId(Integer id) {
@@ -151,7 +152,11 @@ public class BoardServiceImpl implements BoardService {
         return BoardResponseUserDto.builder().build().convertEntityToDto(boardEntity);
     }
 
-
+    @Override
+    public BoardResponseUserIdDto findAllByUserId(String userId) {
+        UserDto userDto = userService.findByUserId(userId);
+        return BoardResponseUserIdDto.builder().build().convertEntityToDto(userDto.convertDtoToEntity());
+    }
 
     @Transactional
     @Override
