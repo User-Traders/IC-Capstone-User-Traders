@@ -3,10 +3,13 @@ package com.skhu.usertraders.service;
 import com.skhu.usertraders.domain.entity.MessageEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.MessageRepository;
-import com.skhu.usertraders.dto.message.MessageDto;
 import com.skhu.usertraders.dto.board.ReadEnum;
+import com.skhu.usertraders.dto.message.MessageAllResponseDto;
+import com.skhu.usertraders.dto.message.MessageRequestDto;
+import com.skhu.usertraders.dto.user.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,53 +21,63 @@ public class MessageService {
     @Autowired
     MessageRepository messageRepository;
 
+    @Autowired
+    CustomUserDetailService userService;
+
     //메시지 작성 , 저장
     @Transactional
-    public Integer save(MessageDto messageDto) {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        messageDto.setDateSent(localDateTime);
+    public Integer save(MessageRequestDto messageDto, UserEntity userEntity) {
+        UserDto recvuser = userService.findByUserId(messageDto.getRecvId());
         ReadEnum readEnum = ReadEnum.valueOf("NO");
-        messageDto.setRecvRead(readEnum);
-        MessageEntity messageEntity = messageDto.convertDtoToEntity();
+
+        MessageEntity messageEntity = MessageEntity.builder()
+                .recvId(recvuser.convertDtoToEntity())
+                .sentId(userEntity)
+                .title(messageDto.getTitle())
+                .content(messageDto.getContent())
+                .dateSent(LocalDateTime.now())
+                .dateRead(null)
+                .recvRead(readEnum)
+                .build();
         return messageRepository.save(messageEntity).getId();
     }
 
     //보낸 메시지 전체 목록
     @Transactional
-    public List<MessageDto> findAllBySentId(UserEntity sentId) {
+    public List<MessageAllResponseDto> findAllBySentId(UserEntity sentId) {
         List<MessageEntity> messageEntityList = messageRepository.findAllBySentId(sentId);
         System.out.println(messageEntityList);
-        List<MessageDto> results = messageEntityList.stream().map(messageEntity -> {
-            MessageDto messageDto = new MessageDto().
+        List<MessageAllResponseDto> results = messageEntityList.stream().map(messageEntity -> {
+            MessageAllResponseDto messageAllResponseDto = new MessageAllResponseDto().
                     convertEntityToDto(messageEntity);
-            return messageDto;
+            return messageAllResponseDto;
         }).collect(Collectors.toList());
         return results;
     }
 
     //받은 메시지 전체 목록
     @Transactional
-    public List<MessageDto> findAllByRecvId(UserEntity recvId) {
+    public List<MessageAllResponseDto> findAllByRecvId(UserEntity recvId) {
         List<MessageEntity> messageEntityList = messageRepository.findAllByRecvId(recvId);
-        List<MessageDto> results = messageEntityList.stream().map(messageEntity -> {
-            MessageDto messageDto = new MessageDto().
+        List<MessageAllResponseDto> results = messageEntityList.stream().map(messageEntity -> {
+            MessageAllResponseDto messageAllResponseDto = new MessageAllResponseDto().
                     convertEntityToDto(messageEntity);
-            return messageDto;
+            return messageAllResponseDto;
         }).collect(Collectors.toList());
         return results;
     }
 
     //보낸 메시지 상세 정보 1개
     @Transactional
-    public MessageDto findBySentId(Integer id) {
+    public MessageAllResponseDto findBySentId(Integer id) {
         Optional<MessageEntity> messageEntityWrapper = messageRepository.findById(id);
         MessageEntity messageEntity = messageEntityWrapper.get();
-        return new MessageDto().convertEntityToDto(messageEntity);
+        return new MessageAllResponseDto().convertEntityToDto(messageEntity);
     }
 
     //받은 메시지 상세 정보 1개
     @Transactional
-    public MessageDto findByRecvId(Integer id) {
+    public MessageAllResponseDto findByRecvId(Integer id) {
         Optional<MessageEntity> messageEntityWrapper = messageRepository.findById(id);
         MessageEntity messageEntity = messageEntityWrapper.get();
 
@@ -73,7 +86,7 @@ public class MessageService {
         ReadEnum readEnum = ReadEnum.valueOf("YES");
         messageEntity.setRecvRead(readEnum);
         messageRepository.save(messageEntity);
-        return new MessageDto().convertEntityToDto(messageEntity);
+        return new MessageAllResponseDto().convertEntityToDto(messageEntity);
     }
 
     //메시지 1개 삭제
@@ -86,13 +99,14 @@ public class MessageService {
     @Transactional
     public Integer listRecvCount(UserEntity recvId) {
         List<MessageEntity> messageEntityList =  messageRepository.findByRecvIdEqualsAndRecvReadEquals(recvId,ReadEnum.NO);
-        List<MessageDto> results = messageEntityList.stream().map(messageEntity -> {
-            MessageDto messageDto = new MessageDto().
+        List<MessageAllResponseDto> results = messageEntityList.stream().map(messageEntity -> {
+            MessageAllResponseDto messageAllResponseDto = new MessageAllResponseDto().
                     convertEntityToDto(messageEntity);
-            return messageDto;
+            return messageAllResponseDto;
         }).collect(Collectors.toList());
 
         int a = results.size();
+        System.out.println(a);
         return a;
     }
 }

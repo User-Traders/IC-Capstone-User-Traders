@@ -2,6 +2,7 @@ package com.skhu.usertraders.service;
 
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.dto.board.BoardDto;
+import com.skhu.usertraders.dto.board.BoardResponseUserDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
@@ -35,5 +36,8 @@ public interface BoardService { // 공통적인 부분은 가지되, 다형성�
 
     @Transactional
     List<BoardDto> findAllByUser(UserEntity userEntity);
+
+    @Transactional
+    BoardResponseUserDto findUserIdWhereBoardId(Integer id);
 
 }

@@ -22,4 +22,6 @@ public interface LikeRepository extends JpaRepository<LikeEntity, Integer> {
 
     @Query("select b from LikeEntity b  where b.board.id = :boardId and b.user= :user")
     List<LikeEntity> findByStatus(@Param("boardId") Integer boardId, @Param("user") UserEntity user);
+
+    List<LikeEntity> findByBoard_Id(Integer BoardId);
 }

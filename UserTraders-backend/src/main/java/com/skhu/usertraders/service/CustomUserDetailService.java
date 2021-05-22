@@ -4,6 +4,7 @@ import com.skhu.usertraders.config.JwtTokenProvider;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.UserRepository;
 import com.skhu.usertraders.dto.user.UserDto;
+import com.skhu.usertraders.exception.board.ApiIllegalArgumentException;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -40,9 +41,9 @@ public class CustomUserDetailService implements UserDetailsService {
     @Transactional // 회원 로그인
     public String login(Map<String, String> user) {
         UserEntity userEntity = userRepository.findByUserid(user.get("userid"))
-                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
+                .orElseThrow(() -> new ApiIllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
         if (!passwordEncoder.matches(user.get("password"), userEntity.getPassword())) {
-            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+            throw new ApiIllegalArgumentException("잘못된 비밀번호입니다.");
         }
         return jwtTokenProvider.createToken(userEntity.getUsername(), userEntity.getRoles());
     }
@@ -64,6 +65,13 @@ public class CustomUserDetailService implements UserDetailsService {
                 .roles(Collections.singletonList("ROLE_USER")) // 최초 가입시 USER 로 설정
                 .department(userDto.getDepartment())
                 .build()).getId();
+    }
+
+    @Transactional
+    public UserDto findByUserId(String userId){
+        Optional<UserEntity> userEntityWrapper = userRepository.findByUserid(userId);
+        UserEntity userEntity = userEntityWrapper.get();
+        return UserDto.builder().build().UserEntityToDto(userEntity);
     }
 
     @Transactional // 회원 한명 정보 조회
