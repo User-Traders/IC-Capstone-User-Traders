@@ -1,18 +1,19 @@
 <template>
   <v-container>
+   
     <v-card>
       <h1 align="center" class="grey--text">
         <v-icon size="xxx-large" color="orange">mdi-gift</v-icon>
         My Cart List
       </h1>
       <v-card v-for="(cart,index) in cartList" :key="cart.id">
-
+<div @click="detailPush(cart.board.id)">
         <v-layout>
           <v-flex xs3>
             <v-img v-bind:src="cart.board.imageurl1 | loadImgOrPlaceholder" contain height="125px"></v-img>
           </v-flex>
           <v-layout column>
-            <v-card-title>
+            <v-card-title >
               <h4>{{ cart.board.title }}</h4>
             </v-card-title>
             <v-card-text>{{ `가격 : ${cart.board.price} 원 `| moneyFilter }}</v-card-text>
@@ -25,6 +26,7 @@
             </v-btn>
           </v-card-actions>
         </v-layout>
+</div>
       </v-card>
       <v-card-subtitle>
         <h3 align="center">
@@ -81,6 +83,9 @@ export default {
         }).catch((err) => {
           console.log(err)
         })
+    },
+    detailPush(id) {
+      this.$router.push({ name: 'BoardDetail', params: { id: id } });
     },
 
   },

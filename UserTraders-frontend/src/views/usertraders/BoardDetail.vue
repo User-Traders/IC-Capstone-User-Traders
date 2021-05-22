@@ -11,10 +11,11 @@
           </v-carousel>
           <v-card-title>
             <h4>{{ listDataDeatail.title }}</h4>
-            <v-btn class="mx-2" fab dark small color="pink">
+            <v-btn class="mx-2" fab dark medium color="pink">
               <v-icon dark>
                 mdi-heart
               </v-icon>
+              {{listDataDeatail.likecount}}
             </v-btn>
           </v-card-title>
           <v-card-subtitle>

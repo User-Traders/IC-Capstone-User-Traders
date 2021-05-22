@@ -3,6 +3,7 @@ package com.skhu.usertraders.service;
 import com.skhu.usertraders.domain.entity.BoardEntity;
 import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.BoardRepository;
+import com.skhu.usertraders.domain.repository.CategoryRepository;
 import com.skhu.usertraders.dto.board.BoardDto;
 import com.skhu.usertraders.dto.board.BoardResponseUserDto;
 import com.skhu.usertraders.dto.board.BoardResponseUserIdDto;
@@ -27,10 +28,8 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class BoardServiceImpl implements BoardService {
-    private static final int DEFAULT_SIZE = 2;
     @Autowired
     private BoardRepository boardRepository;
-
     @Autowired
     private CustomUserDetailService userService;
 
@@ -78,6 +77,29 @@ public class BoardServiceImpl implements BoardService {
 
         return results;
     }
+    @Override
+    public List<BoardDto> findAllByCategoryContaining(Integer id) {
+        List<BoardEntity> boardEntityList = boardRepository.findAllByCategory_Id(id);
+        List<BoardDto> results = boardEntityList.stream().map(boardEntity -> {
+            BoardDto boardDto = BoardDto.builder()
+                    .build().convertEntityToDto(boardEntity);
+            return boardDto;
+        }).collect(Collectors.toList());
+
+        return results;
+    }
+    @Override
+    public List<BoardDto> findByTitleContaining(String keyword) {
+        List<BoardEntity> boardEntityList = boardRepository.findByTitleContaining(keyword);
+        List<BoardDto> results = boardEntityList.stream().map(boardEntity -> {
+            BoardDto boardDto = BoardDto.builder()
+                    .build().convertEntityToDto(boardEntity);
+            return boardDto;
+        }).collect(Collectors.toList());
+
+        return results;
+    }
+
 
     @Transactional
     @Override
@@ -91,6 +113,7 @@ public class BoardServiceImpl implements BoardService {
         return results;
     }
 
+
     @Transactional
     @Override
     public BoardDto findById(Integer id) { //PK가 id인 목록 1개 조회
@@ -102,7 +125,6 @@ public class BoardServiceImpl implements BoardService {
         viewcount = viewcount + 1;
         board.setViewcount(viewcount);
         this.save(board);
-
         return board;
     }
 
@@ -121,7 +143,6 @@ public class BoardServiceImpl implements BoardService {
         return results;
     }
 
-
     @Transactional
     @Override
     public BoardResponseUserDto findUserIdWhereBoardId(Integer id) {
@@ -135,22 +156,6 @@ public class BoardServiceImpl implements BoardService {
     public BoardResponseUserIdDto findAllByUserId(String userId) {
         UserDto userDto = userService.findByUserId(userId);
         return BoardResponseUserIdDto.builder().build().convertEntityToDto(userDto.convertDtoToEntity());
-    }
-
-    @Transactional
-    @Override
-    public List<BoardDto> findAllSearch(String title) {
-        if (title == null) {
-            throw new ApiNullPointerException("검색어가 없습니다");
-        }
-        List<BoardEntity> boardEntityList = boardRepository.findByTitleContaining(title);
-        List<BoardDto> results = boardEntityList.stream().map(boardEntity -> {
-            BoardDto boardDto = BoardDto.builder()
-                    .build().convertEntityToDto(boardEntity);
-            return boardDto;
-        }).collect(Collectors.toList());
-        if (boardEntityList.isEmpty()) return results;
-        return results;
     }
 
     @Transactional
@@ -187,4 +192,6 @@ public class BoardServiceImpl implements BoardService {
         }
         boardRepository.deleteById(id);
     }
+
+
 }

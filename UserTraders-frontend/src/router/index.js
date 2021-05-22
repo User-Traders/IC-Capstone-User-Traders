@@ -14,7 +14,6 @@ const Empty = () => import("../components/empty.vue")
 const Mypage= ()=>import("../views/usertraders/Mypage.vue")
 const Cart =()=>import("../views/usertraders/Cart.vue")
 const Search =()=>import("../views/usertraders/Search.vue")
-
 const routes = [
   {
     path: "/",
@@ -42,6 +41,7 @@ const routes = [
     component: Search,
     // props: true
   },
+
   {
     path: "/user",
     component: Empty,
