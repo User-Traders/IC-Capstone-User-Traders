@@ -63,6 +63,7 @@ export default {
     loginSubmit() {
       const loginObj = { userid: this.email, password: this.password }
       this.postUserLogin(loginObj).then(() => {
+        this.$router.push(this.$route.query.redirect || '/')
         this.isLoading = false;
       });
     },

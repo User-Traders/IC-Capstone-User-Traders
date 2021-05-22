@@ -17,7 +17,7 @@ const actions = {
                 console.log(res)
                 commit("setUserInfo", res);
                 alert("Complete Login")
-                router.go(-1)
+                router.go({name:'Home1'})
             })
                 .catch(err => { console.log(err) })
 
@@ -33,8 +33,7 @@ const actions = {
                 .then((res) => {
                     console.log(res)
                     commit("logoutState")
-                    this.$router.push({ name: 'Home1' });
-
+                    router.go({name:'Home1'})
                 }).catch((err) => { console.log(err) })
 
         }

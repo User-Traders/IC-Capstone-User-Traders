@@ -89,8 +89,14 @@ export default {
           this.$router.push({ name: "Cart" })
         }).catch((err) => {
           console.log(err)
+          if(err.message ==="나의 게시물은 장바구니에 담을 수 없습니다." ||
+          err.message ==="중복된 게시물은 장바구니에 담을 수 없습니다."){
+            alert(err.message)
+            router.go()
+          }
           alert("로그인 후 이용해 주세요")
           this.$router.push({ name: 'UserLogin' });
+          
         })
     },
 
