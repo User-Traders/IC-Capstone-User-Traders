@@ -13,6 +13,7 @@ const SignUp = () => import("../views/usertraders/SignUp.vue")
 const Empty = () => import("../components/empty.vue")
 const Mypage= ()=>import("../views/usertraders/Mypage.vue")
 const Cart =()=>import("../views/usertraders/Cart.vue")
+const Search =()=>import("../views/usertraders/Search.vue")
 
 const routes = [
   {
@@ -34,6 +35,12 @@ const routes = [
     name: "BoardDetail",
     component: BoardDetail,
     props: true
+  },
+  {
+    path: "/search",
+    name: "Search",
+    component: Search,
+    // props: true
   },
   {
     path: "/user",

@@ -12,7 +12,10 @@
         </v-toolbar-title>
         <v-toolbar-title style="color:white" class="ma-2">User Traders</v-toolbar-title>
         <v-spacer></v-spacer>
-        <Togglesearch />
+         
+        <v-btn icon :to="{ name: 'Search'}">
+          <v-icon size="xx-large" color="white">mdi-magnify</v-icon>
+        </v-btn>
         <v-btn icon :to="{ name: 'Cart'}">
           <v-icon size="xx-large" color="white">mdi-cart</v-icon>
         </v-btn>
@@ -63,7 +66,6 @@
     <v-spacer></v-spacer>
     <v-main>
       <router-view></router-view>
-
     </v-main>
     <v-bottom-navigation color="orange" fixed>
 
@@ -97,7 +99,6 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import Togglesearch from "./components/toggle-search.vue";
 export default {
 
   data: () => ({
@@ -107,9 +108,7 @@ export default {
   mounted() {
 
   },
-  components: {
-    Togglesearch,
-  },
+
   computed: {
 
     ...mapState({
@@ -122,7 +121,7 @@ export default {
     this.loginCheck()
   },
   methods: {
-     loginCheck() {
+    loginCheck() {
       if (!localStorage.getItem("user")) {
         this.loginflag = false
       }

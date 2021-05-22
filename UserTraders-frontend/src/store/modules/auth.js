@@ -17,7 +17,7 @@ const actions = {
                 console.log(res)
                 commit("setUserInfo", res);
                 alert("Complete Login")
-                router.push({ name: 'Home1' })
+                router.go(-1)
             })
                 .catch(err => { console.log(err) })
 
