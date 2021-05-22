@@ -5,6 +5,8 @@ import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.BoardRepository;
 import com.skhu.usertraders.dto.board.BoardDto;
 import com.skhu.usertraders.dto.board.BoardResponseUserDto;
+import com.skhu.usertraders.dto.board.BoardResponseUserIdDto;
+import com.skhu.usertraders.dto.user.UserDto;
 import com.skhu.usertraders.exception.board.ApiIllegalArgumentException;
 import com.skhu.usertraders.exception.board.ApiNullPointerException;
 import lombok.extern.slf4j.Slf4j;
@@ -29,10 +31,13 @@ public class BoardServiceImpl implements BoardService {
     @Autowired
     private BoardRepository boardRepository;
 
+    @Autowired
+    private CustomUserDetailService userService;
+
     @Transactional
     @Override
 
-    public Integer save(BoardDto boardDto,List<MultipartFile> files,UserEntity user) { // 한 객체를 보드 테이블에 저장, 파일까지 저장
+    public Integer save(BoardDto boardDto, List<MultipartFile> files, UserEntity user) { // 한 객체를 보드 테이블에 저장, 파일까지 저장
         String baseDir = "C:\\Users\\jaebin2\\Documents\\IC-Capstone-User-Traders\\UserTraders-frontend\\src\\assets\\images\\";
         String[] fileName = new String[3];
         if (files != null) {
@@ -53,6 +58,7 @@ public class BoardServiceImpl implements BoardService {
         BoardEntity boardEntity = boardDto.convertDtoToEntity();
         return boardRepository.save(boardEntity).getId();
     }
+
     @Transactional
     @Override
     public Integer save(BoardDto boardDto) { // 한 객체를 보드 테이블에 저장
@@ -103,7 +109,7 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     @Override
     public List<BoardDto> findAllByUser(UserEntity userEntity) {
-        if (userEntity == null){
+        if (userEntity == null) {
             throw new ApiNullPointerException("유저 정보가 없습니다");
         }
         List<BoardEntity> userBoardList = boardRepository.findAllByUser(userEntity);
@@ -125,10 +131,16 @@ public class BoardServiceImpl implements BoardService {
         return BoardResponseUserDto.builder().build().convertEntityToDto(boardEntity);
     }
 
+    @Override
+    public BoardResponseUserIdDto findAllByUserId(String userId) {
+        UserDto userDto = userService.findByUserId(userId);
+        return BoardResponseUserIdDto.builder().build().convertEntityToDto(userDto.convertDtoToEntity());
+    }
+
     @Transactional
     @Override
     public List<BoardDto> findAllSearch(String title) {
-        if (title == null){
+        if (title == null) {
             throw new ApiNullPointerException("검색어가 없습니다");
         }
         List<BoardEntity> boardEntityList = boardRepository.findByTitleContaining(title);
@@ -170,8 +182,8 @@ public class BoardServiceImpl implements BoardService {
     @Transactional
     @Override
     public void deleteById(Integer id) {
-        if(id ==null){
-            throw new ApiNullPointerException("삭제하려는 게시물"+id+"아이디가 없습니다.");
+        if (id == null) {
+            throw new ApiNullPointerException("삭제하려는 게시물" + id + "아이디가 없습니다.");
         }
         boardRepository.deleteById(id);
     }
