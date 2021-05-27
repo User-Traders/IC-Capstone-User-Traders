@@ -34,8 +34,25 @@
                   <div class="font-weight-medium title mb-2">
                     {{ item.price | moneyFilter }} won
                   </div>
-                  {{item.modifiedDate|timeForToday}}
-
+                  <div style="width: 100%">
+                    <div style="width: 50%; float: left">
+                      {{ item.modifiedDate | timeForToday }}
+                    </div>
+                    <div style="margin-left: 50%; text-align: right">
+                      <v-icon>
+                        mdi-cart
+                      </v-icon>
+                      {{ item.cartcount }}
+                      <v-icon>
+                        mdi-heart
+                      </v-icon>
+                      {{ item.likecount }}
+                      <v-icon>
+                        mdi-eye-outline
+                      </v-icon>
+                      {{ item.viewcount }}
+                      </div>
+                      </div>
                 </v-card-text>
               </v-card>
 
