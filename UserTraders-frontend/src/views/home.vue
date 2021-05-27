@@ -19,16 +19,13 @@
                   </v-img>
                 </div>
                 <v-card-text class="pt-6" style="position: relative;">
-                  <v-btn absolute color="pink darken-1" class="white--text" fab medium right top>
-                    <v-icon>mdi-heart</v-icon>
-                    {{item.likecount}}
-                  </v-btn>
+                  
 
                   <h3 class=" font-weight-bold orange--text mb-2">
                     {{item.category.name}} : {{item.title}}
                   </h3>
                   <h4>
-                   Name: {{item.user.name}}
+                   작성자: {{item.user.name}}
                   </h4>
 
                   <div class="font-weight-medium title mb-2">

@@ -1,52 +1,97 @@
 <template>
   <div>
-
     <loding v-if="isLoading" />
     <div v-if="listDataDeatail">
-
       <v-row class="fill-height " align="center" justify="center">
         <v-card class="pa-2" tile flat>
           <v-carousel progress-color="orange">
-            <v-carousel-item v-for="(item, i) in detailImageurl" :key="i" v-bind:src="item |loadImgOrPlaceholder" width="344" height="auto" reverse-transition="fade-transition" transition="fade-transition"></v-carousel-item>
+            <v-carousel-item
+              v-for="(item, i) in detailImageurl"
+              :key="i"
+              v-bind:src="item | loadImgOrPlaceholder"
+              width="344"
+              height="auto"
+              reverse-transition="fade-transition"
+              transition="fade-transition"
+            ></v-carousel-item>
           </v-carousel>
-          <v-card-title>
-            <h4>{{ listDataDeatail.title }}</h4>
-            <v-btn class="mx-2" fab dark medium color="pink" @click="likeAdd(listDataDeatail.id)">
+        
+          <div style="width: 100%;" v-if="listDataDeatail.status">
+            <h3 style="color :blue; text-align:right">판매중</h3>
+          </div>
+          <div v-else>
+            <h3 style="color :red; text-align:right">판매완료</h3>
+          </div>
+
+          <div style="width: 100%; ">
+            
+              <v-card-title>
+                <h4>{{ listDataDeatail.title }}</h4>
+              </v-card-title>
+            
+          </div>
+
+          <v-card-subtitle style="clear:both">
+            {{ listDataDeatail.content }}
+          </v-card-subtitle>
+
+          <div style="width: 100%;">
+            <div style="width: 50%; float: left">
+              <v-card-text>가격 : {{ listDataDeatail.price | moneyFilter }} won </v-card-text>
+            </div>
+            <div style="width: 50%; float: right; text-align: right">
+              <v-card-text>
+                <v-icon>
+                  mdi-cart
+                </v-icon>
+                {{ listDataDeatail.cartcount }}
+                <v-icon>
+                  mdi-heart
+                </v-icon>
+                {{ listDataDeatail.likecount }}
+                <v-icon>
+                  mdi-eye-outline
+                </v-icon>
+                {{ listDataDeatail.viewcount }}
+              </v-card-text>
+            </div>
+          </div>
+
+          <div class="mt-15">
+            <v-btn
+              color="blue-grey"
+              class="ma-2 white--text"
+              @click="cartAdd(listDataDeatail.id)"
+            >
+              Add To Cart
+              <v-icon right dark>
+                mdi-cart
+              </v-icon>
+            </v-btn>
+            <v-btn color="blue-grey" class="ma-2 white--text">
+              쪽지 보내기
+              <v-icon right dark>
+                mdi-arrow-right-bold
+              </v-icon>
+            </v-btn>
+            <v-btn
+              class="ma-2"
+              fab
+              dark
+              small
+              color="pink"
+              @click="likeAdd(listDataDeatail.id)"
+            >
               <v-icon dark>
                 mdi-heart
               </v-icon>
-              {{listDataDeatail.likecount}}
             </v-btn>
-          </v-card-title>
-          <v-card-subtitle>
-             {{listDataDeatail.content}}
-          </v-card-subtitle>
-          <v-card-text >조회수 :{{listDataDeatail.viewcount}} , 찜수 :{{listDataDeatail.cartcount}}</v-card-text>
-          <v-card-text>가격 : {{ listDataDeatail.price}}원 </v-card-text>
-          <div v-if="listDataDeatail.status">
-            <v-card-text style="color :blue">판매중</v-card-text>
           </div>
-          <div v-else>
-            <v-card-text style="color :red">판매완료</v-card-text>
-          </div>
-          <v-btn color="blue-grey" class="ma-2 white--text" @click="cartAdd(listDataDeatail.id)">
-            Add To Cart
-            <v-icon right dark>
-              mdi-cart
-            </v-icon>
-          </v-btn>
-
-          <v-btn color="blue-grey" class="ma-2 white--text">
-            쪽지 보내기
-            <v-icon right dark>
-              mdi-arrow-right-bold
-            </v-icon>
-          </v-btn>
         </v-card>
       </v-row>
-      <br>
-      <br>
-      <br>
+      <br />
+      <br />
+      <br />
     </div>
   </div>
 </template>
@@ -65,7 +110,7 @@ export default {
   data() {
     return {
       isLoading: true,
-      token:"",
+      token: "",
     };
   },
 
@@ -82,7 +127,7 @@ export default {
     init() {
       console.log("detail init...");
       this.getListDetail(this.id);
-      this.token = localStorage.getItem("user")
+      this.token = localStorage.getItem("user");
     },
     getListDetail(id) {
       this._getListDetail(id).then(() => {
@@ -90,37 +135,40 @@ export default {
       });
     },
     cartAdd(id) {
-      return http.process("cart", "register", { boardId: id }, { token: this.token })
+      return http
+        .process("cart", "register", { boardId: id }, { token: this.token })
         .then((res) => {
-          console.log(res)
-          this.$router.push({ name: "Cart" })
-        }).catch((err) => {
-          console.log(err)
-          if(err.message ==="나의 게시물은 장바구니에 담을 수 없습니다." ||
-          err.message ==="중복된 게시물은 장바구니에 담을 수 없습니다."){
-            alert(err.message)
-            router.go()
-          }
-          alert("로그인 후 이용해 주세요")
-          this.$router.push({ name: 'UserLogin' });
-          
+          console.log(res);
+          this.$router.push({ name: "Cart" });
         })
+        .catch((err) => {
+          console.log(err);
+          if (
+            err.message === "나의 게시물은 장바구니에 담을 수 없습니다." ||
+            err.message === "중복된 게시물은 장바구니에 담을 수 없습니다."
+          ) {
+            alert(err.message);
+            router.go();
+          }
+          alert("로그인 후 이용해 주세요");
+          this.$router.push({ name: "UserLogin" });
+        });
     },
     likeAdd(id) {
-      return http.process("like", "register", { boardId: id }, { token: this.token })
+      return http
+        .process("like", "register", { boardId: id }, { token: this.token })
         .then((res) => {
-          console.log(res)
-        }).catch((err) => {
-          console.log(err)
-          alert("로그인 후 이용해 주세요")
-          this.$router.push({ name: 'UserLogin' });
+          console.log(res);
         })
+        .catch((err) => {
+          console.log(err);
+          alert("로그인 후 이용해 주세요");
+          this.$router.push({ name: "UserLogin" });
+        });
     },
     ...mapActions({
       _getListDetail: "users/getListDetail",
-
     }),
   },
-
 };
 </script>

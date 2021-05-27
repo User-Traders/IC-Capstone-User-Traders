@@ -9,7 +9,7 @@
                 <v-row align="center" class="spacer" no-gutters>
                   <v-col cols="4" sm="2" md="1">
                     <v-avatar size="36px">
-                      <img v-if="message.avatar" alt="Avatar" src="https://avatars0.githubusercontent.com/u/9064066?v=4&s=460">
+                      <img v-if="message.avatar" alt="Avatar" src="https://avatars.githubusercontent.com/u/43032589?v=4">
                       <v-icon v-else :color="message.color" v-text="message.icon"></v-icon>
                     </v-avatar>
                   </v-col>
@@ -29,6 +29,9 @@
                     <v-list-item-content>
                       <div class="overline mb-4">
                         email : {{userInfo.userid}}
+                      </div>
+                      <div class="overline mb-4">
+                        이름 : {{userInfo.name}}
                       </div>
                       <div class="overline mb-4">
                         가입일 : {{userInfo.createdDate}}
@@ -62,7 +65,7 @@
                 <v-row align="center" class="spacer" no-gutters>
                   <v-col cols="4" sm="2" md="1">
                     <v-avatar size="36px">
-                      <img v-if="message.avatar" alt="Avatar" src="https://avatars0.githubusercontent.com/u/9064066?v=4&s=460">
+                      <img v-if="message.avatar" alt="Avatar" src="https://avatars.githubusercontent.com/u/43032589?v=4">
                       <v-icon v-else :color="message.color" v-text="message.icon"></v-icon>
                     </v-avatar>
                   </v-col>
