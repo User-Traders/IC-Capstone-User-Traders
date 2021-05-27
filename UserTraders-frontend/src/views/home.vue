@@ -36,7 +36,7 @@
                   </div>
                   <div style="width: 100%">
                     <div style="width: 50%; float: left">
-                      {{ item.modifiedDate | timeForToday }}
+                      {{ item.createdDate | timeForToday }}
                     </div>
                     <div style="margin-left: 50%; text-align: right">
                       <v-icon>
