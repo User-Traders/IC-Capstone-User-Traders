@@ -2,7 +2,6 @@
   <v-app>
     <div>
       <v-app-bar flat color="orange accent-4" height="70" class="fixed-bar " fixed>
-        <!-- <v-app-bar-nav-icon @click.stop="openMenu = !openMenu" color="white"></v-app-bar-nav-icon> -->
         <v-toolbar-title>
 
           <v-btn icon @click="$router.go(-1)">
