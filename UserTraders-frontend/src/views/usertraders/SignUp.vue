@@ -114,8 +114,7 @@ export default {
       return http.process("user", "signup", userObj)
         .then((res) => {
           console.log(res)
-          this.$router.push({ name: 'UserLogin' });
-
+          this.$router.push({ name: 'UserLogin' })
         }).catch((err) => { console.log(err) })
 
     },

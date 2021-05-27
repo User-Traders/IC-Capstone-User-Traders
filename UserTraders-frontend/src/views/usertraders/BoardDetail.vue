@@ -11,7 +11,7 @@
           </v-carousel>
           <v-card-title>
             <h4>{{ listDataDeatail.title }}</h4>
-            <v-btn class="mx-2" fab dark medium color="pink">
+            <v-btn class="mx-2" fab dark medium color="pink" @click="likeAdd(listDataDeatail.id)">
               <v-icon dark>
                 mdi-heart
               </v-icon>
@@ -19,10 +19,16 @@
             </v-btn>
           </v-card-title>
           <v-card-subtitle>
-            {{listDataDeatail.content}}
+             {{listDataDeatail.content}}
           </v-card-subtitle>
+          <v-card-text >조회수 :{{listDataDeatail.viewcount}} , 찜수 :{{listDataDeatail.cartcount}}</v-card-text>
           <v-card-text>가격 : {{ listDataDeatail.price}}원 </v-card-text>
-
+          <div v-if="listDataDeatail.status">
+            <v-card-text style="color :blue">판매중</v-card-text>
+          </div>
+          <div v-else>
+            <v-card-text style="color :red">판매완료</v-card-text>
+          </div>
           <v-btn color="blue-grey" class="ma-2 white--text" @click="cartAdd(listDataDeatail.id)">
             Add To Cart
             <v-icon right dark>
@@ -59,7 +65,7 @@ export default {
   data() {
     return {
       isLoading: true,
-      token: "",
+      token:"",
     };
   },
 
@@ -100,7 +106,16 @@ export default {
           
         })
     },
-
+    likeAdd(id) {
+      return http.process("like", "register", { boardId: id }, { token: this.token })
+        .then((res) => {
+          console.log(res)
+        }).catch((err) => {
+          console.log(err)
+          alert("로그인 후 이용해 주세요")
+          this.$router.push({ name: 'UserLogin' });
+        })
+    },
     ...mapActions({
       _getListDetail: "users/getListDetail",
 
