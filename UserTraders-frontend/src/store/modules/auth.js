@@ -18,12 +18,17 @@ const actions = {
                 commit("setUserInfo", res);
                 alert("Complete Login")
                 router.go({name:'Home1'})
-            })
-                .catch(err => { console.log(err) })
-
-
+            }).catch(err => { console.log(err) })
         }).catch(err => {
             console.log(err)
+            console.log(err.message)
+            if (
+                err.message === "가입되지 않은 E-MAIL 입니다." ||
+                err.message === "잘못된 비밀번호입니다."
+              ) {
+                alert(err.message);
+                router.go();
+              }
             commit("logoutState")
         });
     },

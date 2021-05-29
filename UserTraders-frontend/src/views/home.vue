@@ -102,7 +102,7 @@ export default {
               this.limit += 1;
             } else {
               $state.complete();
-              alert("더 이상 목록이 존재하지 않습니다.")
+              /*alert("더 이상 목록이 존재하지 않습니다.")*/
             }
           }, 1000);
         })

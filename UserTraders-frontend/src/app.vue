@@ -35,14 +35,14 @@
             <v-list dense nav>
               <v-list-item :to="{ name: 'UserLogin'}" active-class="deep-purple--text text--accent-4">
                 <v-list-item-content>
-                  <v-list-item-title>Login</v-list-item-title>
+                  <v-list-item-title>로그인</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
 
               <v-list-item :to="{ name: 'SignUp'}" active-class="deep-purple--text text--accent-3">
 
                 <v-list-item-content>
-                  <v-list-item-title>Sign Up</v-list-item-title>
+                  <v-list-item-title>회원가입</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -56,9 +56,9 @@
               </v-btn>
             </template>
             <v-list dense nav>
-              <v-list-item active-class="deep-purple--text text--accent-4">
+              <v-list-item active-class="deep-purple--text text--accent-3" style="cursor : pointer">
                 <v-list-item-content>
-                  <v-list-item-title @click="userLogout">Logout</v-list-item-title>
+                  <v-list-item-title @click="userLogout">로그아웃</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -74,8 +74,8 @@
     </v-main>
     <v-bottom-navigation color="#ff6d00" fixed>
       <v-btn :to="{ name: 'Home1'}">
-        <span style="color : #00000099">홈</span>
-        <v-icon large color="green">mdi-home</v-icon>
+        <span>홈</span>
+        <v-icon large >mdi-home</v-icon>
       </v-btn>
       <v-btn>
         <span>쪽지</span>

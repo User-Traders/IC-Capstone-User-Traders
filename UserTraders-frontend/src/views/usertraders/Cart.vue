@@ -71,7 +71,7 @@ export default {
           this.cartList = res
         }).catch((err) => {
           console.log(err)
-          alert("로그인 해주세요");
+          alert("로그인 후 이용해 주세요");
           this.$router.push({ name: 'UserLogin' });
         })
     },

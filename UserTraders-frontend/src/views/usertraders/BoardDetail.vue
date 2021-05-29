@@ -143,6 +143,7 @@ export default {
         })
         .catch((err) => {
           console.log(err);
+          console.log(err.message);
           if (
             err.message === "나의 게시물은 장바구니에 담을 수 없습니다." ||
             err.message === "중복된 게시물은 장바구니에 담을 수 없습니다."
