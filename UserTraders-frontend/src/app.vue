@@ -9,7 +9,13 @@
           </v-btn>
 
         </v-toolbar-title>
-        <v-toolbar-title style="color:white" class="ma-2">User Traders</v-toolbar-title>
+        
+        <v-toolbar-title style="color:white" class="ma-2">
+           <a href="/" style="text-decoration-line:none ; color:white" >
+          User Traders
+          </a>
+        </v-toolbar-title>
+        
         <v-spacer></v-spacer>
          
         <v-btn icon :to="{ name: 'Search'}">
@@ -66,14 +72,11 @@
     <v-main>
       <router-view></router-view>
     </v-main>
-    <v-bottom-navigation color="orange" fixed>
-
+    <v-bottom-navigation color="#ff6d00" fixed>
       <v-btn :to="{ name: 'Home1'}">
-        <span>홈</span>
-
-        <v-icon large>mdi-home</v-icon>
+        <span style="color : #00000099">홈</span>
+        <v-icon large color="green">mdi-home</v-icon>
       </v-btn>
-
       <v-btn>
         <span>쪽지</span>
         <v-icon large>mdi-chat</v-icon>
@@ -84,12 +87,11 @@
       </v-btn>
       <v-btn :to="{ name: 'Mypage'}">
         <span>나의-유트</span>
-
         <v-icon large>mdi-account</v-icon>
       </v-btn>
       <v-btn :to="{ name: 'Create'}">
-        <span>유트-등록</span>
-        <v-icon large color="orange">mdi-plus</v-icon>
+        <span style="color : #00000099">유트-등록</span>
+        <v-icon large color="blue">mdi-plus-circle-outline</v-icon>
       </v-btn>
     </v-bottom-navigation>
   </v-app>
