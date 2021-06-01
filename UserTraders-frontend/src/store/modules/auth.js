@@ -16,7 +16,7 @@ const actions = {
             ).then(res => {
                 console.log(res)
                 commit("setUserInfo", res);
-                alert("Complete Login")
+                alert("로그인 되었습니다.")
                 router.go({name:'Home1'})
             }).catch(err => { console.log(err) })
         }).catch(err => {
@@ -33,11 +33,12 @@ const actions = {
         });
     },
     getUserLogout({ commit }) {
-        if (confirm("로그아웃 하실거에요?")) {
+        if (confirm("정말 로그아웃 하시겠습니까?")) {
             return http.process("user", "logout")
                 .then((res) => {
                     console.log(res)
                     commit("logoutState")
+                    alert("로그아웃 되었습니다.")
                     router.go({name:'Home1'})
                 }).catch((err) => { console.log(err) })
 

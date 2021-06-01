@@ -8,6 +8,8 @@ import com.skhu.usertraders.dto.board.BoardResponseUserDto;
 import com.skhu.usertraders.dto.cart.CartRequestDto;
 import com.skhu.usertraders.dto.cart.CartResponseDto;
 import com.skhu.usertraders.exception.board.ApiIllegalArgumentException;
+import com.skhu.usertraders.exception.board.ApiNullPointerException;
+import com.skhu.usertraders.exception.board.ApiUserNullPointerException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,10 @@ public class CartService {
     //2.똑같은 장바구니는 저장 할 수 없어야한다.
     @Transactional
     public Integer save(CartRequestDto cartDto, UserEntity user) {
+
+        if(user == null){
+            throw new ApiUserNullPointerException("로그인 되지 않았습니다. 로그인 해주세요.");
+        }
         BoardResponseUserDto boardResponseUserDto =
                 boardService.findUserIdWhereBoardId(cartDto.getBoardId());
         if (user.getUserid().equals(boardResponseUserDto.getUserId())) {
@@ -58,8 +64,10 @@ public class CartService {
     }
 
     @Transactional
-    public List<CartResponseDto> findByUserId(Integer id) { //해당 유저가 저장한 장바구니 목록만 출력
-        List<CartEntity> carts = cartRepository.findByUserId(id);
+    public List<CartResponseDto> findByUserId(UserEntity user) { //해당 유저가 저장한 장바구니 목록만 출력
+        if (user == null){throw new ApiUserNullPointerException("로그인 되지 않았습니다. 로그인 해주세요.");
+        }
+        List<CartEntity> carts = cartRepository.findByUserId(user.getId());
         return carts.stream().map(CartResponseDto::from).collect(Collectors.toList());
     }
 

@@ -5,6 +5,7 @@ import com.skhu.usertraders.domain.entity.UserEntity;
 import com.skhu.usertraders.domain.repository.UserRepository;
 import com.skhu.usertraders.dto.user.UserDto;
 import com.skhu.usertraders.exception.board.ApiIllegalArgumentException;
+import com.skhu.usertraders.exception.board.ApiUserNullPointerException;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -69,13 +70,28 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Transactional
     public UserDto findByUserId(String userId){
+        if (userId == null){
+            throw new ApiUserNullPointerException("유저정보가 없습니다.");
+        }
         Optional<UserEntity> userEntityWrapper = userRepository.findByUserid(userId);
         UserEntity userEntity = userEntityWrapper.get();
         return UserDto.builder().build().UserEntityToDto(userEntity);
     }
 
     @Transactional // 회원 한명 정보 조회
+    public UserDto findById(UserEntity user) {
+        if (user == null){
+            throw new ApiUserNullPointerException("유저정보가 없습니다.");
+        }
+        Optional<UserEntity> userEntityWrapper = userRepository.findById(user.getId());
+        UserEntity userEntity = userEntityWrapper.get();
+        return UserDto.builder().build().UserEntityToDto(userEntity);
+    }
+    @Transactional // 회원 한명 정보 조회
     public UserDto findById(Integer id) {
+        if (id == null){
+            throw new ApiUserNullPointerException("유저정보가 없습니다.");
+        }
         Optional<UserEntity> userEntityWrapper = userRepository.findById(id);
         UserEntity userEntity = userEntityWrapper.get();
         return UserDto.builder().build().UserEntityToDto(userEntity);

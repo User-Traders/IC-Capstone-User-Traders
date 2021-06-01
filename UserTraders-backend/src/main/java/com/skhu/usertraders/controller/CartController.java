@@ -27,7 +27,7 @@ public class CartController {
 
     @GetMapping(value = "/list")
     public ResponseEntity cartList(@AuthenticationPrincipal UserEntity userEntity) {
-        return ResponseEntity.ok(cartService.findByUserId(userEntity.getId()));
+        return ResponseEntity.ok(cartService.findByUserId(userEntity));
     }
 
     @DeleteMapping("/list/delete/{id}")

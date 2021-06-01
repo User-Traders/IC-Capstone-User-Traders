@@ -5,12 +5,12 @@
         <v-toolbar-title>
 
           <v-btn icon @click="$router.go(-1)">
-            <v-icon size="xx-large" color="white">mdi-arrow-left</v-icon>
+            <v-icon size="xxx-large" color="white">mdi-arrow-left</v-icon>
           </v-btn>
 
         </v-toolbar-title>
         
-        <v-toolbar-title style="color:white" class="ma-2">
+        <v-toolbar-title class="ma-2">
            <a href="/" style="text-decoration-line:none ; color:white" >
           User Traders
           </a>
@@ -19,10 +19,7 @@
         <v-spacer></v-spacer>
          
         <v-btn icon :to="{ name: 'Search'}">
-          <v-icon size="xx-large" color="white">mdi-magnify</v-icon>
-        </v-btn>
-        <v-btn icon :to="{ name: 'Cart'}">
-          <v-icon size="xx-large" color="white">mdi-cart</v-icon>
+          <v-icon size="xx-large" color="white">mdi-shopping-search</v-icon>
         </v-btn>
         <div v-if="!loginflag">
           <v-menu bottom left>
@@ -74,23 +71,23 @@
     </v-main>
     <v-bottom-navigation color="#ff6d00" fixed>
       <v-btn :to="{ name: 'Home1'}">
-        <span>홈</span>
+        <span  style="color : #00000099; font-size : medium">홈</span>
         <v-icon large >mdi-home</v-icon>
       </v-btn>
       <v-btn>
-        <span>쪽지</span>
+        <span  style="color : #00000099;  font-size : medium">쪽지함</span>
         <v-icon large>mdi-chat</v-icon>
       </v-btn>
-      <v-btn :to="{ name: 'Search'}">
-        <span>카테고리</span>
-        <v-icon large>mdi-shopping-search</v-icon>
-      </v-btn>
       <v-btn :to="{ name: 'Mypage'}">
-        <span>나의-유트</span>
+        <span  style="color : #00000099; font-size : medium">내 정보</span>
         <v-icon large>mdi-account</v-icon>
       </v-btn>
+       <v-btn :to="{ name: 'Cart'}">
+        <span  style="color : #00000099; font-size : medium">장바구니</span>
+        <v-icon large>mdi-cart</v-icon>
+      </v-btn>
       <v-btn :to="{ name: 'Create'}">
-        <span style="color : #00000099">유트-등록</span>
+        <span style="color : #00000099; font-size : medium">중고거래</span>
         <v-icon large color="blue">mdi-plus-circle-outline</v-icon>
       </v-btn>
     </v-bottom-navigation>

@@ -141,18 +141,20 @@ export default {
           console.log(res);
           this.$router.push({ name: "Cart" });
         })
-        .catch((err) => {
-          console.log(err);
-          console.log(err.message);
+        .catch((err) => {       
+          if(
+            err.message === "로그인 되지 않았습니다. 로그인 해주세요."
+          ){
+            alert(err.message);
+            this.$router.push(this.$route.query.redirect || '/user/login')
+          }
           if (
             err.message === "나의 게시물은 장바구니에 담을 수 없습니다." ||
             err.message === "중복된 게시물은 장바구니에 담을 수 없습니다."
           ) {
             alert(err.message);
-            router.go();
+            this.$router.push(this.$route.query.redirect || '/detail/'+id)
           }
-          alert("로그인 후 이용해 주세요");
-          this.$router.push({ name: "UserLogin" });
         });
     },
     likeAdd(id) {

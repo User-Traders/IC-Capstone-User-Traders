@@ -39,7 +39,7 @@ public class UserController {
 
     @GetMapping(value = "/mypage") // 한 유저 상세 정보 단, 토큰 값이 있어야 가능
     public ResponseEntity mypage(@AuthenticationPrincipal UserEntity userEntity) {
-        return ResponseEntity.ok(customUserDetailService.findById(userEntity.getId()));
+        return ResponseEntity.ok(customUserDetailService.findById(userEntity));
     }
 
     @GetMapping(value = "/valid") // 토큰 값 유효성 검사를 하는 한개 api

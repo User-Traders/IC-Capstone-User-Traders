@@ -132,7 +132,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<BoardDto> findAllByUser(UserEntity userEntity) {
         if (userEntity == null) {
-            throw new ApiNullPointerException("유저 정보가 없습니다");
+            throw new ApiNullPointerException("유저정보가 없습니다.");
         }
         List<BoardEntity> userBoardList = boardRepository.findAllByUser(userEntity);
         List<BoardDto> results = userBoardList.stream().map(boardEntity -> {

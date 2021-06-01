@@ -2,7 +2,7 @@
   <v-container>
 
     <v-card>
-      <h1 align="center" class="grey--text">
+      <h1 align="center" class="mt-5 mb-5">
         <v-icon size="xxx-large" color="orange">mdi-gift</v-icon>
         My Cart List
       </h1>
@@ -30,9 +30,11 @@
       </v-card>
       <v-card-subtitle>
         <h3 align="center">
-          Count
-          <p style="color: orange">{{ cartList.length }}</p>
-          Total Price($ {{ total| moneyFilter }} 원)
+          개수 : 
+          <span style="color: orange">{{ cartList.length }}</span>
+          <p>
+          총 가격 (₩ {{ total| moneyFilter }} 원)
+          </p>
         </h3>
       </v-card-subtitle>
     </v-card>
@@ -54,8 +56,7 @@ export default {
   mounted() {
     const token = localStorage.getItem("user")
     if (!localStorage.getItem("user")) {
-      alert("로그인 후 이용해 주세요")
-      this.$router.push({ name: 'UserLogin' });
+      this.$router.push({ name: 'UserLogin' })
     }
     else if (!userTokenValid(token)) {
       alert("토큰이 만료되었습니다. 다시 로그인 해주세요!!")
@@ -70,9 +71,13 @@ export default {
         .then((res) => {
           this.cartList = res
         }).catch((err) => {
-          console.log(err)
-          alert("로그인 후 이용해 주세요");
-          this.$router.push({ name: 'UserLogin' });
+          console.log(err.message)
+          if(
+            err.message === "로그인 되지 않았습니다. 로그인 해주세요."
+          ){
+            alert(err.message);
+            this.$router.push(this.$route.query.redirect || '/user/login')
+          }
         })
     },
     cartDelete(idx, id) {

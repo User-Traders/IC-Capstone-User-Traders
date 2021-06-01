@@ -167,6 +167,12 @@ export default {
           this.userBList = res
         }).catch((err) => {
           console.log(err)
+          if (
+            err.message === "유저정보가 없습니다." 
+          ) {
+            
+            this.$router.push(this.$route.query.redirect || '/user/login')
+          }
         })
     },
     userInfoList(token) {
@@ -176,6 +182,12 @@ export default {
           this.department = res.department.name
         }).catch((err) => {
           console.log(err)
+          if (
+            err.message === "유저정보가 없습니다." 
+          ) {
+            alert(err.message);
+            this.$router.push(this.$route.query.redirect || '/user/login')
+          }
         })
     }
 

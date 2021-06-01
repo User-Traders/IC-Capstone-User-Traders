@@ -6,7 +6,7 @@
     <br>
     <v-card width="400" class="mx-auto mt-7 mb-7">
       <v-card-title style=" margin-bottom:5px;">
-        <h3 style="color:#ff6d00;margin-left:28%
+        <h3 style="color:#ff6d00;margin-left:30%
           ">User Traders</h3>
       </v-card-title>
       <v-card-text>
@@ -52,7 +52,7 @@
       </v-card-text>
       <v-divider> </v-divider>
       <v-card-actions>
-        <v-btn :disabled="!valid" rounded color="blue-grey " class="mr-3 white--text" style="margin-left:70%;" @click="signUpSubmit">
+        <v-btn :disabled="!valid" rounded color="#ff6d00 " class="mr-3 white--text" style="margin-left:70%;" @click="signUpSubmit">
           회원가입
           <v-icon right>mdi-arrow-right-thick</v-icon>
         </v-btn>
