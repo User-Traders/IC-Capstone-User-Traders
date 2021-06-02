@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container>
-      <v-row justify="center">
+      <v-row justify="center" class="mt-13">
         <v-expansion-panels popout>
           <v-expansion-panel v-for="(message, i) in messages" :key="i" hide-actions>
             <div v-if="i==0">
@@ -57,7 +57,7 @@
         </v-expansion-panels>
       </v-row>
 
-      <v-row justify="center">
+      <v-row justify="center" class="mb-13">
         <v-expansion-panels popout>
           <v-expansion-panel v-for="(message, i) in messages" :key="i" hide-actions>
             <div v-if="i==0">
@@ -76,7 +76,7 @@
                     <strong>거래 목록</strong>
                   </v-col>
                   <v-col class="grey--text text-truncate hidden-sm-and-down">
-                    Total {{userBList.length}} List
+                    총 {{userBList.length}} 개의 게시물
                   </v-col>
                 </v-row>
               </v-expansion-panel-header>
@@ -132,6 +132,7 @@
 import http from "@/utils/http";
 import myMixin from "@/filter";
 import { userTokenValid } from "@/api/userValid"
+import { mapActions } from "vuex";
 export default {
   mixins: [myMixin],
   data() {
@@ -150,11 +151,11 @@ export default {
   mounted() {
     const token = localStorage.getItem("user")
     if (!token) {
-      alert("로그인 후 이용해 주세요")
-      this.$router.push({ name: 'UserLogin' });
-    } else if (!userTokenValid(token)) {
-      alert("토큰이 만료되었습니다. 다시 로그인 해주세요!!")
-      this.$router.push({ name: 'UserLogin' });
+      this.$router.push({ name: 'UserLogin' })
+    } 
+    if (!userTokenValid(token)) {
+      alert("토큰이 만료되었습니다. 로그아웃됩니다.")    
+      this.$router.push(this.$route.query.redirect || '/user/login')
     }
     this.userBoardList(token)
     this.userInfoList(token)
@@ -167,12 +168,6 @@ export default {
           this.userBList = res
         }).catch((err) => {
           console.log(err)
-          if (
-            err.message === "유저정보가 없습니다." 
-          ) {
-            
-            this.$router.push(this.$route.query.redirect || '/user/login')
-          }
         })
     },
     userInfoList(token) {
@@ -182,17 +177,24 @@ export default {
           this.department = res.department.name
         }).catch((err) => {
           console.log(err)
-          if (
-            err.message === "유저정보가 없습니다." 
-          ) {
+          if(
+            err.message === "로그인 되지 않았습니다. 로그인 해주세요." ||
+            err.message === "유저정보가 없습니다."
+          ){
             alert(err.message);
+            this.getUserLogout().then(() => {
+            this.isLoading = false;
+            localStorage.removeItem("user")
+            this.$router.push({ name: 'Home1' });
+            });
             this.$router.push(this.$route.query.redirect || '/user/login')
           }
         })
-    }
+    },
+    ...mapActions({
+      getUserLogout: "auth/getUserLogout",
+    })
 
-  },
-
-
+          }
 }
 </script>

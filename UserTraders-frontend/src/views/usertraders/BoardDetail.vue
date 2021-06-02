@@ -57,7 +57,7 @@
             </div>
           </div>
 
-          <div class="mt-15">
+          <div v-if="loginflag" class="mt-15">
             <v-btn
               color="blue-grey"
               class="ma-2 white--text"

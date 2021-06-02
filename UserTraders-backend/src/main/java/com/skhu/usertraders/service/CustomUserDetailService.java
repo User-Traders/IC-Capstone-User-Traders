@@ -71,7 +71,7 @@ public class CustomUserDetailService implements UserDetailsService {
     @Transactional
     public UserDto findByUserId(String userId){
         if (userId == null){
-            throw new ApiUserNullPointerException("유저정보가 없습니다.");
+            throw new ApiUserNullPointerException("로그인 되지 않았습니다. 로그인 해주세요.");
         }
         Optional<UserEntity> userEntityWrapper = userRepository.findByUserid(userId);
         UserEntity userEntity = userEntityWrapper.get();
@@ -81,7 +81,7 @@ public class CustomUserDetailService implements UserDetailsService {
     @Transactional // 회원 한명 정보 조회
     public UserDto findById(UserEntity user) {
         if (user == null){
-            throw new ApiUserNullPointerException("유저정보가 없습니다.");
+            throw new ApiUserNullPointerException("로그인 되지 않았습니다. 로그인 해주세요.");
         }
         Optional<UserEntity> userEntityWrapper = userRepository.findById(user.getId());
         UserEntity userEntity = userEntityWrapper.get();
@@ -90,7 +90,7 @@ public class CustomUserDetailService implements UserDetailsService {
     @Transactional // 회원 한명 정보 조회
     public UserDto findById(Integer id) {
         if (id == null){
-            throw new ApiUserNullPointerException("유저정보가 없습니다.");
+            throw new ApiUserNullPointerException("로그인 되지 않았습니다. 로그인 해주세요.");
         }
         Optional<UserEntity> userEntityWrapper = userRepository.findById(id);
         UserEntity userEntity = userEntityWrapper.get();

@@ -112,13 +112,14 @@ export default {
   },
     mounted() {
      this.token = localStorage.getItem("user")
-    if (!this.token) {
-      alert("로그인을 해야 상품 등록이 가능합니다!!")
-      this.$router.push({ name: 'UserLogin' });
-    } else if (!userTokenValid(this.token)) {
+     if (userTokenValid(this.token) == false) {
       alert("로그인 시간이 만료되었습니다. 다시 로그인 해주세요!!")
       this.$router.push({ name: 'UserLogin' });
     }
+    if (!this.token) {
+      alert("로그인을 해야 상품 등록이 가능합니다!!")
+      this.$router.push({ name: 'UserLogin' });
+    }  
      this.categoryName()
   },
   methods: {

@@ -33,17 +33,15 @@ const actions = {
         });
     },
     getUserLogout({ commit }) {
-        if (confirm("정말 로그아웃 하시겠습니까?")) {
             return http.process("user", "logout")
                 .then((res) => {
                     console.log(res)
                     commit("logoutState")
-                    alert("로그아웃 되었습니다.")
                     router.go({name:'Home1'})
                 }).catch((err) => { console.log(err) })
 
-        }
     },
+    
     validTokenError({ commit }) {
         localStorage.removeItem('user')
         commit("logoutState")

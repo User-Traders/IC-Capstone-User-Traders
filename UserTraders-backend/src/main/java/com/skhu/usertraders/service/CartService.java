@@ -65,7 +65,7 @@ public class CartService {
 
     @Transactional
     public List<CartResponseDto> findByUserId(UserEntity user) { //해당 유저가 저장한 장바구니 목록만 출력
-        if (user == null){throw new ApiUserNullPointerException("로그인 되지 않았습니다. 로그인 해주세요.");
+        if (user == null){throw new ApiUserNullPointerException("유저 정보가 없습니다. 다시 로그인해주세요.");
         }
         List<CartEntity> carts = cartRepository.findByUserId(user.getId());
         return carts.stream().map(CartResponseDto::from).collect(Collectors.toList());

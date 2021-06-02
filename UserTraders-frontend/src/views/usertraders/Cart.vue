@@ -2,9 +2,10 @@
   <v-container>
 
     <v-card>
-      <h1 align="center" class="mt-5 mb-5">
+      <h1 align="center" class="dark--text">
         <v-icon size="xxx-large" color="orange">mdi-gift</v-icon>
-        My Cart List
+        나의 장바구니 현황
+        <v-icon size="xxx-large" color="orange">mdi-gift</v-icon>
       </h1>
       <v-card v-for="(cart,index) in cartList" :key="cart.id">
         <div @click="detailPush(cart.board.id)">
@@ -32,9 +33,8 @@
         <h3 align="center">
           개수 : 
           <span style="color: orange">{{ cartList.length }}</span>
-          <p>
+          <p></p>
           총 가격 (₩ {{ total| moneyFilter }} 원)
-          </p>
         </h3>
       </v-card-subtitle>
     </v-card>
@@ -46,6 +46,7 @@
 import http from "@/utils/http";
 import myMixin from "@/filter";
 import { userTokenValid } from "@/api/userValid"
+import { mapActions } from "vuex";
 export default {
   mixins: [myMixin],
   data() {
@@ -63,7 +64,6 @@ export default {
       this.$router.push({ name: 'UserLogin' });
     }
     this.getCartList(token);
-
   },
   methods: {
     getCartList(token) {
@@ -72,14 +72,18 @@ export default {
           this.cartList = res
         }).catch((err) => {
           console.log(err.message)
-          if(
-            err.message === "로그인 되지 않았습니다. 로그인 해주세요."
-          ){
             alert(err.message);
+            this.getUserLogout().then(() => {
+        this.isLoading = false;
+        localStorage.removeItem("user")
+        this.$router.push({ name: 'Home1' });
+      });
             this.$router.push(this.$route.query.redirect || '/user/login')
-          }
         })
     },
+    ...mapActions({
+      getUserLogout: "auth/getUserLogout",
+    }),
     cartDelete(idx, id) {
       this.cartList.splice(idx, 1);
       return http.process("cart", "remove", { id: id })

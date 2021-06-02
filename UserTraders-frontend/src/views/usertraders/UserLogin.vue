@@ -3,8 +3,8 @@
   <div>
     <v-card width="360" class="mx-auto ">
       <div v-if="!isLoginError">
-        <v-card-title style="background-color: #CD1F48">
-          <h3 class="" style="color: white; margin-left:28%;
+        <v-card-title >
+          <h3 class="" style="color:#ff6d00; margin-left:21%;font-size:xx-large;font-weight:bold
           ">User Traders</h3>
         </v-card-title>
       </div>
@@ -16,8 +16,8 @@
       
       <v-card-text>
         <v-form ref="form" v-model="valid" lazy-validation>
-          <v-text-field v-model="email" :rules="emailRules" label="이메일" prepend-icon="mdi-account-circle" required></v-text-field>
-          <v-text-field v-model="password" label="비밀번호" prepend-icon="mdi-lock" type="password"></v-text-field>
+          <v-text-field autocomplete="off" v-model="email" :rules="emailRules" label="이메일" prepend-icon="mdi-account-circle" required></v-text-field>
+          <v-text-field autocomplete="off" v-model="password" label="비밀번호" prepend-icon="mdi-lock" type="password"></v-text-field>
         </v-form>
       </v-card-text>
       <v-divider> </v-divider>
@@ -27,14 +27,14 @@
           <v-icon right>mdi-backup-restore</v-icon>
         </v-btn>
 
-        <v-btn :disabled="!valid" color="#CD1F48" class="ml-9 mr-2 white--text" @click="loginSubmit">
+        <v-btn :disabled="!valid" color="#ff6d00" class="ml-9 mr-2 white--text" @click="loginSubmit">
           로그인
           <v-icon right>mdi-arrow-right-thick</v-icon>
         </v-btn>
 
-         <v-btn :to="{ name: 'SignUp'}" color="#CD1F48" class="white--text">
+         <v-btn :to="{ name: 'SignUp'}" color="#ff6d00" class="white--text">
           회원가입
-          <v-icon right>mdi-arrow-right-thick</v-icon>
+          <v-icon right>mdi-account-plus</v-icon>
         </v-btn>
 
        

@@ -6,8 +6,8 @@
     <br>
     <v-card width="400" class="mx-auto mt-7 mb-7">
       <v-card-title style=" margin-bottom:5px;">
-        <h3 style="color:#ff6d00;margin-left:30%
-          ">User Traders</h3>
+        <span style="color:#ff6d00;margin-left:23%;font-size:xx-large;font-weight:bold
+          ">User Traders</span>
       </v-card-title>
       <v-card-text>
         <div id="signUpForm">
@@ -15,7 +15,7 @@
             <v-container>
               <v-row>
                 <v-col>
-                  <v-text-field v-model="email" :rules="[rules.required]" label="이메일" prepend-icon="mdi-account-circle" required outlined></v-text-field>
+                  <v-text-field v-model="email" :rules="[rules.required]" label="이메일" hint="ex) jaebin@naver.com" prepend-icon="mdi-account-circle" autocomplete="off" required outlined></v-text-field>
                 </v-col>
               </v-row>
 
@@ -33,12 +33,12 @@
 
               <v-row>
                 <v-col>
-                  <v-text-field v-model="name" :rules="[rules.minName]" label="이름" prepend-icon="mdi-account" required outlined></v-text-field>
+                  <v-text-field v-model="name" :rules="[rules.minName]" label="이름" hint="적어도 1글자 이상 입력해주세요." prepend-icon="mdi-account" autocomplete="off" required outlined></v-text-field>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col>
-                  <v-text-field v-model="number" label="휴대폰 번호 -없이 입력" prepend-icon="mdi-cellphone" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" outlined></v-text-field>
+                  <v-text-field v-model="number" label="휴대폰 번호 -없이 입력" prepend-icon="mdi-cellphone" oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');" autocomplete="off" outlined></v-text-field>
                 </v-col>
               </v-row>
               <v-row>
