@@ -71,13 +71,13 @@ export default {
         .then((res) => {
           this.cartList = res
         }).catch((err) => {
-          console.log(err.message)
+            console.log(err.message)
             alert(err.message);
             this.getUserLogout().then(() => {
-        this.isLoading = false;
-        localStorage.removeItem("user")
-        this.$router.push({ name: 'Home1' });
-      });
+            this.isLoading = false;
+            localStorage.removeItem("user")
+            this.$router.push({ name: 'Home1' });
+            });
             this.$router.push(this.$route.query.redirect || '/user/login')
         })
     },
