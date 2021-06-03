@@ -35,7 +35,6 @@ src/main/resources/application.yml
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
-/dist/
 /nbdist/
 /.nb-gradle/
 
