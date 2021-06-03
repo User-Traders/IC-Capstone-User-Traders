@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://15.165.30.131:8080")
+@CrossOrigin(origins = "http://usertraders.s3-website.ap-northeast-2.amazonaws.com")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
