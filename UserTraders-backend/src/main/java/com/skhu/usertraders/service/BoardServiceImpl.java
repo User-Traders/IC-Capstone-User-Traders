@@ -37,7 +37,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
 
     public Integer save(BoardDto boardDto, List<MultipartFile> files, UserEntity user) { // 한 객체를 보드 테이블에 저장, 파일까지 저장
-        String baseDir = "/home/ec2-user/apps/IC-Capstone-User-Traders/UserTraders-backend/src/main/resources/static/img";
+        String baseDir = "http://15.165.30.131:8080/static/img";
         String[] fileName = new String[3];
         if (files != null) {
             try {
