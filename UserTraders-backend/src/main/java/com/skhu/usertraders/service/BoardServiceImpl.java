@@ -37,12 +37,13 @@ public class BoardServiceImpl implements BoardService {
     @Override
 
     public Integer save(BoardDto boardDto, List<MultipartFile> files, UserEntity user) { // 한 객체를 보드 테이블에 저장, 파일까지 저장
-        String baseDir = "home\\ec2-user\\apps\\IC-Capstone-User-Traders\\UserTraders-backend\\src\\main\\resources\\static\\img\\";
+        String baseDir = "\\home\\ec2-user\\apps\\IC-Capstone-User-Traders\\UserTraders-frontend\\src\\assets\\images";
         String[] fileName = new String[3];
         if (files != null) {
             try {
                 for (int i = 0; i < files.size(); i++) {
                     fileName[i] = files.get(i).getOriginalFilename();
+                    //transferTo() 를 사용하면 파일데이터를 지정한 파일로 저장.
                     files.get(i).transferTo(new File(baseDir + files.get(i).getOriginalFilename()));
                 }
             } catch (IllegalStateException | IOException e) {
