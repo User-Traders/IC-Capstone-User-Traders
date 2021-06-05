@@ -16,7 +16,7 @@
           <v-select color="orange" @click="categoryName" v-model="category" :items="categoryItem" :rules="[v => !!v || 'category를 선택해주세요']" required :menu-props="{ top: true, offsetY: true }" label="Category" outlined></v-select>
         </v-card-title>
         <v-card-subtitle>
-          <h4>Image는 3장만 올려주세요</h4>
+          <h4 color="red"> 필수! : Image는 3장 전부 올려주세요 !!</h4>
         </v-card-subtitle>
         <input type="file" ref="imageInput" name="images[]" id="photo" @change="imagesAdd" hidden multiple>
 
