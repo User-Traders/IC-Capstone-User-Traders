@@ -21,7 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/images/**");
+        web.ignoring().antMatchers("/css/**", "/js/**", "/images/**","/assets/**");
     }
 
     // 암호화에 필요한 PasswordEncoder 를 Bean 등록합니다.
