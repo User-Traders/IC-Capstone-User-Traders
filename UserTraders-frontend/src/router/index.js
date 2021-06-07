@@ -14,6 +14,10 @@ const Empty = () => import("../components/empty.vue")
 const Mypage= ()=>import("../views/usertraders/Mypage.vue")
 const Cart =()=>import("../views/usertraders/Cart.vue")
 const Search =()=>import("../views/usertraders/Search.vue")
+const Mail =()=>import("../views/usertraders/Mail.vue")
+const MailWrite =()=>import("../views/usertraders/MailWrite.vue")
+const MailGet =()=>import("../views/usertraders/MailGet.vue")
+const MailSend =()=>import("../views/usertraders/MailSend.vue")
 const routes = [
   {
     path: "/",
@@ -39,6 +43,30 @@ const routes = [
     path: "/search",
     name: "Search",
     component: Search,
+    // props: true
+  },
+  {
+    path: "/mail",
+    name: "Mail",
+    component: Mail,
+     props: true
+  },
+  {
+    path: "/mailwrite",
+    name: "MailWrite",
+    component: MailWrite,
+    props: true
+  },
+  {
+    path: "/mailget",
+    name: "MailGet",
+    component: MailGet,
+    // props: true
+  },
+  {
+    path: "/mailsend",
+    name: "MailSend",
+    component: MailSend,
     // props: true
   },
 
@@ -108,4 +136,3 @@ router.beforeEach((to, from, next) => {// pageAuth
 
 
 export default router;
-

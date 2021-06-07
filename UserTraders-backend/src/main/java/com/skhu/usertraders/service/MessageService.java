@@ -27,7 +27,7 @@ public class MessageService {
     //메시지 작성 , 저장
     @Transactional
     public Integer save(MessageRequestDto messageDto, UserEntity userEntity) {
-        UserDto recvuser = userService.findByUserId(messageDto.getRecvId());
+        UserDto recvuser = userService.findById(Integer.parseInt(messageDto.getRecvId()));
         ReadEnum readEnum = ReadEnum.valueOf("NO");
 
         MessageEntity messageEntity = MessageEntity.builder()
