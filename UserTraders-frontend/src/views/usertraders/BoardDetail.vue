@@ -5,17 +5,9 @@
       <v-row class="fill-height " align="center" justify="center">
         <v-card class="pa-2" tile flat>
           <v-carousel progress-color="orange">
-            <v-carousel-item
-              v-for="(item, i) in detailImageurl"
-              :key="i"
-              v-bind:src="item | loadImgOrPlaceholder"
-              width="344"
-              height="auto"
-              reverse-transition="fade-transition"
-              transition="fade-transition"
-            ></v-carousel-item>
+            <v-carousel-item v-for="(item, i) in detailImageurl" :key="i" v-bind:src="item | loadImgOrPlaceholder" width="344" height="auto" reverse-transition="fade-transition" transition="fade-transition"></v-carousel-item>
           </v-carousel>
-        
+
           <div style="width: 100%;" v-if="listDataDeatail.status">
             <h3 style="color :blue; text-align:right">판매중</h3>
           </div>
@@ -24,11 +16,9 @@
           </div>
 
           <div style="width: 100%; ">
-            
-              <v-card-title>
-                <h4>{{ listDataDeatail.title }}</h4>
-              </v-card-title>
-            
+            <v-card-title>
+              <h4>{{ listDataDeatail.title }}</h4>
+            </v-card-title>
           </div>
 
           <v-card-subtitle style="clear:both">
@@ -57,31 +47,20 @@
             </div>
           </div>
 
-          <div v-if="loginflag" class="mt-15">
-            <v-btn
-              color="blue-grey"
-              class="ma-2 white--text"
-              @click="cartAdd(listDataDeatail.id)"
-            >
+          <div class="mt-15">
+            <v-btn color="blue-grey" class="ma-2 white--text" @click="cartAdd(listDataDeatail.id)">
               Add To Cart
               <v-icon right dark>
                 mdi-cart
               </v-icon>
             </v-btn>
-            <v-btn color="blue-grey" class="ma-2 white--text">
+            <v-btn color="blue-grey" class="ma-2 white--text" @click="messageSend">
               쪽지 보내기
               <v-icon right dark>
                 mdi-arrow-right-bold
               </v-icon>
             </v-btn>
-            <v-btn
-              class="ma-2"
-              fab
-              dark
-              small
-              color="pink"
-              @click="likeAdd(listDataDeatail.id)"
-            >
+            <v-btn class="ma-2" fab dark small color="pink" @click="likeAdd(listDataDeatail.id)">
               <v-icon dark>
                 mdi-heart
               </v-icon>
@@ -134,6 +113,9 @@ export default {
         this.isLoading = false;
       });
     },
+    messageSend() {
+      this.$router.push({ name: "MailWrite", params: { id: this.listDataDeatail.user.id, email: this.listDataDeatail.user.username } });
+    },
     cartAdd(id) {
       return http
         .process("cart", "register", { boardId: id }, { token: this.token })
@@ -141,10 +123,10 @@ export default {
           console.log(res);
           this.$router.push({ name: "Cart" });
         })
-        .catch((err) => {       
-          if(
+        .catch((err) => {
+          if (
             err.message === "로그인 되지 않았습니다. 로그인 해주세요."
-          ){
+          ) {
             alert(err.message);
             this.$router.push(this.$route.query.redirect || '/user/login')
           }
@@ -153,7 +135,7 @@ export default {
             err.message === "중복된 게시물은 장바구니에 담을 수 없습니다."
           ) {
             alert(err.message);
-            this.$router.push(this.$route.query.redirect || '/detail/'+id)
+            this.$router.push(this.$route.query.redirect || '/detail/' + id)
           }
         });
     },
