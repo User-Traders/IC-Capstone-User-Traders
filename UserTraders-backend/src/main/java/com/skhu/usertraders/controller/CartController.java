@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/carts")
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://15.165.30.131:8090")
 public class CartController {
 
     @Autowired
