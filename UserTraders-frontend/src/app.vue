@@ -9,27 +9,27 @@
           </v-btn>
 
         </v-toolbar-title>
-        
+
         <v-toolbar-title class="ma-2">
-           <a href="/" style="text-decoration-line:none ; color:white; font-size : large ">
-          User Traders
+          <a href="/" style="text-decoration-line:none ; color:white; font-size : large ">
+            User Traders
           </a>
         </v-toolbar-title>
-        
+
         <v-spacer></v-spacer>
 
-         <div v-if="loginflag">
-           <v-btn icon :to="{ name: 'Cart'}">
-            <v-icon large color="white" >mdi-cart</v-icon>
-           </v-btn>
-         </div>
+        <div v-if="loginflag">
+          <v-btn icon :to="{ name: 'Cart'}">
+            <v-icon large color="white">mdi-cart</v-icon>
+          </v-btn>
+        </div>
 
-          <div v-if="loginflag">
-           <v-btn icon :to="{ name: 'Mypage'}">
-             <v-icon large color="white" >mdi-information</v-icon>
-           </v-btn>
-          </div>
-         
+        <div v-if="loginflag">
+          <v-btn icon :to="{ name: 'Mypage'}">
+            <v-icon large color="white">mdi-information</v-icon>
+          </v-btn>
+        </div>
+
         <div v-if="!loginflag">
           <v-menu bottom left>
             <template v-slot:activator="{ on, attrs }">
@@ -42,7 +42,7 @@
               <v-list-item :to="{ name: 'UserLogin'}" active-class="deep-purple--text text--accent-4">
                 <v-list-item-content>
                   <v-list-item-title style="font-size : medium">로그인
-                    <v-icon >mdi-arrow-right-thick</v-icon>
+                    <v-icon>mdi-arrow-right-thick</v-icon>
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
@@ -86,23 +86,23 @@
     </v-main>
     <v-bottom-navigation color="#ff6d00" fixed>
       <v-btn :to="{ name: 'Home1'}">
-        <span  style="color : #00000099; font-size : medium">홈</span>
-        <v-icon large >mdi-home</v-icon>
+        <span style="color : #00000099; font-size : medium">홈</span>
+        <v-icon large>mdi-home</v-icon>
       </v-btn>
-      <v-btn>
-        <span  style="color : #00000099;  font-size : medium">쪽지함</span>
+      <v-btn :to="{ name: 'Mail'}">
+        <span style="color : #00000099;  font-size : medium">쪽지함</span>
         <v-icon large>mdi-chat</v-icon>
       </v-btn>
       <v-btn :to="{ name: 'Search'}">
-         <span  style="color : #00000099; font-size : medium">검색</span>
-          <v-icon size="xx-large">mdi-shopping-search</v-icon>
+        <span style="color : #00000099; font-size : medium">검색</span>
+        <v-icon size="xx-large">mdi-shopping-search</v-icon>
       </v-btn>
-      
+
       <div v-if="loginflag">
-      <v-btn :to="{ name: 'Create'}">
-        <span style="color : #00000099; font-size : medium">중고거래</span>
-        <v-icon large color="blue">mdi-plus-circle-outline</v-icon>
-      </v-btn>
+        <v-btn :to="{ name: 'Create'}">
+          <span style="color : #00000099; font-size : medium">중고거래</span>
+          <v-icon large color="blue">mdi-plus-circle-outline</v-icon>
+        </v-btn>
       </div>
     </v-bottom-navigation>
   </v-app>
