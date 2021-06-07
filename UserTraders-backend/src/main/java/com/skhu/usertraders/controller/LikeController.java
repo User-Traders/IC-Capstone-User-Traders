@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/boards/likes")
-@CrossOrigin(origins = "http://15.165.30.131:8080")
+@CrossOrigin(origins = "http://localhost:8080")
 @RequiredArgsConstructor
 public class LikeController {
 
