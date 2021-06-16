@@ -188,7 +188,7 @@ export default {
       this.getUserLogout().then(() => {
         this.isLoading = false;
         localStorage.removeItem("user");
-        this.$router.push({ name: "Home1" });
+        this.$router.push({ name: "UserLogin" });
       });
     },
     ...mapActions({
