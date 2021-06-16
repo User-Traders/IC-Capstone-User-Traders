@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-@CrossOrigin(origins = "http://15.165.30.131:8090")
+@CrossOrigin(origins = "http://15.165.30.131:8080")
 @RequestMapping(value = "/categories")
 public class CategoryController {
     @Autowired

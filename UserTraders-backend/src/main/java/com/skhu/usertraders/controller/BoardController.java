@@ -22,7 +22,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@CrossOrigin(origins = "http://15.165.30.131:8090")
+@CrossOrigin(origins = "http://15.165.30.131:8080")
 @RequestMapping(value = "/boards")
 public class BoardController {
 
