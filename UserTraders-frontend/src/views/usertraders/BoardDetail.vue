@@ -144,6 +144,7 @@ export default {
         .process("like", "register", { boardId: id }, { token: this.token })
         .then((res) => {
           console.log(res);
+          this.init()
         })
         .catch((err) => {
           console.log(err);

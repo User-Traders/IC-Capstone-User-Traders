@@ -54,6 +54,7 @@ public class BoardServiceImpl implements BoardService {
         boardDto.setImageurl2(fileName[1]);
         boardDto.setImageurl3(fileName[2]);
         boardDto.setUser(user);
+        boardDto.setStatus(true);
 
         BoardEntity boardEntity = boardDto.convertDtoToEntity();
         return boardRepository.save(boardEntity).getId();
