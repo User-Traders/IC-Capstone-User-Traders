@@ -185,7 +185,7 @@ export default {
     },
     ...mapActions({
       getCategories: "users/getCategories",
-
+      getUserLogout: "auth/getUserLogout"
     }),
   }
 }

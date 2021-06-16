@@ -37,10 +37,8 @@ const actions = {
                 .then((res) => {
                     console.log(res)
                     commit("logoutState")
-                    router.go({name:'Home1'})
                 }).catch((err) => { 
                     console.log(err) 
-                    this.$router.push(this.$route.query.redirect || '/')
                 })
 
     },

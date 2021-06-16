@@ -102,7 +102,7 @@
     <v-main>
       <router-view></router-view>
     </v-main>
-    <v-bottom-navigation color="#ff6d00" fixed>
+    <v-bottom-navigation style="padding-top:10px" color="#ff6d00" fixed>
       <v-btn :to="{ name: 'Home1' }">
         <span style="color : #00000099; font-size : medium">홈</span>
         <v-icon large>mdi-home</v-icon>
@@ -130,8 +130,9 @@
         <div
           id="kakao-talk-channel-add-button"
           data-channel-public-id="_paeus"
-          data-size="large"
+          data-size="small"
           data-support-multiple-densities="true"
+          
           style=" width : 36px ; height : 36px ; margin-top : 5px ; "
         ></div>
        </div>
