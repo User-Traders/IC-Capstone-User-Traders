@@ -27,7 +27,7 @@ const actions = {
                 err.message === "잘못된 비밀번호입니다."
               ) {
                 alert(err.message);
-                router.go();
+                this.$router.push(this.$route.query.redirect || '/user/login')
               }
             commit("logoutState")
         });
@@ -38,7 +38,10 @@ const actions = {
                     console.log(res)
                     commit("logoutState")
                     router.go({name:'Home1'})
-                }).catch((err) => { console.log(err) })
+                }).catch((err) => { 
+                    console.log(err) 
+                    this.$router.push(this.$route.query.redirect || '/')
+                })
 
     },
     

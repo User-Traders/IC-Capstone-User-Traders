@@ -1,13 +1,20 @@
 <template>
-
   <div>
-    <br>
-    <br>
-    <br>
+    <br />
+    <br />
+    <br />
     <v-card class="mx-auto" height="auto" align="center"></v-card>
     <v-card class="mx-auto overflow-hidden" height="auto">
       <v-toolbar color="white">
-        <v-text-field label="search" hide-details single-line v-model="keyword" @keyup.enter="titleSearch" color="orange" text></v-text-field>
+        <v-text-field
+          label="search"
+          hide-details
+          single-line
+          v-model="keyword"
+          @keyup.enter="titleSearch"
+          color="orange"
+          text
+        ></v-text-field>
         <v-btn icon @click="titleSearch">
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
@@ -81,54 +88,75 @@
           searchKeyword
         }}</span>
         " 에 대한 검색 결과
-        <span style="color: cornflowerblue ;font-weight: bold">{{ listData.length }}
+        <span style="color: cornflowerblue ;font-weight: bold"
+          >{{ listData.length }}
         </span>
         건
       </h2>
       <br />
       <v-container v-if="listData" three-line>
         <v-row>
-          <v-col v-for="(item, i) in listData" :key="`item-${i}`" cols="12" sm="4">
+          <v-col
+            v-for="(item, i) in listData"
+            :key="`item-${i}`"
+            cols="12"
+            sm="4"
+          >
             <div>
               <v-hover v-slot="{ hover }">
-
                 <v-card class="mx-auto" max-width="344">
                   <div @click="detailPush(item.id)">
-                    <v-img v-bind:src="item.imageurl1 |loadImgOrPlaceholder" :aspect-ratio="11/8" height="mx-auto">
+                    <v-img
+                      v-bind:src="item.imageurl1 | loadImgOrPlaceholder"
+                      :aspect-ratio="11 / 8"
+                      height="mx-auto"
+                    >
                       <v-expand-transition>
-                        <div v-if="hover" class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text" style="height: 100%;">
-                        </div>
+                        <div
+                          v-if="hover"
+                          class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
+                          style="height: 100%;"
+                        ></div>
                       </v-expand-transition>
                     </v-img>
                   </div>
                   <v-card-text class="pt-6" style="position: relative;">
-                    <v-btn absolute color="pink darken-1" class="white--text" fab small right top>
-                      <v-icon>mdi-heart</v-icon>
-                    </v-btn>
-
                     <h3 class=" font-weight-bold orange--text mb-2">
-                      {{item.category.name}} : {{item.title}}
+                      {{ item.category.name }} : {{ item.title }}
                     </h3>
-                    <h4>
-                      {{item.user.userid}}
-                    </h4>
+                    <h4>작성자: {{ item.user.name }}</h4>
 
                     <div class="font-weight-medium title mb-2">
                       {{ item.price | moneyFilter }} won
                     </div>
-                    {{item.modifiedDate|timeForToday}}
-
+                    <div style="width: 100%">
+                      <div style="width: 50%; float: left">
+                        {{ item.createdDate | timeForToday }}
+                      </div>
+                      <div style="margin-left: 50%; text-align: right">
+                        <v-icon>
+                          mdi-cart
+                        </v-icon>
+                        {{ item.cartcount }}
+                        <v-icon>
+                          mdi-heart
+                        </v-icon>
+                        {{ item.likecount }}
+                        <v-icon>
+                          mdi-eye-outline
+                        </v-icon>
+                        {{ item.viewcount }}
+                      </div>
+                    </div>
                   </v-card-text>
                 </v-card>
-
               </v-hover>
-
             </div>
           </v-col>
         </v-row>
       </v-container>
-      <br>
-      <br>
+      <br />
+      <br />
     </v-card>
   </div>
 </template>
@@ -143,7 +171,7 @@ export default {
       isLoading: false,
       listData: [],
       searchKeyword: "",
-      keyword: ""
+      keyword: "",
     };
   },
   computed: {},
@@ -152,24 +180,28 @@ export default {
       this.$router.push({ name: "BoardDetail", params: { id: id } });
     },
     searchCategory(id) {
-      return http.process("user", "categorySearch", { id: id })
+      return http
+        .process("user", "categorySearch", { id: id })
         .then((res) => {
-          console.log(res)
-          this.listData = res
-          this.searchKeyword = "카테고리 검색"
-        }).catch((err) => {
-          console.log(err)
+          console.log(res);
+          this.listData = res;
+          this.searchKeyword = "해당 카테고리 검색";
         })
-    },
-    titleSearch() {
-      return http.process("user", "keywordSearch",  { keyword: this.keyword })
-        .then(res => {
-          this.listData = res
-        })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
-    }
-  }
+    },
+    titleSearch() {
+      return http
+        .process("user", "keywordSearch", { keyword: this.keyword })
+        .then((res) => {
+          this.listData = res;
+          this.searchKeyword = this.keyword;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
 };
 </script>

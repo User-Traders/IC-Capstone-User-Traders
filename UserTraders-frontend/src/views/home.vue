@@ -1,32 +1,39 @@
 <template>
   <div>
     <v-container v-if="listData" three-line>
-      <br>
-      <br>
-      <br>
+      <br />
+      <br />
+      <br />
       <v-row>
-        <v-col v-for="(item, i) in listData" :key="`item-${i}`" cols="12" sm="4">
+        <v-col
+          v-for="(item, i) in listData"
+          :key="`item-${i}`"
+          cols="12"
+          sm="4"
+        >
           <div>
             <v-hover v-slot="{ hover }">
-
               <v-card class="mx-auto" max-width="344">
                 <div @click="detailPush(item.id)">
-                  <v-img v-bind:src="item.imageurl1 |loadImgOrPlaceholder" :aspect-ratio="11/8" height="mx-auto">
+                  <v-img
+                    v-bind:src="item.imageurl1 | loadImgOrPlaceholder"
+                    :aspect-ratio="11 / 8"
+                    height="mx-auto"
+                  >
                     <v-expand-transition>
-                      <div v-if="hover" class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text" style="height: 100%;">
-                      </div>
+                      <div
+                        v-if="hover"
+                        class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
+                        style="height: 100%;"
+                      ></div>
                     </v-expand-transition>
                   </v-img>
                 </div>
                 <v-card-text class="pt-6" style="position: relative;">
-                  
-
                   <h3 class=" font-weight-bold orange--text mb-2">
-                    {{item.category.name}} : {{item.title}}
+                    {{ item.category.name }} : {{ item.title }}
                   </h3>
-                  <h4>
-                   작성자: {{item.user.name}}
-                  </h4>
+                  <h4>작성자: {{ item.user.name }}</h4>
 
                   <div class="font-weight-medium title mb-2">
                     {{ item.price | moneyFilter }} won
@@ -48,28 +55,29 @@
                         mdi-eye-outline
                       </v-icon>
                       {{ item.viewcount }}
-                      </div>
-                      </div>
+                    </div>
+                  </div>
                 </v-card-text>
               </v-card>
-
             </v-hover>
-
           </div>
         </v-col>
       </v-row>
-
     </v-container>
-    <infinite-loading @infinite="infiniteHandler" spinner="waveDots" forceUseInfiniteWrapper></infinite-loading>
-    <br>
-    <br>
-    <br>
+    <infinite-loading
+      @infinite="infiniteHandler"
+      spinner="waveDots"
+      forceUseInfiniteWrapper
+    ></infinite-loading>
+    <br />
+    <br />
+    <br />
   </div>
 </template>
 
 <script>
 import { mapActions } from "vuex";
-import InfiniteLoading from 'vue-infinite-loading';
+import InfiniteLoading from "vue-infinite-loading";
 import http from "@/utils/http";
 import myMixin from "@/filter";
 export default {
@@ -83,17 +91,17 @@ export default {
   components: {
     InfiniteLoading,
   },
-  computed: {
-  },
+  computed: {},
 
   mounted() {
     this.init();
   },
   methods: {
     infiniteHandler($state) {
-      http.process("user", "listInfinte", {
-        limit: this.limit,
-      })
+      http
+        .process("user", "listInfinte", {
+          limit: this.limit,
+        })
         .then((res) => {
           setTimeout(() => {
             if (res.length) {
@@ -107,17 +115,16 @@ export default {
           }, 1000);
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err);
         });
     },
 
     init() {
       console.log("home init...");
-
     },
 
     detailPush(id) {
-      this.$router.push({ name: 'BoardDetail', params: { id: id } });
+      this.$router.push({ name: "BoardDetail", params: { id: id } });
     },
     ...mapActions({
       _getList: "users/getList",
